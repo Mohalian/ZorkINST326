@@ -1,3 +1,5 @@
+import json
+
 def updatePlayerPostion(choice, player_pos, boardSize):
     """
     This function changes the player position and makes sure the user enters a
