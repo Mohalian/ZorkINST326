@@ -65,7 +65,7 @@ def updatePlayerPostion(choice, player_pos, boardSize):
         
         
     
-    def inventory_update(player, room, item_word, file, pick_drop):
+def inventory_update(player, room, item_word, file, pick_drop):
     """
     Appends item objects into player's inventory list and removes from room's
     items list (pickup)or removes from player inventory and appends to room's 
