@@ -63,3 +63,61 @@ def updatePlayerPostion(choice, player_pos, boardSize):
     
     return player_pos
         
+        
+    
+    def inventory_update(player, room, item_word, file, pick_drop):
+    """
+    Appends item objects into player's inventory list and removes from room's
+    items list (pickup)or removes from player inventory and appends to room's 
+    item list (drop)
+    
+    Args:
+        player: Player class instance
+        room: Room class instance
+        item_word: (str) inputted item word
+        file: (filepath) filepath to item words dictionary
+        pick_drop: (boolean) True if picking up, False if dropping
+        
+    Side effects:
+        removes/appends to player's inventory attribute list
+        removes/appends to room's items attribute list
+        prints error, dropped, or picked up messages
+        
+    """
+
+    with open(file, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    item_word = item_word.lower()
+    item_name = None
+    item_obj == None
+    for key, value in data.items():
+        if item_word == key or item_word in value:
+            item_name = key
+            break
+    if not item_name:
+        print(f"I don't understand what '{item_word}' is.")
+        return
+    
+    if pick_drop:
+        for item in room.items:
+            if item.name.lower() == item_name:
+                item_obj= item
+                break    
+        if not item_obj:
+            print("That item isn't here.")
+            return
+        room.items.remove(item_obj)
+        player.inventory.append(item_obj)
+        print("Taken!")
+        
+    else:
+        for item in player.inventory:
+            if item.name == item_name:
+                item_obj = item
+                break
+        if not item_obj:
+            print("You don't have that.")
+            return
+        player.inventory.remove(item_obj)
+        room.items.append(item_obj)
+        print("Dropped!")                
