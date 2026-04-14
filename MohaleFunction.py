@@ -167,3 +167,34 @@ def can_interact(target_actions, player_action, item=None):
             
     print("You can't do that.")
     return False       
+
+def get_player_input(input, objects, actions):
+    """
+    Takes an input as a string and parses through to find an action and an
+    object that will be used later.
+
+    Args:
+        input: (str) Users input of an action and an object
+        objects: (list) List of acceptable objects as strings
+        actions: (list) List of acceptable actions as strings
+
+    Side effects:
+        prints "Invalid input" if user's input is not at least two words
+        prints "Invalid action" if first word is not in action list
+        prints "Couldn't find item" if none of the other words are in the
+        object list
+    Returns:
+        verb(str), object(str) tuple of selected action and object as strings
+    """
+    words = input.lower().strip().split(" ")
+    if len(words) < 2:
+        print("Invalid input")
+        return None, None
+    verb = words[0]
+    if not verb in actions:
+        print("Invalid action")
+    for i in range(1, len(words)):
+        if words[i] in objects:
+            return verb, words[i]
+    print("Couldn't find item")
+    return None, None
