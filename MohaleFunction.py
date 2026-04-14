@@ -122,4 +122,48 @@ def inventory_update(player, room, item_word, file, pick_drop):
             return
         player.inventory.remove(item_obj)
         room.items.append(item_obj)
-        print("Dropped!")                
+        print("Dropped!")      
+
+
+
+def can_interact(target_actions, player_action, item=None):
+    """
+    Checks if a player's interaction with a target object is valid or not
+    
+    Args:
+        allowed_actions: tuple of tuples in form (action_taken, req_item=None)
+            where each item is a string, represents the actions allowed to be
+            taken on the target object, and the required item to do so
+        player_action: string of what the player is attempting to do
+        item: optional string of the item to be used with the action
+        
+    Side Effects:
+        Prints a message to console if an item is needed/used to perform an
+        action, or if the action cannot be completed
+        
+    Returns:
+        True if the player action is valid and can occur, False if it is not
+    
+    """
+    
+    for action in target_actions:
+        
+        if player_action == action[0]:
+            
+            if action[1] == item and item != None:
+                print(f"You used the {action[1]}.")
+                return True
+            
+            elif action[1] == None:
+                return True
+            
+            elif action[1] != item and item != None:
+                print(f"Wrong item, you need a {action[1]} to do that.")
+                return False
+            
+            elif action[1] != item:
+                print(f"You need a {action[1]} to do that.")
+                return False                
+            
+    print("You can't do that.")
+    return False       
