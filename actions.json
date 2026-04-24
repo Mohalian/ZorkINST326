@@ -5,12 +5,12 @@
   "drop": ["drop", "leave", "discard"],
   "inventory": ["inventory", "inv", "i"],
   "examine": ["examine", "inspect", "x", "look at"],
-  "use": ["use", "activate"],
+  "use": ["use", "activate", "turn on", "switch on"],
   "open": ["open"],
   "close": ["close"],
   "talk": ["talk", "speak"],
   "attack": ["attack", "hit", "fight"],
   "quit": ["quit", "exit"],
-  "lift": ["lift", "raise", "take off"]
+  "lift": ["lift", "raise", "take off"],
   "drink": ["drink", "chug"]
 }
