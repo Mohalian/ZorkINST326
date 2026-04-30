@@ -46,20 +46,23 @@
     "aliases": ["painting", "paint", "art", "picture", "artwork", "strange painting"],
     "portable": false,
     "interactions": ["examine", "lift", "close", "go"],
-    "description": "An old strange painting of man smoking a pipe"
+    "description": "An old strange painting of man smoking a pipe",
+    "open_stat": false
   },
   "east house window": {
     "name": "ehousewindow",
     "aliases": ["living room window", "window", "opening"],
     "portable": false,
     "interactions": ["go", "open", "lift", "close", "examine"],
-    "description": "A window that's hard to open"
+    "description": "A window that's hard to open",
+    "open_stat": false
   },
     "west house window": {
     "name": "whousewindow",
     "aliases": ["kitchen window", "window", "opening"],
     "portable": false,
-    "description": "A window that's barely cracked open"
+    "description": "A window that's barely cracked open",
+    "open_stat": false
   },
   "Zipline": {
     "name": "zipline",
@@ -73,13 +76,15 @@
     "aliases": ["trapdoor", "trap door"],
     "portable": false,
     "interactions": ["go", "open", "lift", "close", "examine"],
-    "description": "A trapdoor on the floor with a key hole"
+    "description": "A trapdoor on the floor with a key hole",
+    "open_stat": false
   },
   "house door": {
     "name": "housedoor",
     "aliases": ["door", "wooden door", "house door"],
     "portable": false,
     "interactions": ["go", "open", "examine"],
-    "description": "A heavy wooden door with iron hinges."
+    "description": "A heavy wooden door with iron hinges.",
+    "open_stat": false
   }
 }
