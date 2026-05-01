@@ -6,27 +6,6 @@
     "interactions": ["look", "take", "use", "drop", "go"],
     "description": "A dusty vintage flashlight"
   },
-  "key": {
-    "name": "key",
-    "aliases": ["key", "metal key"],
-    "portable": true,
-    "interactions": ["use", "examine", "take", "drop", "go"],
-    "description": "A tiny metal key."
-  },
-  "sword": {
-    "name": "sword",
-    "aliases": ["sword", "metal sword", "old sword"],
-    "portable": true,
-    "interactions": ["attack", "take", "drop", "use", "examine", "go"],
-    "description": "An old metal sword"
-  },
-  "picaxe": {
-    "name": "picaxe",
-    "aliases": ["pic", "picaxe", "metal pic", "metal picaxe", "dirty old metal picaxe"],
-    "portable": true,
-    "interactions": ["take", "drop", "attack", "use", "examine", "go"],
-    "description": "A dirty old metal picaxe"
-  },
   "purple juice": {
     "name": "purplejuice",
     "aliases": ["juice", "purple juice", "purple", "strange juice", "strange purple juice"],
@@ -34,57 +13,27 @@
     "interactions": ["take", "drop", "drink", "examine", "go"],
     "description": "Cup of strange purple juice"
   },
-  "hanger": {
-    "name": "hanger",
-    "aliases": ["metal hanger", "hanger", "thick hanger"],
-    "portable": true,
-    "interactions": ["take", "drop", "examine", "use", "go"],
-    "description": "A thick metal hanger"
-  },
-  "painting": {
-    "name": "painting",
-    "aliases": ["painting", "paint", "art", "picture", "artwork", "strange painting"],
-    "portable": false,
-    "interactions": ["examine", "lift", "close", "go"],
-    "description": "An old strange painting of man smoking a pipe",
-    "open_stat": false
-  },
-  "east house window": {
-    "name": "ehousewindow",
-    "aliases": ["living room window", "window", "opening"],
-    "portable": false,
-    "interactions": ["go", "open", "lift", "close", "examine"],
-    "description": "A window that's hard to open",
-    "open_stat": false
-  },
-    "west house window": {
-    "name": "whousewindow",
-    "aliases": ["kitchen window", "window", "opening"],
-    "portable": false,
-    "description": "A window that's barely cracked open",
-    "open_stat": false
-  },
-  "Zipline": {
-    "name": "zipline",
-    "aliases": ["zipline", "zip", "line", "rope"],
-    "portable": false,
-    "interactions": ["go", "open", "lift", "close", "examine"],
-    "description": "A long zipline connected to a bell tower"
-  },
   "trapdoor": {
     "name": "trapdoor",
     "aliases": ["trapdoor", "trap door"],
     "portable": false,
     "interactions": ["go", "open", "lift", "close", "examine"],
     "description": "A trapdoor on the floor with a key hole",
-    "open_stat": false
   },
-  "house door": {
-    "name": "housedoor",
-    "aliases": ["door", "wooden door", "house door"],
+  "treehouseladder": {
+    "name": "tree house ladder",
+    "aliases": ["ladder", "treehouseladder", "tree ladeer", "tree house ladder"],
     "portable": false,
-    "interactions": ["go", "open", "examine"],
-    "description": "A heavy wooden door with iron hinges.",
-    "open_stat": false
+    "interactions": ["go", "examine", "climb"],
+    "description": "wooden ladder leading up to the treehouse"
+  },
+  "sorcerers_stone": {
+    "name": "sorcerer's stone",
+    "aliases": ["stone", "sorcerers stone", "sorcerer's stone", "red stone"],
+    "portable" true,
+    "interactions": ["take", "examine", "drop"]
+    "description": "a red stone the size of your palm. This is the legendary sorcerer's stone"
   }
+  
+  
 }
