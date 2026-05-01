@@ -1,41 +1,9 @@
 {
-"s_house": {
-    "name": "south of house",
-    "description": "a small almost abandoned looking house with a front door.",
-    "on-enter_text": "You gain conciousness, and notice you have a note in your pocket. A small almost abandoned looking house with a front door is in front of you",
-    "exits": ["w_house", "e_house", "kitchen"],
-    "items": ["housedoor"],
-    "first_time_entered": true
-},
-"w_house": {
-    "name": "west of house",
-    "description": "On this side of the house, there is a small window",
-    "on-enter_text": "Getting into this house is tricky, on this side of the house, there is a small window",
-    "exits": ["s_house", "n_house", "kitchen"],
-    "items": ["whousewindow"],
-    "first_time_entered": true
-},
-"n_house": {
-    "name": "north of house",
-    "description": "On this side of the house, there's nothing but grass and a wall of the house",
-    "on-enter_text": "On this side of the house, there's nothing but grass and a wall of the house",
-    "exits": ["w_house", "e_house"],
-    "items": [],
-    "first_time_entered": true
-},
-"e_house": {
-    "name": "east of house",
-    "description": "On this side of the house, there's a window.",
-    "on-enter_text": "On this side of the house, there's a window.",
-    "exits": ["s_house, e_house", "living room"],
-    "items": ["ehousewindow"],
-    "first_time_entered": true
-},
 "kitchen": {
     "name": ["kitchen"],
     "description": "An empty kitchen with nothing in it.",
     "on-enter_text": "inside, there's an empty kitchen with a cup of purple juice on the counter. Although there's a trapdoor in the spit middle of it. Next to the kitchen is the living room",
-    "exits": ["livingroom", "w_house"],
+    "exits": ["livingroom", "undergroundentrance"],
     "items": ["purplejuice"],
     "first_time_entered": true
 },
@@ -43,26 +11,12 @@
     "name": ["living room", "other room"],
     "description": "An empty dirtya and trashed living room with a window facing the East wall of the house.",
     "on-enter_text": "An empty dirtya and trashed living room with a window facing the East wall of the house. On the floor you notice a metal key",
-    "exits": ["kitchen", "e_house"],
+    "exits": ["kitchen"],
     "items": ["ehousewindow", "key"],
     "first_time_entered": true
 },
-"minebase": {
-    "name": ["mine base", "mine room", "minebase", "mineroom"],
-    "description": "A dimly lit up room with metal walls.",
-    "on-enter_text": "When you get down from the ladder, there's a dimly lit up room with metal walls. On the floor of this room, there's a dirty old metal picaxe. There's also an opening to go through in front of you.",
-    "exits": ["kitchen", "coalmine"],
-    "items": ["picaxe"],
-    "first_time_entered": true
-},
-"coalmine": {
-    "name": ["coalmine", "coal mine"],
-    "description": "An empty coal mine with all the coal dug out already. ",
-    "on-enter_text": "A dark empty space follows. You feel something metal on the ground. Circular and long.",
-    "exits": ["minebase", "cityentrance"],
-    "items": ["flashlight"],
-    "first_time_entered": true
-
+"undergroundentrance": {
+    
 }
 
 }
