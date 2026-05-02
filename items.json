@@ -10,7 +10,7 @@
     "name": "purplejuice",
     "aliases": ["juice", "purple juice", "purple", "strange juice", "strange purple juice"],
     "portable": true,
-    "interactions": ["take", "drop", "drink", "examine",],
+    "interactions": ["take", "drop", "drink", "examine"],
     "description": "Cup of strange purple juice"
   },
   "trapdoor": {
