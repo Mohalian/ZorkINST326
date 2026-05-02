@@ -33,7 +33,13 @@
     "portable" true,
     "interactions": ["take", "examine", "drop"]
     "description": "a red stone the size of your palm. This is the legendary sorcerer's stone"
-  }
-  
+  },
+    "diamondegg": {
+    "name": "diamond egg",
+    "aliases": ["diamond egg", "diamondegg", "egg"],
+    "portable": true,
+    "interactions": ["take", "examine", "drop"],
+    "description": "an egg the size of a baseball made of diamond"
+  },
   
 }
