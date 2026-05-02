@@ -1,5 +1,5 @@
 import json
-
+import pandas as pd
 def updatePlayerPostion(choice, player_pos, boardSize):
     """
     This function changes the player position and makes sure the user enters a
@@ -198,3 +198,36 @@ def get_player_input(input, objects, actions):
             return verb, words[i]
     print("Couldn't find item")
     return None, None
+
+def construct_gameboard(boardSize,file):
+    """
+    Takes a board size and a json dictionary of in-game objects and creates a 
+    coordinate map of the objects that can be traversed by the player
+    
+    Args:
+        boardSize: an integer representing the resolution size of the gameboard
+            coordinate space
+        file: string filepath to a json file of game objects, their properties,
+            and position
+    Returns:
+        gameboard: a pandas data frame representing the coordinate map, where
+            columns represent the x-axis and rows represent the y-axis flipped. 
+            Each cell is a list with every object it contains at that position, 
+            and can include the player
+    """
+    YBOUND = range(0,boardSize)
+    XBOUND = range(0,boardSize)
+    gameboard = pd.DataFrame(index=YBOUND,columns=XBOUND)
+    for y in YBOUND:
+        for x in XBOUND:
+            gameboard.loc[y,x] = []
+    
+    with open(file, "r", encoding="utf-8") as raw_file:
+        file = json.load(raw_file)
+        for game_object in file:
+            x, y = file[game_object]["Position"]
+            #If we make a class for game objects, maybe instantiate them first 
+            #here so that the object is added to the board and not just the name 
+            gameboard.loc[y,x].append(game_object)
+    
+    return gameboard
