@@ -231,3 +231,22 @@ def construct_gameboard(boardSize,file):
             gameboard.loc[y,x].append(game_object)
     
     return gameboard
+
+def get_player_pos(player, gameboard):
+    """
+    Checks the players current position
+    
+    Args:
+        player: class object representing the player on the gameboard
+        gameboard: dataframe as a coordinate grid
+        
+    Returns:
+        The players current coordinate position as a tuple, if it is not found
+        on the gameboard then it returns None
+    """
+    boardSize = len(gameboard.columns)
+    for y in range(0,boardSize):
+        for x in range(0, boardSize):
+            if player in gameboard.loc[y,x]:
+                return (x,y)
+    return None
