@@ -30,7 +30,7 @@
   "sorcerers_stone": {
     "name": "sorcerer's stone",
     "aliases": ["stone", "sorcerers stone", "sorcerer's stone", "red stone"],
-    "portable" true,
+    "portable": true,
     "interactions": ["take", "examine", "drop"]
     "description": "a red stone the size of your palm. This is the legendary sorcerer's stone"
   },
