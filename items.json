@@ -18,7 +18,7 @@
     "aliases": ["trapdoor", "trap door"],
     "portable": false,
     "interactions": ["open", "lift", "close", "examine"],
-    "description": "A trapdoor on the floor with a key hole",
+    "description": "A trapdoor on the floor with a key hole"
   },
   "treehouseladder": {
     "name": "tree house ladder",
@@ -31,15 +31,30 @@
     "name": "sorcerer's stone",
     "aliases": ["stone", "sorcerers stone", "sorcerer's stone", "red stone"],
     "portable": true,
-    "interactions": ["take", "examine", "drop"]
+    "interactions": ["take", "examine", "drop"],
     "description": "a red stone the size of your palm. This is the legendary sorcerer's stone"
   },
-    "diamondegg": {
+  "diamondegg": {
     "name": "diamond egg",
     "aliases": ["diamond egg", "diamondegg", "egg"],
     "portable": true,
     "interactions": ["take", "examine", "drop"],
     "description": "an egg the size of a baseball made of diamond"
   },
-  
+ "chest": {
+    "name": "chest",
+    "aliases": ["chest", "large chest"],
+    "portable": false,
+    "interactions": ["open", "examine"],
+    "description": "A large chest",
+    "opened": false
+  },
+  "painting": {
+    "name": "painting",
+    "aliases": ["painting", "artwork", "paint"],
+    "portable": false,
+    "interactions": ["open", "lift", "examine"],
+    "description": "A painting that has a clown with a devious smile",
+    "opened": false
+  }
 }

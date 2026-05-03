@@ -1,58 +1,115 @@
 {
 "kitchen": {
+    "location": [0, 0],
+    "startsubplace": "frontofdoor",
     "name": ["kitchen"],
     "description": "An empty kitchen with nothing in it.",
     "on-enter_text": "inside, there's an empty kitchen with a cup of purple juice on the counter. Although there's a trapdoor in the spit middle of it. Next to the kitchen is the living room",
-    "exits": ["livingroom", "undergroundentrance"],
-    "items": ["purplejuice"],
-    "first_time_entered": true
+    "subplaces": {
+        "frontofdoor": {
+            "name": ["front of door"],
+            "description": "Right in front of the door",
+            "items": []
+        },
+        "counter": {
+            "name": ["counter"],
+            "description": "A smooth purple counter",
+            "items": ["purpledrink"]
+        },
+        "trapdoor_place": { 
+            "name": ["trapdoor", "trap door"],
+            "description": "A strange purple drink on the counter",
+            "items": ["trapdoor"]
+    }
+    }
 },
 "livingroom": {
+    "location": [1, 0],
+    "startsubplace": "",
     "name": ["living room", "other room"],
     "description": "An empty, dirty, and trashed living room with a window facing the East wall of the house.",
     "on-enter_text": "An empty dirtya and trashed living room with a window facing the East wall of the house. On the floor you notice a metal key",
-    "exits": ["kitchen"],
-    "items": ["ehousewindow", "key"],
-    "first_time_entered": true
+    "subplaces": {},
+    "items": []
 },
 "undergroundentrance": {
+    "location": [0, -1],
+    "startsubplace": "",
     "name": ["entrance", "underground entrace", "underground", "under ground entrance"],
     "description": "An opening entails into the underground oasis",
-    "on-enter_text": "An opening entails into the underground oasis. On the right, there's a treehouse. On the left there's a small church.",
-    "exits": ["kitchen", "treehouse", "small church"],
-    "items": [""],
-    "first_time_entered": true
+    "on-enter_text": "An opening entails into the underground oasis. On the right, there's a tree with a ladder. On the left there's a small church.",
+    "subplaces": {},
+    "items": []
 },
 "treehouse": {
+    "location":[1, -1],
+    "startsubplace": "bottomladder",
     "name": ["treehouse", "tree house", "house"],
-    "description": "A large tree with a treehouse on top of it.",
+    "description": "A wooden treehouse with a cabin like look to it. There's a large chest in front of you.",
     "on-enter_text": "A large tree with a treehouse on top of it. There's a ladder that leads up to it.",
-    "exits": ["smallcottage", "undergroundentrance"],
-    "items": ["flashlight, diamondegg"],
-    "first_time_entered": true
+    "subplaces": {
+        "bottomladder": {
+            "name": ["bottom of ladder", "ladder"],
+            "description": "A ladder that leads up to a treehouse",
+            "items": ["treehouseladder"]
+        },
+        "topladder": {
+            "name": ["ladder"],
+            "description": "ladder leading down to the floor of the underground",
+            "items": ["treehouseladder"]
+        },
+        "chest": {
+            "name": ["chest", "large chest"],
+            "description": "A large chest",
+            "items": ["diamondegg", "flashlight"]
+        }
+    }
 },
 "smallcottage": {
+    "location":[1, -2],
+    "startsubplace": "",
     "name": ["smallcottage", "small cottage", "cottage"],
     "description": "A cozy cottage with brown moldy walls and vintage decor",
     "on-enter_text": "A cozy cottage with brown moldy walls and vintage decor. There's nothing else interesting about it.",
-    "exits": ["treehouse", "smallchurch"],
-    "items": [],
-    "first_time_entered": true
+    "subplaces": {},
+    "items": []
 },
 "smallchurch": {
+    "location": [0, -2],
+    "startsubplace": "frontofentrance",
    "name": ["smallchurch", "small church", "church"],
     "description": "A cozy cottage with brown moldy walls and vintage decor.",
     "on-enter_text": "A cozy cottage with brown moldy walls and vintage decor, with a large staircase that goes down.",
-    "exits": ["smallcottage", "undergroundentrance", "churchbasement"],
-    "items": ["staircase"],
-    "first_time_entered": true
+    "subplaces": {
+        "frontofentrance": {
+             "name": ["entrance to smallchurch", "entrance", "opening"],
+            "description": "Opening in and out of the smallchurch",
+            "items": []
+        },
+        "stairs": {
+            "name": ["stair", "stairs", "staircase", "stair case"],
+            "description": "A staircase leading down to a dark room",
+            "items": ["staircase"]
+        }
+    }
 },
 "churchbasement": {
-   "name": ["churchbasement", "church basement", "basement"],
-    "description": "Small dark room with metal walls",
+    "location": [0, -3],
+    "startsubplace": "stairs",
+    "name": ["churchbasement", "church basement", "basement"],
+    "description": "Small dark room with metal walls and a painting on one of the walls",
     "on-enter_text": "Small dark room with metal walls. You can't see anything because of how dark it is.",
-    "exits": ["churchbasement"],
-    "items": ["sorcerers_stone", "staircase"],
-    "first_time_entered": true
-},
+    "subplaces": {
+        "stairs": {
+            "name": ["stair", "stairs", "staircase", "stair case"],
+            "description": "A staircase leading back up in the church",
+            "items": []
+        },
+        "painting": {
+            "name": ["painting"],
+            "description": "A metal wall with a painting on it",
+            "items": ["sorcerers_stone"]
+        }
+    }
+}
 }

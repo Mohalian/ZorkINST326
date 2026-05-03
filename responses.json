@@ -1,0 +1,40 @@
+{
+  "general": {
+    "unknown_command": [
+      "I don't understand that command.",
+      "That doesn't make sense here."
+    ],
+    "invalid_target": [
+      "You can't do that.",
+      "That target isn't available."
+    ]
+  },
+  "movement": {
+    "blocked": [
+      "You can't go that way.",
+      "Something prevents you from moving in that direction."
+    ],
+    "moved": [
+      "You move to the {place}.",
+      "You head into the {place}."
+    ],
+    "enter_subplace": [
+      "You walk over to the {subplace}.",
+      "You move closer to the {subplace}."
+    ],
+    "leave_subplace": [
+      "You step away from the {subplace}.",
+      "You leave the {subplace} behind."
+    ]
+  },
+  "items": {
+    "pickup_success": [
+      "You pick up the {item}.",
+      "You take the {item}."
+    ],
+    "pickup_fail": [
+      "There is no {item} here.",
+      "You can't take that."
+    ]
+  }
+  }
