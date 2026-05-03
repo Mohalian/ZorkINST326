@@ -108,7 +108,7 @@
         "painting": {
             "name": ["painting"],
             "description": "A metal wall with a painting on it",
-            "items": ["sorcerers_stone"]
+            "items": ["sorcerers_stone", "painting"]
         }
     }
 }

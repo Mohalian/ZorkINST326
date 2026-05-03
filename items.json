@@ -6,12 +6,12 @@
     "interactions": ["look", "take", "use", "drop"],
     "description": "A dusty vintage flashlight"
   },
-  "purple juice": {
-    "name": "purplejuice",
-    "aliases": ["juice", "purple juice", "purple", "strange juice", "strange purple juice"],
+  "purpledrink": {
+    "name": "purpledrink",
+    "aliases": ["purpledrink", "purple juice", "purple", "strange drink", "strange purple drink"],
     "portable": true,
     "interactions": ["take", "drop", "drink", "examine"],
-    "description": "Cup of strange purple juice"
+    "description": "Cup of strange purple drink"
   },
   "trapdoor": {
     "name": "trapdoor",

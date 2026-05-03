@@ -29,7 +29,7 @@
     "flashlight_off": "You turn off the flashlight."
   },
   "dialogue": {
-    "first_entered": "You are at the {place}. {on-enter_text}",
+    "first_entered": "You are at the {place}. {on_enter_text}",
     "lookaround": "{description}"
   }
   }
