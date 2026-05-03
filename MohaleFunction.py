@@ -129,7 +129,6 @@ def inventory_update(player, room, item_word, file, pick_drop):
             return
         room.items.remove(item_obj)
         player.inventory.append(item_obj)
-        print("Taken!")
         
     else:
         for item in player.inventory:
@@ -140,8 +139,7 @@ def inventory_update(player, room, item_word, file, pick_drop):
             print("You don't have that.")
             return
         player.inventory.remove(item_obj)
-        room.items.append(item_obj)
-        print("Dropped!")      
+        room.items.append(item_obj)  
 
 
 

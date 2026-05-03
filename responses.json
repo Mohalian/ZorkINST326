@@ -1,40 +1,35 @@
 {
   "general": {
-    "unknown_command": [
-      "I don't understand that command.",
-      "That doesn't make sense here."
-    ],
-    "invalid_target": [
-      "You can't do that.",
-      "That target isn't available."
-    ]
+    "unknown_command": "That command is not known.",
+    "invalid_target": "You can't do that."
   },
   "movement": {
-    "blocked": [
+    "blocked": 
       "You can't go that way.",
-      "Something prevents you from moving in that direction."
-    ],
-    "moved": [
-      "You move to the {place}.",
-      "You head into the {place}."
-    ],
-    "enter_subplace": [
-      "You walk over to the {subplace}.",
-      "You move closer to the {subplace}."
-    ],
-    "leave_subplace": [
-      "You step away from the {subplace}.",
-      "You leave the {subplace} behind."
-    ]
+    "moved": "Here!",
+    "enter_subplace": "Here!",
+    "ladder_up": "You climb up the ladder.",
+    "trapdoor_down": "You climb down through the trapdoor.",
+    "trapdoor_up": "You climb up the through the trapdoor.",
+    "stairs_down": "You walk down the stairs.",
+    "stairs_up": "You walk up the stairs."
   },
   "items": {
-    "pickup_success": [
-      "You pick up the {item}.",
-      "You take the {item}."
-    ],
-    "pickup_fail": [
-      "There is no {item} here.",
-      "You can't take that."
-    ]
+    "pickup_success": "Taken!",
+    "pickup_fail": "You can't take that.",
+    "already_have": "You already have that!",
+    "sorcerers_stone_fail": "You can't pickup the sorcerer's stone before you drink a magic potion.",
+    "painting_lifted": "You lift the painting and reveal the sorcerer's stone.",
+    "painting_already_lifted": "The painting has already been lifted.",
+    "chest_opened": "You open the chest and find a diamond egg and a flashlight inside.",
+    "chest_already_open": "The chest is already open.",
+    "cant_take_hidden_stone": "You need to lift the painting first.",
+    "cant_take_chest_item": "You need to open the chest first.",
+    "flashlight_on": "You turn on the flashlight.",
+    "flashlight_off": "You turn off the flashlight."
+  },
+  "dialogue": {
+    "first_entered": "You are at the {place}. {on-enter_text}",
+    "lookaround": "{description}"
   }
   }
