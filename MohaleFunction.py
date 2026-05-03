@@ -1,5 +1,24 @@
 import json
 import pandas as pd
+
+class Player:
+    """
+    Contains and handles player data
+    
+    Attributes:
+        pos: dictionary in form {"x": int, "y": int}, current coordinate 
+            position of the player
+        inventory: list of items the player is holding
+    """
+    def __init__(self, starting_pos):
+        self.pos = starting_pos
+        self.inventory = []
+
+    # Integrate the following existing functions into this class?
+    # def updatePlayerPosition(self, choice, boardsize):
+    
+    # def inventoryUpdate(self, item_word, file, pick_drop):
+
 def updatePlayerPostion(choice, player_pos, boardSize):
     """
     This function changes the player position and makes sure the user enters a
