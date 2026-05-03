@@ -267,5 +267,5 @@ def get_player_pos(player, gameboard):
     for y in range(0,boardSize):
         for x in range(0, boardSize):
             if player in gameboard.loc[y,x]:
-                return (x,y)
+                return {"x":x,"y":y}
     return None

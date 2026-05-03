@@ -9,14 +9,50 @@
 },
 "livingroom": {
     "name": ["living room", "other room"],
-    "description": "An empty dirtya and trashed living room with a window facing the East wall of the house.",
+    "description": "An empty, dirty, and trashed living room with a window facing the East wall of the house.",
     "on-enter_text": "An empty dirtya and trashed living room with a window facing the East wall of the house. On the floor you notice a metal key",
     "exits": ["kitchen"],
     "items": ["ehousewindow", "key"],
     "first_time_entered": true
 },
 "undergroundentrance": {
-    
-}
-
+    "name": ["entrance", "underground entrace", "underground", "under ground entrance"],
+    "description": "An opening entails into the underground oasis",
+    "on-enter_text": "An opening entails into the underground oasis. On the right, there's a treehouse. On the left there's a small church.",
+    "exits": ["kitchen", "treehouse", "small church"],
+    "items": [""],
+    "first_time_entered": true
+},
+"treehouse": {
+    "name": ["treehouse", "tree house", "house"],
+    "description": "A large tree with a treehouse on top of it.",
+    "on-enter_text": "A large tree with a treehouse on top of it. There's a ladder that leads up to it.",
+    "exits": ["smallcottage", "undergroundentrance"],
+    "items": ["flashlight, diamondegg"],
+    "first_time_entered": true
+},
+"smallcottage": {
+    "name": ["smallcottage", "small cottage", "cottage"],
+    "description": "A cozy cottage with brown moldy walls and vintage decor",
+    "on-enter_text": "A cozy cottage with brown moldy walls and vintage decor. There's nothing else interesting about it.",
+    "exits": ["treehouse", "smallchurch"],
+    "items": [],
+    "first_time_entered": true
+},
+"smallchurch": {
+   "name": ["smallchurch", "small church", "church"],
+    "description": "A cozy cottage with brown moldy walls and vintage decor.",
+    "on-enter_text": "A cozy cottage with brown moldy walls and vintage decor, with a large staircase that goes down.",
+    "exits": ["smallcottage", "undergroundentrance", "churchbasement"],
+    "items": ["staircase"],
+    "first_time_entered": true
+},
+"churchbasement": {
+   "name": ["churchbasement", "church basement", "basement"],
+    "description": "Small dark room with metal walls",
+    "on-enter_text": "Small dark room with metal walls. You can't see anything because of how dark it is.",
+    "exits": ["churchbasement"],
+    "items": ["sorcerers_stone", "staircase"],
+    "first_time_entered": true
+},
 }

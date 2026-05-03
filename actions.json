@@ -11,4 +11,5 @@
   "talk": ["talk", "speak"],
   "lift": ["lift", "raise", "take off"],
   "drink": ["drink", "chug"],
+  "climb": ["climb"]
 }

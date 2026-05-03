@@ -3,37 +3,43 @@
     "name": "flashlight",
     "aliases": ["flashlight", "light"],
     "portable": true,
-    "interactions": ["look", "take", "use", "drop", "go"],
+    "interactions": ["look", "take", "use", "drop"],
     "description": "A dusty vintage flashlight"
   },
   "purple juice": {
     "name": "purplejuice",
     "aliases": ["juice", "purple juice", "purple", "strange juice", "strange purple juice"],
     "portable": true,
-    "interactions": ["take", "drop", "drink", "examine", "go"],
+    "interactions": ["take", "drop", "drink", "examine"],
     "description": "Cup of strange purple juice"
   },
   "trapdoor": {
     "name": "trapdoor",
     "aliases": ["trapdoor", "trap door"],
     "portable": false,
-    "interactions": ["go", "open", "lift", "close", "examine"],
+    "interactions": ["open", "lift", "close", "examine"],
     "description": "A trapdoor on the floor with a key hole",
   },
   "treehouseladder": {
     "name": "tree house ladder",
     "aliases": ["ladder", "treehouseladder", "tree ladeer", "tree house ladder"],
     "portable": false,
-    "interactions": ["go", "examine", "climb"],
+    "interactions": ["examine", "climb"],
     "description": "wooden ladder leading up to the treehouse"
   },
   "sorcerers_stone": {
     "name": "sorcerer's stone",
     "aliases": ["stone", "sorcerers stone", "sorcerer's stone", "red stone"],
-    "portable" true,
+    "portable": true,
     "interactions": ["take", "examine", "drop"]
     "description": "a red stone the size of your palm. This is the legendary sorcerer's stone"
-  }
-  
+  },
+    "diamondegg": {
+    "name": "diamond egg",
+    "aliases": ["diamond egg", "diamondegg", "egg"],
+    "portable": true,
+    "interactions": ["take", "examine", "drop"],
+    "description": "an egg the size of a baseball made of diamond"
+  },
   
 }
