@@ -269,3 +269,38 @@ def get_player_pos(player, gameboard):
             if player in gameboard.loc[y,x]:
                 return {"x":x,"y":y}
     return None
+
+def look(player_pos, gameboard, direction=None):
+    """
+    Shows what objects are at the player's current or nearby coordinate
+    
+    Args:
+        player_pos: player's current coordinate position in dictionary form
+            {"x":int, "y":int}
+        gameboard: gameboard dataframe
+        direction: optional string, specified direction in command
+        
+    """
+    x = player_pos["x"]
+    y = player_pos["y"]
+    
+    if direction == "north":
+        y -= 1
+    if direction == "south":
+        y += 1
+    if direction == "west":
+        x -= 1
+    if direction == "east":
+        x += 1
+    
+    if len(gameboard.loc[y,x]) > 1:
+        for object in gameboard.loc[y,x]:
+            if (isinstance(object, Player) == False) and direction == None:
+                print(f"There is a {object.name} here.")
+            elif (isinstance(object, Player) == False):
+                print(f"There is a {object.name} there.")
+    else:
+        if direction == None:
+            print("There is nothing here")
+        else: 
+            print("There is nothing there")
