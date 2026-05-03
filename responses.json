@@ -4,8 +4,7 @@
     "invalid_target": "You can't do that."
   },
   "movement": {
-    "blocked": 
-      "You can't go that way.",
+    "blocked": "You can't go that way.",
     "moved": "Here!",
     "enter_subplace": "Here!",
     "ladder_up": "You climb up the ladder.",
@@ -16,7 +15,11 @@
   },
   "items": {
     "pickup_success": "Taken!",
+    "nonexistent_item": "Unknown item",
+    "item_not_here": "That isn't here!",
     "pickup_fail": "You can't take that.",
+    "dropped": "Dropped!",
+    "dropped_fail": "You don't have that item.",
     "already_have": "You already have that!",
     "sorcerers_stone_fail": "You can't pickup the sorcerer's stone before you drink a magic potion.",
     "painting_lifted": "You lift the painting and reveal the sorcerer's stone.",

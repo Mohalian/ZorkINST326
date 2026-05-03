@@ -35,7 +35,7 @@
 "undergroundentrance": {
     "location": [0, -1],
     "startsubplace": "",
-    "name": ["entrance", "underground entrace", "underground", "under ground entrance"],
+    "name": ["entrance", "underground entrance", "underground", "under ground entrance"],
     "description": "An opening entails into the underground oasis",
     "on-enter_text": "An opening entails into the underground oasis. On the right, there's a tree with a ladder. On the left there's a small church.",
     "subplaces": {},
