@@ -22,7 +22,7 @@ class Player:
     def inventory_update(player, room, item_word, pick_drop):
         """
         Appends item objects into player's inventory list and removes from room's
-        items list (pickup)or removes from player inventory and appends to room's 
+        items list (pickup)or removes from player inventory and appends to room's
         item list (drop)
         
         Args:
