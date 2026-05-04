@@ -21,7 +21,7 @@ class Player:
         self.inventory = []
         
 
-    def updatePlayerPostion(self, choice, boardSize):
+    def updatePlayerPostion(self, choice, boardSize=5):
         """
     This function changes the player position and makes sure the user enters a
     valid movement command
@@ -45,45 +45,38 @@ class Player:
         yLoc = self.pos["y"]
     
         while keepLoop:
-        
-            if "move" not in choice:
-                print("Not a movement command")
-                return self.pos
     
-            if "move north" in choice:
-        
+            if "north" in choice:
                 yLoc = self.pos["y"]-1
-            
+                if yLoc < 0:
+                    print("You've been blocked by thick trees.")
+                    return self.pos
     
-            elif "move south" in choice:
-        
+            elif "south" in choice:
                 yLoc = self.pos["y"]+1
+                if yLoc >= boardSize:
+                    print("You've been blocked by thick trees.")
+                    return self.pos
             
     
-            elif "move west" in choice:
-        
+            elif "west" in choice:
                 xLoc = self.pos["x"]-1
-            
+                if xLoc < 0:
+                    print("You've been blocked by thick trees.")
+                    return self.pos
     
-            elif "move east" in choice:
-        
+            elif "east" in choice:
                 xLoc = self.pos["x"]+1
+                if xLoc >= boardSize:
+                    print("You've been blocked by thick trees.")
+                    return self.pos
     
             else:
-                choice = input("Movement command is move + (North, South, East, \
-                        West): ").lower()
-                continue  
-      
-            if xLoc >= boardSize or xLoc < 0 or yLoc >= boardSize or yLoc < 0:
-            
-                choice = input("You've been blocked by thick trees, \
-                           find another command: ").lower()
-                continue
+                print("Movement command is move + (North, South, East, West): ")
         
             self.pos["x"] = xLoc
             self.pos["y"] = yLoc
             keepLoop = False
-    
         return self.pos
         
     def inventory_update(self, player, room, item_word, pick_drop):
@@ -356,12 +349,13 @@ def action(player, input, gameboard, gameclass):
     place_word = ""
     action_match = re.search(r"(move|go|drink|take|drop)", input)
     if action_match:
-        action_word = action_match
+        action_word = action_match.group(0)
         
     if (action_word == "move" or action_word == "go"):
-        place_word = re.search(r"(east, west, north, south)")
-        if place_word:
-            player.updatePlayerPostion(place_word, player.pos)
+        place_match = re.search(r"(east|west|north|south)", input)
+        if place_match:
+            place_word = place_match.group(0)
+            player.updatePlayerPostion(place_word)
             print(responses["movement"]["moved"])
     
     item_word = re.search(r"(purple\sdrink|trapdoor)", input)
@@ -411,8 +405,3 @@ def run():
 if __name__ == "__main__":
     run()
         
-    
-
-
-if __name__ == "__main__":
-    run()
