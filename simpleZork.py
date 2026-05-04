@@ -21,7 +21,7 @@ class Player:
         self.inventory = []
         
 
-    def updatePlayerPostion(self, choice, boardSize = 5):
+    def updatePlayerPosition(self, choice, boardSize = 5):
         """
     This function changes the player position and makes sure the user enters a
     valid movement command
@@ -343,21 +343,21 @@ def action(player, input, game):
     place_word = ""
     place_match = False
 
-    action_match = re.search(r"\b(move|go|drink|take|drop)\b", input)
+    action_match = re.search(r"(move|go|drink|take|drop|open)", input)
 
     if action_match:
         action_word = action_match.group()
 
     if action_word == "move" or action_word == "go":
-        place_match = re.search(r"\b(east|west|north|south)\b", input)
+        place_match = re.search(r"(east|west|north|south)", input)
 
     if place_match:
         place_word = place_match.group()
-        player.updatePlayerPostion("move " + place_word)
+        player.updatePlayerPosition("move " + place_word)
         print(responses["movement"]["moved"])
         return
 
-    item_match = re.search(r"\b(purple\sdrink|purpledrink|trapdoor)\b", input)
+    item_match = re.search(r"(purple\sdrink|purpledrink|trapdoor|key)", input)
 
     if item_match:
         item_word = item_match.group()
@@ -367,13 +367,28 @@ def action(player, input, game):
             player.inventory.append("purpledrink")
             print("Taken!")
             return
-
-        if action_word == "drink":
-            if "purpledrink" in player.inventory:
-                player.inventory.remove("purpledrink")
-                print("Tastes delicious")
+    
+    if item_word == "key":
+        if action_word == "take":
+            player.inventory.append("key")
+            print("Taken!")
+            return
+    
+    if action_word == "open" and item_word == "trapdoor":
+            if "key" in player.inventory:
+                player.inventory.remove("key")
+                player.updatePlayerPosition("move north")
             else:
-                print("You do not have the purple drink.")
+                print("Trapdoor is locked.")
+            return   
+    
+
+    if action_word == "drink":
+        if "purpledrink" in player.inventory:
+            player.inventory.remove("purpledrink")
+            print("Tastes delicious")
+        else:
+            print("You do not have the purple drink.")
             return 
 
 def run():
