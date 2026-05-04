@@ -28,7 +28,7 @@
     "startsubplace": "",
     "name": ["living room", "other room"],
     "description": "An empty, dirty, and trashed living room with a window facing the East wall of the house.",
-    "on-enter_text": "An empty dirty and trashed living room with a window facing the East wall of the house. There's not much to look at in here. Although, this room is important...",
+    "on-enter_text": "An empty dirty and trashed living room with a window facing the East wall of the house. There's a key sitting on the floor. Although there's not much to see here, this room will be important...",
     "subplaces": {},
     "items": []
 },
