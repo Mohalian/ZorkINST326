@@ -331,3 +331,30 @@ def look(player_pos, gameboard, direction=None):
         else: 
             print("There is nothing there")
 
+def run():
+    player = Player({"x": 0, "y": 0})
+    gameboard = construct_gameboard(3, "place.json")
+    print("start game")
+    with open("place.json", "r") as f:
+        places = json.load(f)
+    with open("actions.json", "r", encoding="utf-8") as f:
+        actions = json.load(f)
+    with open("items.json", "r", encoding="utf-8") as f:
+        items = json.load(f)
+    keep_running = True
+    while(keep_running):
+        current_room = None
+        for name, data in places.items():
+            if data["location"] == [player.pos["x"], player.pos["y"]]:
+                current_room = name
+                print(f"[{name.upper()}]")
+                print(data["on-enter_text"])
+        user_input = input("\n> ").lower().strip()
+        if user_input == "quit" or user_input == "q":
+            keep_running = False
+        else:
+            verb, obj = get_player_input(user_input, items, actions)
+
+
+if __name__ == "__main__":
+    run()
