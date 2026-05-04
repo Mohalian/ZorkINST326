@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 
-with open("responses_file", "r", encoding="utf-8") as file:
+with open("responses.json", "r", encoding="utf-8") as file:
     responses = json.load(file)
     
 
@@ -104,7 +104,7 @@ class Player:
             prints error, dropped, or picked up messages
             
         """
-        with open("items_file", "r", encoding="utf-8") as f:
+        with open("items.json", "r", encoding="utf-8") as f:
             item = json.load(f)
         item_word = item_word.lower()
         item_name = None
