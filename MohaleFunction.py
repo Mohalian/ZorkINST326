@@ -16,7 +16,7 @@ class Player:
         inventory: list of items the player is holding
     """
     def __init__(self, starting_pos):
-        self.position = starting_pos
+        self.pos = starting_pos
         self.subplace = "frontofdoor"
         self.inventory = []
         
@@ -109,7 +109,7 @@ class Player:
             item = json.load(f)
         item_word = item_word.lower()
         item_name = None
-        item_obj == None
+        item_obj = None
         for key, value in item:
             if item_word == key or item_word in value["aliases"]:
                 item_name = key
@@ -275,7 +275,7 @@ def construct_gameboard(player, items, places, boardSize=5):
         for x in XBOUND:
             gameboard.loc[y,x] = []
     
-    for item in items:
+    for item, val in items.items():
         x = item.position["x"]
         y = item.position["y"]
         gameboard.loc[y,x].append(item)
@@ -354,7 +354,7 @@ def action(player, input, game):
     if (action_word == "move" or action_word == "go"):
         place_word = re.search(r"(east, west, north, south)")
         if place_word:
-            updatePlayerPostion(place_word, player.pos)
+            player.updatePlayerPostion(place_word, player.pos)
             print(responses["movement"]["moved"])
             return
     
@@ -362,32 +362,46 @@ def action(player, input, game):
     if item_word: 
         if item_word == "purple drink":
             if action_word == "take":
-                
+            
+               print("Tastes delicious")
+               return 
 
 def run():
+    
     player = Player({"x": 0, "y": 0})
-    gameboard = construct_gameboard(3, "place.json")
     print("start game")
+    
     with open("place.json", "r") as f:
         places = json.load(f)
+        
     with open("actions.json", "r", encoding="utf-8") as f:
         actions = json.load(f)
+        
     with open("items.json", "r", encoding="utf-8") as f:
         items = json.load(f)
-    gameboard = construct_gameboard()
+        
     keep_running = True
+    
     while(keep_running):
+        
         current_room = None
+        
         for name, data in places.items():
             if data["location"] == [player.pos["x"], player.pos["y"]]:
                 current_room = name
                 print(f"[{name.upper()}]")
                 print(data["on-enter_text"])
-        user_input = input("\n> ").lower().strip()
+        user_input = input("\nCommand> ").lower().strip()
         if user_input == "quit" or user_input == "q":
             keep_running = False
         else:
-            verb, obj = get_player_input(user_input, items, actions)
+            action(player,user_input,places)
+
+
+if __name__ == "__main__":
+    run()
+        
+    
 
 
 if __name__ == "__main__":
