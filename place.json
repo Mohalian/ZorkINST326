@@ -33,7 +33,7 @@
     "items": []
 },
 "undergroundentrance": {
-    "location": [0, -1],
+    "location": [0, 1],
     "startsubplace": "",
     "name": ["entrance", "underground entrance", "underground", "under ground entrance"],
     "description": "An opening entails into the underground oasis",
@@ -42,7 +42,7 @@
     "items": []
 },
 "treehouse": {
-    "location":[1, -1],
+    "location":[1, 1],
     "startsubplace": "bottomladder",
     "name": ["treehouse", "tree house", "house"],
     "description": "A wooden treehouse with a cabin like look to it. There's a large chest in front of you.",
@@ -66,7 +66,7 @@
     }
 },
 "smallcottage": {
-    "location":[1, -2],
+    "location":[1, 2],
     "startsubplace": "",
     "name": ["smallcottage", "small cottage", "cottage"],
     "description": "A cozy cottage with brown moldy walls and vintage decor",
@@ -75,7 +75,7 @@
     "items": []
 },
 "smallchurch": {
-    "location": [0, -2],
+    "location": [0, 2],
     "startsubplace": "frontofentrance",
    "name": ["smallchurch", "small church", "church"],
     "description": "An old rundown church with more black mold on the walls and regular church stuff with a large staircase that goes down",
@@ -94,7 +94,7 @@
     }
 },
 "churchbasement": {
-    "location": [0, -3],
+    "location": [0, 3],
     "startsubplace": "stairs",
     "name": ["churchbasement", "church basement", "basement"],
     "description": "Small dark room with metal walls and a painting on one of the walls",
