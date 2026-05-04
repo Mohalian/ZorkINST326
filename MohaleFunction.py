@@ -157,24 +157,31 @@ class Item:
         self.interactions = interactions
         self.description = description
         self.position = position
-        
-        
-class Game:
-    
-    def __init__(self):
-        with open("items_file", "r", encoding="utf-8") as itemfile:
-            self.items = []
-            item_dict = json.load(itemfile)
-            for key, value in item_dict.items():
-                self.items.append(Item(key, value["aliases"], value["portable"], value["interactions"], value["descriptions"]))
-                
+
 class Place:
     
     def __init__(self, name, onentertext, description, position):
         self.name = name
         self.onentertext = onentertext
         self.description = description
-        self.position = self.position
+        self.position = position
+        
+class Game:
+    
+    def __init__(self):
+        with open("items.json", "r", encoding="utf-8") as itemfile:
+            self.items = {}
+            item_dict = json.load(itemfile)
+            for key, value in item_dict.items():
+                self.items[key] = Item(key, value["aliases"], value["portable"], value["interactions"], value["description"], value["position"])
+                
+        with open("place.json", "r", encoding="utf-8") as placefile:
+            self.places = {}
+            place_dict = json.load(placefile)
+            for key, value in place_dict.items():
+                self.places[key] = Place(key, value["on-enter_text"], value["description"], value["location"])
+                
+
            
                 
 
@@ -276,15 +283,15 @@ def construct_gameboard(player, items, places, boardSize=5):
             gameboard.loc[y,x] = []
     
     for item, val in items.items():
-        x = item.position["x"]
-        y = item.position["y"]
+        x = item.position[0]
+        y = item.position[1]
         gameboard.loc[y,x].append(item)
     for place in places:
-        x = place.position["x"]
-        y = place.position["y"]
+        x = place.position[0]
+        y = place.position[1]
         gameboard.loc[y,x].append(place)
-    x = player.position["x"]
-    y = player.position["y"]
+    x = player.pos["y"]
+    y = player.pos["x"]
     gameboard.loc[y,x].append(place)
     
     return gameboard
@@ -343,7 +350,7 @@ def look(player_pos, gameboard, direction=None):
         else: 
             print("There is nothing there")
             
-def action(player, input, game):
+def action(player, input, gameboard, gameclass):
     action_word = ""
     item_word = ""
     place_word = ""
@@ -356,16 +363,19 @@ def action(player, input, game):
         if place_word:
             player.updatePlayerPostion(place_word, player.pos)
             print(responses["movement"]["moved"])
-            return
     
-    item_word = re.search(r"(purple\sdrink|trapdoor)")
+    item_word = re.search(r"(purple\sdrink|trapdoor)", input)
     if item_word: 
         if item_word == "purple drink":
             if action_word == "take":
-            
-               print("Tastes delicious")
-               return 
+                x,y = gameclass.items["purpledrink"].position
 
+                gameboard.loc[y,x].remove(gameclass.items["purpledrink"])
+                player.inventory.append(gameclass.items["purpledrink"])
+                print("Took Purple drink.")
+            
+            
+            
 def run():
     
     player = Player({"x": 0, "y": 0})
@@ -395,7 +405,7 @@ def run():
         if user_input == "quit" or user_input == "q":
             keep_running = False
         else:
-            action(player,user_input,places)
+            action(player,user_input,places,Game())
 
 
 if __name__ == "__main__":
