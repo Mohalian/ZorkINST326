@@ -15,7 +15,7 @@ class Player:
         inventory: list of items the player is holding
     """
     def __init__(self, starting_pos):
-        self.pos = starting_pos
+        self.position = starting_pos
         self.subplace = "frontofdoor"
         self.inventory = []
         
@@ -51,12 +51,12 @@ class Player:
     
             if "move north" in choice:
         
-                yLoc = self.pos["y"]+1
+                yLoc = self.pos["y"]-1
             
     
             elif "move south" in choice:
         
-                yLoc = self.pos["y"]-1
+                yLoc = self.pos["y"]+1
             
     
             elif "move west" in choice:
@@ -85,7 +85,7 @@ class Player:
     
         return self.pos
         
-    def inventory_update(player, room, item_word, pick_drop):
+    def inventory_update(self, player, room, item_word, pick_drop):
         """
         Appends item objects into player's inventory list and removes from room's
         items list (pickup)or removes from player inventory and appends to room's
@@ -149,12 +149,13 @@ class Player:
   
 class Item:
     
-    def __init__(self, name, aliases, portable, interactions, description):
+    def __init__(self, name, aliases, portable, interactions, description, position):
         self.name = name
         self.aliases = aliases
         self.portable = portable
         self.interactions = interactions
         self.description = description
+        self.position = position
         
         
 class Game:
@@ -166,7 +167,14 @@ class Game:
             for key, value in item_dict.items():
                 self.items.append(Item(key, value["aliases"], value["portable"], value["interactions"], value["descriptions"]))
                 
-        
+class Place:
+    
+    def __init__(self, name, onentertext, description, position):
+        self.name = name
+        self.onentertext = onentertext
+        self.description = description
+        self.position = self.position
+           
                 
 
 
@@ -244,16 +252,15 @@ def get_player_input(input, objects, actions):
     print("Couldn't find item")
     return None, None
 
-def construct_gameboard(boardSize,file):
+def construct_gameboard(player, items, places, boardSize=5):
     """
     Takes a board size and a json dictionary of in-game objects and creates a 
     coordinate map of the objects that can be traversed by the player
     
     Args:
-        boardSize: an integer representing the resolution size of the gameboard
-            coordinate space
-        file: string filepath to a json file of game objects, their properties,
-            and position
+        player: a player object
+        items: a list of item objects (from the game.items attribute)
+        places: a list of place objects (from the game.places attribute)
     Returns:
         gameboard: a pandas data frame representing the coordinate map, where
             columns represent the x-axis and rows represent the y-axis flipped. 
@@ -267,13 +274,17 @@ def construct_gameboard(boardSize,file):
         for x in XBOUND:
             gameboard.loc[y,x] = []
     
-    with open(file, "r", encoding="utf-8") as raw_file:
-        file = json.load(raw_file)
-        for game_object in file:
-            x, y = file[game_object]["Position"]
-            #If we make a class for game objects, maybe instantiate them first 
-            #here so that the object is added to the board and not just the name 
-            gameboard.loc[y,x].append(game_object)
+    for item in items:
+        x = item.position["x"]
+        y = item.position["y"]
+        gameboard.loc[y,x].append(item)
+    for place in places:
+        x = place.position["x"]
+        y = place.position["y"]
+        gameboard.loc[y,x].append(place)
+    x = player.position["x"]
+    y = player.position["y"]
+    gameboard.loc[y,x].append(place)
     
     return gameboard
 
@@ -341,6 +352,7 @@ def run():
         actions = json.load(f)
     with open("items.json", "r", encoding="utf-8") as f:
         items = json.load(f)
+    gameboard = construct_gameboard()
     keep_running = True
     while(keep_running):
         current_room = None
