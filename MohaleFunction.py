@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+import re
 
 with open("responses_file", "r", encoding="utf-8") as file:
     responses = json.load(file)
@@ -18,6 +19,7 @@ class Player:
         self.pos = starting_pos
         self.subplace = "frontofdoor"
         self.inventory = []
+        self.drink = False
         
     def inventory_update(player, room, item_word, pick_drop):
         """
@@ -81,7 +83,7 @@ class Player:
     
     # def inventoryUpdate(self, item_word, file, pick_drop):
 
-def updatePlayerPostion(choice, player_pos, boardSize):
+def updatePlayerPostion(choice, player_pos, boardSize=5):
     """
     This function changes the player position and makes sure the user enters a
     valid movement command
@@ -329,4 +331,29 @@ def look(player_pos, gameboard, direction=None):
             print("There is nothing here")
         else: 
             print("There is nothing there")
+            
+def action(player, input, game):
+    action_word = ""
+    item_word = ""
+    place_word = ""
+    action_match = re.search(r"(move|go|drink|take|drop)", input)
+    if action_match:
+        action_word = action_match
+        
+    if (action_word == "move" or action_word == "go"):
+        place_word = re.search(r"(east, west, north, south)")
+        if place_word:
+            updatePlayerPostion(place_word, player.pos)
+            print(responses["movement"]["moved"])
+            return
+    
+    item_word = re.search(r"(purple\sdrink|trapdoor)")
+    if item_word: 
+        if item_word == "purple drink":
+            if action_word == "take":
+                
+                
+    
+        
+        
 
