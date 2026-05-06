@@ -4,6 +4,7 @@ like keys or a flashlight to be held/used to go between places (like the kitchen
 - Allow for aliases to be used to refer to actions/items (should be relatively simple to add to existing functions)
 - Add a drop item function
 - Create a win condition
+- Finish action function
 - Fill out below:
 
   - An explanation of the purpose of each file in your repository.
