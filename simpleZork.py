@@ -4,6 +4,12 @@ import re
 
 with open("responses.json", "r", encoding="utf-8") as file:
     responses = json.load(file)
+with open("actions.json", "r", encoding="utf-8") as file:
+    actionAll = json.load(file)
+with open("place.json", "r", encoding="utf-8") as file:
+    placesAll = json.load(file)
+with open("items.json", "r", encoding="utf-8") as file:
+    items = json.load(file)
     
 
 class Player:
@@ -44,7 +50,21 @@ class Player:
         xLoc = self.pos["x"]
         yLoc = self.pos["y"]
     
-        while keepLoop:
+        for place, fullData in placesAll:
+            
+            if choice in fullData["name"]:
+                if max(abs(self.pos["x"]-fullData["Location"][0]),\
+                abs(self.pos["y"]-fullData["Location"][1])) > 1:
+                    break
+                
+                self.pos["x"] = fullData["Location"][0]
+                self.pos["y"] = fullData["Location"][1]
+               
+        
+        print(responses["general"]["invalid_target"]) 
+           
+        """
+         while keepLoop:
         
             if "move" not in choice:
                 
@@ -77,6 +97,10 @@ class Player:
             self.pos["x"] = xLoc
             self.pos["y"] = yLoc
             keepLoop = False
+         
+         """
+            
+        
     
         return self.pos
         
