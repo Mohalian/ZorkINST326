@@ -97,7 +97,7 @@ class Player:
     
         return self.pos
     
-    def check_inBounds(xLoc, yLoc):
+    def check_inBounds(self,xLoc, yLoc):
         
         for name, data in placesAll.items():
             if data["location"] == [xLoc, yLoc]:
@@ -361,8 +361,12 @@ def action(player, input, gameboard, game):
     
     
     item_word = re.search(r"(purple\sdrink|trapdoor)", input)
+    
+    if item_word:
+        words = item_word.group(0)
+    
     if item_word: 
-        if item_word == "purple drink":
+        if words == "purple drink":
             if action_word == "take":
                 x,y = game.items["purpledrink"]["position"]
 
@@ -370,7 +374,7 @@ def action(player, input, gameboard, game):
                 player.inventory.append(game.items["purpledrink"]["name"])
                 print("Took Purple drink.")
         
-        if item_word == "trapdoor":
+        if words == "trapdoor":
             if action_word == "open":
                 player.updatePlayerPosition("underground")
                 print(game.responses["movement"]["moved"])
