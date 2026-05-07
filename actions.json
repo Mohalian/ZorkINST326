@@ -2,7 +2,7 @@
   "look": ["look", "l", "examine room", "survey"],
   "go": ["go", "walk", "move", "run"],
   "take": ["take", "get", "grab", "pick"],
-  "drop": ["drop", "leave", "discard"],
+  "drop": ["drop", "leave", "discard", "place"],
   "inventory": ["inventory", "inv", "i"],
   "examine": ["examine", "inspect", "x", "look at"],
   "use": ["use", "activate", "turn on", "switch on"],

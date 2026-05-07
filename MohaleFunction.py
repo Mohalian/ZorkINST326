@@ -2,9 +2,6 @@ import json
 import pandas as pd
 import re
 
-with open("responses.json", "r", encoding="utf-8") as file:
-    responses = json.load(file)
-    
 
 class Player:
     """
@@ -15,13 +12,13 @@ class Player:
             position of the player
         inventory: list of items the player is holding
     """
-    def __init__(self, starting_pos):
+    def __init__(self, starting_pos, game_data):
         self.pos = starting_pos
-        self.subplace = "frontofdoor"
         self.inventory = []
+        self.game_data = game_data
         
 
-    def updatePlayerPostion(self, choice, boardSize=5):
+    def updatePlayerPostion(self, choice):
         """
     This function changes the player position and makes sure the user enters a
     valid movement command
@@ -54,7 +51,7 @@ class Player:
     
             elif "south" in choice:
                 yLoc = self.pos["y"]+1
-                if yLoc >= boardSize:
+                if yLoc >= self.game_data.boardsize:
                     print("You've been blocked by thick trees.")
                     return self.pos
             
@@ -67,7 +64,7 @@ class Player:
     
             elif "east" in choice:
                 xLoc = self.pos["x"]+1
-                if xLoc >= boardSize:
+                if xLoc >= self.game_data.boardsize:
                     print("You've been blocked by thick trees.")
                     return self.pos
     
@@ -135,49 +132,61 @@ class Player:
             room.items.append(item_obj)
             print(responses["items"]["dropped"])
 
-
-    # Integrate the following existing functions into this class?
-    # def updatePlayerPosition(self, choice, boardsize):
-    
-    # def inventoryUpdate(self, item_word, file, pick_drop):
-  
-class Item:
-    
-    def __init__(self, name, aliases, portable, interactions, description, position):
-        self.name = name
-        self.aliases = aliases
-        self.portable = portable
-        self.interactions = interactions
-        self.description = description
-        self.position = position
-
-class Place:
-    
-    def __init__(self, name, onentertext, description, position):
-        self.name = name
-        self.onentertext = onentertext
-        self.description = description
-        self.position = position
         
 class Game:
     
-    def __init__(self):
+    def __init__(self, boardsize=4):
         with open("items.json", "r", encoding="utf-8") as itemfile:
-            self.items = {}
-            item_dict = json.load(itemfile)
-            for key, value in item_dict.items():
-                self.items[key] = Item(key, value["aliases"], value["portable"], value["interactions"], value["description"], value["position"])
+            self.items = json.load(itemfile)
                 
         with open("place.json", "r", encoding="utf-8") as placefile:
-            self.places = {}
-            place_dict = json.load(placefile)
-            for key, value in place_dict.items():
-                self.places[key] = Place(key, value["on-enter_text"], value["description"], value["location"])
-                
+            self.places = json.load(placefile)
 
-           
-                
+        with open("actions.json", "r", encoding="utf-8") as actionfile:
+            self.actions = json.load(actionfile)
 
+        with open("responses.json", "r", encoding="utf-8") as responsefile:
+            self.responses = json.load(responsefile)
+        
+        self.boardsize = boardsize
+
+    def construct_gameboard(self, player):
+        """
+        Takes a board size and a json dictionary of in-game objects and creates a 
+        coordinate map of the objects that can be traversed by the player
+        
+        Args:
+            player: a player object
+            items: a list of item objects (from the game.items attribute)
+            places: a list of place objects (from the game.places attribute)
+        Returns:
+            gameboard: a pandas data frame representing the coordinate map, where
+                columns represent the x-axis and rows represent the y-axis flipped. 
+                Each cell is a list with every object it contains at that position, 
+                and can include the player
+        """
+        YBOUND = range(0,self.boardsize)
+        XBOUND = range(0,self.boardsize)
+        gameboard = pd.DataFrame(index=YBOUND,columns=XBOUND)
+        for y in YBOUND:
+            for x in XBOUND:
+                gameboard.loc[y,x] = []
+        
+        for item in self.items:
+            print(self.items[item])
+            print(self.items[item]["position"])
+            x = self.items[item]["position"][0]
+            y = self.items[item]["position"][1]
+            gameboard.loc[y,x].append(item)
+        for place in self.places:
+            x = self.places[place]["location"][0]
+            y = self.places[place]["location"][1]
+            gameboard.loc[y,x].append(place)
+        x = player.pos["y"]
+        y = player.pos["x"]
+        gameboard.loc[y,x].append(player)
+        
+        return gameboard            
 
 
 def can_interact(target_actions, player_action, item=None):
@@ -253,41 +262,6 @@ def get_player_input(input, objects, actions):
     print("Couldn't find item")
     return None, None
 
-def construct_gameboard(player, items, places, boardSize=5):
-    """
-    Takes a board size and a json dictionary of in-game objects and creates a 
-    coordinate map of the objects that can be traversed by the player
-    
-    Args:
-        player: a player object
-        items: a list of item objects (from the game.items attribute)
-        places: a list of place objects (from the game.places attribute)
-    Returns:
-        gameboard: a pandas data frame representing the coordinate map, where
-            columns represent the x-axis and rows represent the y-axis flipped. 
-            Each cell is a list with every object it contains at that position, 
-            and can include the player
-    """
-    YBOUND = range(0,boardSize)
-    XBOUND = range(0,boardSize)
-    gameboard = pd.DataFrame(index=YBOUND,columns=XBOUND)
-    for y in YBOUND:
-        for x in XBOUND:
-            gameboard.loc[y,x] = []
-    
-    for item, val in items.items():
-        x = item.position[0]
-        y = item.position[1]
-        gameboard.loc[y,x].append(item)
-    for place in places:
-        x = place.position[0]
-        y = place.position[1]
-        gameboard.loc[y,x].append(place)
-    x = player.pos["y"]
-    y = player.pos["x"]
-    gameboard.loc[y,x].append(place)
-    
-    return gameboard
 
 def get_player_pos(player, gameboard):
     """
@@ -343,7 +317,7 @@ def look(player_pos, gameboard, direction=None):
         else: 
             print("There is nothing there")
             
-def action(player, input, gameboard, gameclass):
+def action(player, input, gameboard, game):
     action_word = ""
     item_word = ""
     place_word = ""
@@ -356,33 +330,25 @@ def action(player, input, gameboard, gameclass):
         if place_match:
             place_word = place_match.group(0)
             player.updatePlayerPostion(place_word)
-            print(responses["movement"]["moved"])
+            print(game.responses["movement"]["moved"])
     
     item_word = re.search(r"(purple\sdrink|trapdoor)", input)
     if item_word: 
         if item_word == "purple drink":
             if action_word == "take":
-                x,y = gameclass.items["purpledrink"].position
+                x,y = game.items["purpledrink"]["position"]
 
-                gameboard.loc[y,x].remove(gameclass.items["purpledrink"])
-                player.inventory.append(gameclass.items["purpledrink"])
+                gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
+                player.inventory.append(game.items["purpledrink"]["name"])
                 print("Took Purple drink.")
             
             
             
 def run():
-    
-    player = Player({"x": 0, "y": 0})
+    game = Game()
+    player = Player({"x": 0, "y": 0}, game)
+    gameboard = game.construct_gameboard(player)
     print("start game")
-    
-    with open("place.json", "r") as f:
-        places = json.load(f)
-        
-    with open("actions.json", "r", encoding="utf-8") as f:
-        actions = json.load(f)
-        
-    with open("items.json", "r", encoding="utf-8") as f:
-        items = json.load(f)
         
     keep_running = True
     
@@ -390,16 +356,16 @@ def run():
         
         current_room = None
         
-        for name, data in places.items():
+        for name, data in game.places.items():
             if data["location"] == [player.pos["x"], player.pos["y"]]:
                 current_room = name
                 print(f"[{name.upper()}]")
                 print(data["on-enter_text"])
         user_input = input("\nCommand> ").lower().strip()
-        if user_input == "quit" or user_input == "q":
+        if user_input == "quit" or user_input == "q": #or win condition == True:
             keep_running = False
         else:
-            action(player,user_input,places,Game())
+            action(player,user_input,gameboard,Game())
 
 
 if __name__ == "__main__":
