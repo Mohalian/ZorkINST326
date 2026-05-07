@@ -1,0 +1,38 @@
+{
+  "general": {
+    "unknown_command": "That command is not known.",
+    "invalid_target": "You can't do that."
+  },
+  "movement": {
+    "blocked": "You can't go that way.",
+    "moved": "Here!",
+    "enter_subplace": "Here!",
+    "ladder_up": "You climb up the ladder.",
+    "trapdoor_down": "You climb down through the trapdoor.",
+    "trapdoor_up": "You climb up the through the trapdoor.",
+    "stairs_down": "You walk down the stairs.",
+    "stairs_up": "You walk up the stairs."
+  },
+  "items": {
+    "pickup_success": "Taken!",
+    "nonexistent_item": "Unknown item",
+    "item_not_here": "That isn't here!",
+    "pickup_fail": "You can't take that.",
+    "dropped": "Dropped!",
+    "dropped_fail": "You don't have that item.",
+    "already_have": "You already have that!",
+    "sorcerers_stone_fail": "You can't pickup the sorcerer's stone before you drink a magic potion.",
+    "painting_lifted": "You lift the painting and reveal the sorcerer's stone.",
+    "painting_already_lifted": "The painting has already been lifted.",
+    "chest_opened": "You open the chest and find a diamond egg and a flashlight inside.",
+    "chest_already_open": "The chest is already open.",
+    "cant_take_hidden_stone": "You need to lift the painting first.",
+    "cant_take_chest_item": "You need to open the chest first.",
+    "flashlight_on": "You turn on the flashlight.",
+    "flashlight_off": "You turn off the flashlight."
+  },
+  "dialogue": {
+    "first_entered": "You are at the {place}. {on_enter_text}",
+    "lookaround": "{description}"
+  }
+  }
