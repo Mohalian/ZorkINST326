@@ -398,6 +398,8 @@ def run():
                 print(f"[{name.upper()}]")
                 print(data["on-enter_text"])
         user_input = input("\nCommand> ").lower().strip()
+        if user_input == "help" or user_input == "?":
+            print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
         if user_input == "quit" or user_input == "q": #or win condition == True:
             keep_running = False
         else:
