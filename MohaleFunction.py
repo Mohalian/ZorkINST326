@@ -3,6 +3,17 @@ import pandas as pd
 import re
 
 
+
+with open("responses.json", "r", encoding="utf-8") as file:
+    responses = json.load(file)
+with open("actions.json", "r", encoding="utf-8") as file:
+    actionAll = json.load(file)
+with open("place.json", "r", encoding="utf-8") as file:
+    placesAll = json.load(file)
+with open("items.json", "r", encoding="utf-8") as file:
+    item = json.load(file)
+
+
 class Player:
     """
     Contains and handles player data
@@ -18,7 +29,7 @@ class Player:
         self.game_data = game_data
         
 
-    def updatePlayerPostion(self, choice):
+    def updatePlayerPosition(self, choice):
         """
     This function changes the player position and makes sure the user enters a
     valid movement command
@@ -37,45 +48,63 @@ class Player:
         player_pos: the new position of the player (dict)
     """
     
-        keepLoop = True
+        
         xLoc = self.pos["x"]
         yLoc = self.pos["y"]
-    
-        while keepLoop:
-    
-            if "north" in choice:
-                yLoc = self.pos["y"]-1
-                if yLoc < 0:
-                    print("You've been blocked by thick trees.")
-                    return self.pos
-    
-            elif "south" in choice:
-                yLoc = self.pos["y"]+1
-                if yLoc >= self.game_data.boardsize:
-                    print("You've been blocked by thick trees.")
-                    return self.pos
+        passed = False
+        
+        directions = {
+            ("east", "right"):[xLoc+1,yLoc],
+            ("west", "left"):[xLoc-1,yLoc],
+            ("north", "up"):[xLoc,yLoc+1],
+            ("south", "down"):[xLoc,yLoc-1] 
             
-    
-            elif "west" in choice:
-                xLoc = self.pos["x"]-1
-                if xLoc < 0:
-                    print("You've been blocked by thick trees.")
-                    return self.pos
-    
-            elif "east" in choice:
-                xLoc = self.pos["x"]+1
-                if xLoc >= self.game_data.boardsize:
-                    print("You've been blocked by thick trees.")
-                    return self.pos
-    
-            else:
-                print("Movement command is move + (North, South, East, West): ")
+        }
         
-            self.pos["x"] = xLoc
-            self.pos["y"] = yLoc
-            keepLoop = False
+        for cardinal, reg in directions:
+            
+            if cardinal in choice or reg in choice:
+                
+                xLoc = directions[(cardinal,reg)][0]
+                yLoc = directions[(cardinal,reg)][1]
+                
+                if self.check_inBounds(xLoc, yLoc):
+                    self.pos["x"] = xLoc
+                    self.pos["y"] = yLoc
+                else:
+                    print(responses["movement"]["blocked"])
+                
+                return self.pos
+                
+        
+        if xLoc == self.pos["x"] and yLoc == self.pos["y"]:
+            
+            for place, fullData in placesAll.items():
+            
+                names = [alias for alias in fullData["name"] if alias in choice]
+            
+                if len(names) > 0:
+                
+                    if max(abs(self.pos["x"]-fullData["location"][0]),\
+                    abs(self.pos["y"]-fullData["location"][1])) > 1:
+                        break
+                
+                    self.pos["x"] = fullData["location"][0]
+                    self.pos["y"] = fullData["location"][1]
+                    return self.pos    
+                    
+        print(responses["general"]["invalid_target"])
+    
         return self.pos
+    
+    def check_inBounds(xLoc, yLoc):
         
+        for name, data in placesAll.items():
+            if data["location"] == [xLoc, yLoc]:
+                return True
+        
+        return False
+             
     def inventory_update(self, player, room, item_word, pick_drop):
         """
         Appends item objects into player's inventory list and removes from room's
@@ -321,16 +350,15 @@ def action(player, input, gameboard, game):
     action_word = ""
     item_word = ""
     place_word = ""
-    action_match = re.search(r"(move|go|drink|take|drop)", input)
+    action_match = re.search(r"(move|go|drink|take|drop|open)", input)
     if action_match:
         action_word = action_match.group(0)
         
     if (action_word == "move" or action_word == "go"):
-        place_match = re.search(r"(east|west|north|south)", input)
-        if place_match:
-            place_word = place_match.group(0)
-            player.updatePlayerPostion(place_word)
-            print(game.responses["movement"]["moved"])
+        
+        player.updatePlayerPosition(input)
+        print(game.responses["movement"]["moved"])
+    
     
     item_word = re.search(r"(purple\sdrink|trapdoor)", input)
     if item_word: 
@@ -341,7 +369,11 @@ def action(player, input, gameboard, game):
                 gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
                 player.inventory.append(game.items["purpledrink"]["name"])
                 print("Took Purple drink.")
-            
+        
+        if item_word == "trapdoor":
+            if action_word == "open":
+                player.updatePlayerPosition("underground")
+                print(game.responses["movement"]["moved"])
             
             
 def run():
