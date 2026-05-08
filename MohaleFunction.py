@@ -10,8 +10,7 @@ with open("actions.json", "r", encoding="utf-8") as file:
     actionAll = json.load(file)
 with open("place.json", "r", encoding="utf-8") as file:
     placesAll = json.load(file)
-with open("items.json", "r", encoding="utf-8") as file:
-    item = json.load(file)
+
 
 
 class Player:
