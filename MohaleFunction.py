@@ -8,8 +8,7 @@ with open("responses.json", "r", encoding="utf-8") as file:
     responses = json.load(file)
 with open("actions.json", "r", encoding="utf-8") as file:
     actionAll = json.load(file)
-with open("place.json", "r", encoding="utf-8") as file:
-    placesAll = json.load(file)
+
 
 
 
@@ -26,6 +25,10 @@ class Player:
         self.pos = starting_pos
         self.inventory = []
         self.game_data = game_data
+        self.drank = False
+        self.flashlight = False
+        self.paintinglifted = False
+        self.chestopen = False
         
 
     def updatePlayerPosition(self, choice):
@@ -164,17 +167,14 @@ class Player:
 class Game:
     
     def __init__(self, boardsize=4):
-        with open("items.json", "r", encoding="utf-8") as itemfile:
-            self.items = json.load(itemfile)
+        self.items = []
+        with open("item_json", "r", encoding="utf-8") as item:
+            for key, value in item.items():
+                self.items.append(Item(key, value["aliases"], value["portable"], value["interactions"], value["descriptions"], value["position"]))
                 
-        with open("place.json", "r", encoding="utf-8") as placefile:
-            self.places = json.load(placefile)
-
-        with open("actions.json", "r", encoding="utf-8") as actionfile:
-            self.actions = json.load(actionfile)
-
-        with open("responses.json", "r", encoding="utf-8") as responsefile:
-            self.responses = json.load(responsefile)
+        self.places = []
+        with open("place_json", "r", encoding="utf-8") as places:
+            for key
         
         self.boardsize = boardsize
 
