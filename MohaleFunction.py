@@ -470,23 +470,32 @@ def run():
     player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
     print("start game")
+    current_room = None
         
     keep_running = True
+    lastRoom = None
     
     while(keep_running):
         
         if win(player):
             break
-        current_room = None
+        
+        
         
         for placeList in game.places:
+            
             if placeList.location == [player.pos.location[0], \
                 player.pos.location[1]]:
                 current_room = placeList.name[0]
                 
-                print(f"[{current_room.upper()}]")
-                print(placeList.on_enter_text)
+                if not(lastRoom == current_room):
+                    
+                    print(f"[{current_room.upper()}]")
+                    print(placeList.on_enter_text)
+                    lastRoom = current_room
+                    
         user_input = input("\nCommand> ").lower().strip()
+        
         
         if user_input == "help" or user_input == "?":
             print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
@@ -494,6 +503,8 @@ def run():
             keep_running = False
         else:
             action(player,user_input,game)
+        
+        
 
 
 if __name__ == "__main__":
