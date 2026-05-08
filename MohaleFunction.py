@@ -612,6 +612,19 @@ def run():
             action(player,user_input,game)
         
 def scroll_print(to_print, skip_scroll):
+    """
+ Prints response message one letter at a time to create a scrolling
+    or typing effect. Can optionally skip the print.
+
+    Args:
+        to_print: The text/object to print out
+        skip_scroll: (boolean) Determines whether the scrolling effect is skipped.
+            false means to print with delay, true means instantly
+
+    Side effects:
+        Prints text to the console.
+        Makes the response message run smoothly like someone is typing something
+"""
     text = str(to_print)
     for c in text:
         print(c, end='', flush = True)
