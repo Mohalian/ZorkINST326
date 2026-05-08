@@ -47,7 +47,15 @@ ZORK I: The Great Underground Empire. (n.d.). MIT. Retrieved May 8, 2026, from h
 
 Zork I: The Great Underground Empire/Walkthrough. (n.d.). STRATEGYWIKI. Retrieved May 8, 2026, from https://strategywiki.org/wiki/Zork_I:_The_Great_Underground_Empire/Walkthrough
 
-**We based our game progression and the necessities to win on this walkthrough.**
+**We based our game progression and the necessities to win on this walkthrough.**  
+
+BD103. (2020, December 7). A simple function that scrolls text to the Python console. GithubGist. Retrieved May 8, 2026, from https://gist.github.com/BD103/f89ef60a57aedd68394b38b8f22584d5  
+
+**We used this function to make text printed to the console appear one character at a time, and added an optional flag set through the Game class to disable it**  
+
+Python Software Foundation. (2000). time — Time access and conversions — Python 3.7.2 documentation. Python.org. Retrieved May 8, 2026, from https://docs.python.org/3/library/time.html  
+
+**This was used both in the text scroll and to measure the time it takes for the player to beat the game, using time.sleep() and time.time().**
 
   - Attribution: in order to evaluate whether each member has made a substantial, original contribution to the project, please provide a table like 
   the one below, with a separate row for each method or function.
