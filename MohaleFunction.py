@@ -349,14 +349,23 @@ def action(player, input, gameboard, game):
     action_word = ""
     item_word = ""
     place_word = ""
-    action_match = re.search(r"(move|go|drink|take|drop|open)", input)
+    
+    allCommands = "("
+    for action, names in actionAll.items():
+        for alias in names:
+            allCommands += f"{alias}|" 
+    
+    allCommands = f"{allCommands[:-1]})"
+    action_match = re.search(allCommands, input)
+    
     if action_match:
         action_word = action_match.group(0)
         
-    if (action_word == "move" or action_word == "go"):
+    if (action_word in actionAll["go"]):
         
         player.updatePlayerPosition(input)
         print(game.responses["movement"]["moved"])
+        return
     
     
     item_word = re.search(r"(purple\sdrink|trapdoor)", input)
@@ -366,7 +375,7 @@ def action(player, input, gameboard, game):
     
     if item_word: 
         if words == "purple drink":
-            if action_word == "take":
+            if action_word in actionAll["take"]:
                 x,y = game.items["purpledrink"]["position"]
 
                 gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
