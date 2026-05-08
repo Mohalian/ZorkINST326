@@ -43,6 +43,8 @@ Zork I: The Great Underground Empire/Walkthrough. (n.d.). STRATEGYWIKI. Retrieve
 | Function/Method | Author | Technique |
 | -------- | ------ | --------- |
 | Game.\_\_init\_\_ | Andrew | with statement |
-| look | Andrew | f-strings |
-| updatePlayerPosition | Jai | max(), sequence unpacking |
-| action | Jai | regex |
+| look() | Andrew | f-strings |
+| updatePlayerPosition() | Jai | max(), sequence unpacking |
+| Regex() | Thomas | regular expression |
+| win() | Thomas | list comprehension |
+
