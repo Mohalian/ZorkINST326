@@ -3,7 +3,7 @@
     "screen_name": "flashlight",
     "aliases": ["flashlight", "light"],
     "portable": true,
-    "interactions": ["look", "take", "use", "drop"],
+    "interactions": ["look", "take", "use"],
     "description": "A dusty vintage flashlight",
     "position": [2, 1]
   },
@@ -11,7 +11,7 @@
     "screen_name": "purple drink",
     "aliases": ["purpledrink", "purple juice", "purple", "strange drink", "strange purple drink"],
     "portable": true,
-    "interactions": ["take", "drop", "drink"],
+    "interactions": ["take", "drink"],
     "description": "Cup of strange purple drink",
     "position": [1, 0]
   },
@@ -27,7 +27,7 @@
     "screen_name": "sorcerer's stone",
     "aliases": ["stone", "sorcerers stone", "sorcerer's stone", "red stone"],
     "portable": true,
-    "interactions": ["take", "drop"],
+    "interactions": ["take"],
     "description": "a red stone the size of your palm. This is the legendary sorcerer's stone",
     "position": [0, 3]
   },
