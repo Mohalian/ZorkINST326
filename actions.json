@@ -5,8 +5,6 @@
   "inventory": ["inventory", "inv"],
   "use": ["use", "activate", "turn on", "switch on"],
   "open": ["open"],
-  "close": ["close"],
-  "talk": ["talk", "speak"],
   "lift": ["lift", "raise", "take off"],
   "drink": ["drink", "chug"],
   "look": ["look", "examine"]
