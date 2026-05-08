@@ -20,6 +20,25 @@ class Player:
         inventory: list of items the player is holding
     """
     def __init__(self, starting_pos, game):
+        """
+       Initializes attributes for instances of Player
+       
+        Args:
+            self.pos: Place class instance of where Player is
+            self.inventory: list for Item class objects
+            self.game: Instance of the Game class
+            self.drank: (bool) true if player drank purple juice
+            self.flashlight: (bool) true if player turned on flashlight
+            self.paintinglifted: (bool) true if player lifted painting
+            self.chestopen: (bool) true if player opened the chest
+            self.trapdooropen: (bool) true if player opened trapdoor
+    
+        Side effects:
+            Instializes all attributes for a Player object
+    
+        """
+        
+        
         self.pos = starting_pos
         self.inventory = []
         self.game = game
