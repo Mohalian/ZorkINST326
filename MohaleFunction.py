@@ -438,7 +438,7 @@ def run():
             scroll_print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
         if user_input == "quit" or user_input == "q": #or win condition == True:
             keep_running = False
-        else if user_input == "skip":
+        elif user_input == "skip":
             SKIP_SCROLL_TEXT = True
         else:
             action(player,user_input,game)
