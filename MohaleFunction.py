@@ -29,6 +29,7 @@ class Player:
         self.flashlight = False
         self.paintinglifted = False
         self.chestopen = False
+        self.trapdooropen = False
         
 
     def updatePlayerPosition(self, choice):
