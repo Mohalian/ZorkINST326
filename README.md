@@ -8,11 +8,11 @@
 
   - An explanation of the purpose of each file in your repository.
     
-    MohaleFunction.py: This holds the code for the game to be run
+    **MohaleFunction.py: This holds the code for the game to be run
     responses.json: Used in MohaleFunction to automate responses to certain actions that the user takes
     actions.json: Used in MohaleFunction to represent all actions that can be taken by the user
     items.json: Used in MohaleFunction to represent all items that are available in the game
-    places.json: Used in MohaleFunction to represent all the places the user can go in the game
+    places.json: Used in MohaleFunction to represent all the places the user can go in the game**
     
   - Clear instructions on how to run your program from the command line. You do not need to explain how to run the program on Windows and on MacOS; 
   just pick one. If your program takes command-line arguments, please document the command-line interface (which arguments are required? which are 
