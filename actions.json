@@ -1,5 +1,4 @@
 {
-  "look": ["look", "l", "examine room", "survey"],
   "go": ["go", "walk", "move", "run"],
   "take": ["take", "get", "grab", "pick"],
   "drop": ["drop", "leave", "discard", "place"],
