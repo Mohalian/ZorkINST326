@@ -52,8 +52,8 @@ class Player:
     """
     
         
-        xLoc = self.pos["x"]
-        yLoc = self.pos["y"]
+        xLoc = self.pos.location[0]
+        yLoc = self.pos.location[1]
         passed = False
         
         directions = {
@@ -70,31 +70,33 @@ class Player:
                 
                 xLoc = directions[(cardinal,reg)][0]
                 yLoc = directions[(cardinal,reg)][1]
+                print("D")
                 
-                if self.check_inBounds(xLoc, yLoc):
-                    self.pos["x"] = xLoc
-                    self.pos["y"] = yLoc
-                else:
-                    print(responses["movement"]["blocked"])
+                self.pos,changed = self.check_inBounds(xLoc, yLoc)
+                if changed == True:
+                    
+                    print("DIR")
+                    return self.pos
                 
-                return self.pos
-                
-        
         listPlaces = self.game_data.places
         
-        if xLoc == self.pos["x"] and yLoc == self.pos["y"]:
+        
             
-            for place in listPlaces:
+        for place in listPlaces:
             
-                if len([name for name in place.name if name in choice]) >0:
+            if len([name for name in place.name if name in choice]) >0:
                 
-                    if max(abs(self.pos["x"]-place.location[0]),\
-                    abs(self.pos["y"]-place.location[1])) > 1:
-                        break
+                print("NAMES")
+                if max(abs(self.pos.location[0]-place.location[0]),\
+                abs(self.pos.location[1]-place.location[1])) > 1:
+                    print("BROKEN")
+                    break
                 
-                    self.pos["x"] = place.location[0]
-                    self.pos["y"] = place.location[1]
-                    return self.pos    
+                if place.keyName == "undergroundentrance" and self.trapdooropen == False:
+                    print("Trap door not open")
+                    return self.pos
+                print(place.keyName)   
+                return place    
                     
         print(responses["general"]["invalid_target"])
     
@@ -104,11 +106,11 @@ class Player:
         
         for place in self.game_data.places:
             if place.location == [xLoc, yLoc]:
-                return True
+                return place,True
         
-        return False
+        return self.pos,False
              
-    def inventory_update(self, item, pick_drop):
+    def inventory_update(self, room,item_name, pick_drop):
         """
         Appends item objects into player's inventory list and removes from room's
         items list (pickup)or removes from player inventory and appends to room's
@@ -127,22 +129,27 @@ class Player:
             prints error, dropped, or picked up messages
             
         """
-    
         
-        if pick_drop:
-            if item.locationgit == self.location:
-                self.pos.items.remove(item)
-                self.inventory.append(item)
-                print(responses["items"]["pickup_success"])
-            else:
+        
+        for item in room:
+            if item.name.lower() in item_name.aliases:
+                item_obj= item
+                break    
+            if not item_obj:
                 print(responses["items"]["item_not_here"])
+                return
+            room.items.remove(item_obj)
+            self.inventory.append(item_obj)
+            print(responses["items"]["pickup_success"])
+            
+        
 
         
 class Item:
     
-    def __init__(self, name, screen_n, aliases, portable, interactions, description, position):
+    def __init__(self, keyName ,name, aliases, portable, interactions, description, position):
+        self.keyName = keyName
         self.name = name
-        self.screen_n = screen_n
         self.aliases = aliases
         self.portable = portable
         self.interactions = interactions
@@ -156,21 +163,20 @@ class Game:
         with open("items.json", "r", encoding="utf-8") as item_file:
             item = json.load(item_file)
             for key, value in item.items():
-                self.items.append(Item(key, value["screen_name"], value["aliases"], value["portable"], value["interactions"], value["description"], value["position"]))
+                self.items.append(Item(key, value["screen_name"],\
+                    value["aliases"], value["portable"]\
+                , value["interactions"], value["description"], \
+                    value["position"]))
                 
         self.places = []
         with open("place.json", "r", encoding="utf-8") as places_file:
             places = json.load(places_file)
             for key, value in places.items():
-                item_obj_list = []
-                for i in self.items:
-                    if i.name in value["items"]:
-                        item_obj_list.append(i)
-                self.places.append(Places(value["location"], value["name"], \
-                    value["description"], value["on-enter_text"], item_obj_list))
+                self.places.append(Places(key,value["location"], value["name"], \
+                    value["description"], value["on-enter_text"]))
                 
                 
-        
+        self.currLoc = [0,0]
         self.boardsize = boardsize
     """
     def construct_gameboard(self, player):
@@ -212,12 +218,12 @@ class Game:
         return gameboard            
 """
 class Places:
-    def __init__(self, location, name, description, on_enter_text, items):
+    def __init__(self, keyName,location, name, description, on_enter_text):
+        self.keyName = keyName
         self.location = location
         self.name = name
         self.description = description
         self.on_enter_text = on_enter_text
-        self.items = items
 
 
 def can_interact(target_actions, player_action, item=None):
@@ -313,18 +319,48 @@ def get_player_pos(player, gameboard):
                 return {"x":x,"y":y}
     return None
 
-def win(player):
-    inventory_item_name = [i.name for i in player.inventory]
-    if "diamondegg" in inventory_item_name and "sorcerers_stone" in inventory_item_name:
-        print(responses["items"]["win"])
-        return True
-    else: False
-
+def look(player_pos, gameboard, direction=None):
+    """
+    Shows what objects are at the player's current or nearby coordinate
+    
+    Args:
+        player_pos: player's current coordinate position in dictionary form
+            {"x":int, "y":int}
+        gameboard: gameboard dataframe
+        direction: optional string, specified direction in command
+        
+    """
+    x = player_pos["x"]
+    y = player_pos["y"]
+    
+    if direction == "north":
+        y -= 1
+    if direction == "south":
+        y += 1
+    if direction == "west":
+        x -= 1
+    if direction == "east":
+        x += 1
+    
+    if len(gameboard.loc[y,x]) > 1:
+        for object in gameboard.loc[y,x]:
+            if (isinstance(object, Player) == False) and direction == None:
+                print(f"There is a {object.name} here.")
+            elif (isinstance(object, Player) == False):
+                print(f"There is a {object.name} there.")
+    else:
+        if direction == None:
+            print("There is nothing here")
+        else: 
+            print("There is nothing there")
             
 def action(player, input, game):
     action_word = ""
     item_word = ""
     place_word = ""
+    
+    if player.flashlight == True and player.pos.keyName == "churchbasement":
+        print(responses["items"]["basement_visible"])
     
     allCommands = "("
     for action, names in actionAll.items():
@@ -339,7 +375,7 @@ def action(player, input, game):
         
     if (action_word in actionAll["go"]):
         
-        player.updatePlayerPosition(input)
+        player.pos = player.updatePlayerPosition(input)
         print(responses["movement"]["moved"])
         return
     elif action_word in actionAll["inventory"]:
@@ -347,6 +383,7 @@ def action(player, input, game):
         toPrint = ""
         for item in player.inventory:
             toPrint += (f"{item.name}, ")
+        
         
         print(toPrint[:-2])
     
@@ -379,27 +416,55 @@ def action(player, input, game):
                 if itemToUse.keyName == "sorcerers_stone" and \
                     player.drank == False:
                         print(responses["items"]["sorcerers_stone_fail"])
-                player.inventory_update(player.pos,itemToUse, action_word)
+                        return
+                player.inventory.append(itemToUse)
+                print(responses["items"]["pickup_success"])
             
             elif action_word in actionAll["drink"]:
-                player.inventory.pop(itemToUse)
+                player.inventory.remove(itemToUse)
                 player.drank = True
             
+            elif action_word in actionAll["use"]:
+                player.flashlight = True
+                print(responses["items"]["flashlight_on"])
+                
             elif (action_word in actionAll["open"] or \
                 action_word in actionAll["lift"]):
-                
-                if itemToUse.name[0] == "trap door":
+                print("op lifters")
+                if itemToUse.keyName == "trapdoor":
+                    print("TRAP")
                     player.trapdooropen = True
-                    player.updatePlayerPosition("entrance")
+                    player.pos =player.updatePlayerPosition("entrance")
+                
+                elif itemToUse.keyName == "chest":
+                    if player.chestopen == True:
+                        print(responses["items"]["chest_already_open"])
+                        return
                     
-                elif itemToUse.name[0] == "painting":
-                    if player.paintinglifted:
+                    print(responses["items"]["chest_opened"])
+                    player.chestopen = True
+                    
+                        
+                elif itemToUse.keyName == "painting":
+                    if player.flashlight == False:
+                        print("Can't find it in the darkness")
+                        return
+                    elif player.paintinglifted:
                         print(responses["items"]["painting_already_lifted"])
                         return
                     player.paintinglifted = True
                     print(responses["items"]["painting_lifted"])
-                 
-            
+                                   
+           
+def win(player):
+    inventory_item_name = [i.keyName for i in player.inventory]
+    if "diamondegg" in inventory_item_name and "sorcerers_stone" in inventory_item_name:
+        print(responses["items"]["win"])
+        return True
+    else: False
+     
+        
+              
 def run():
     game = Game()
     player = Player(game.places[1], game)
@@ -410,6 +475,8 @@ def run():
     
     while(keep_running):
         
+        if win(player):
+            break
         current_room = None
         
         for placeList in game.places:
