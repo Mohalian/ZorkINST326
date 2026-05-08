@@ -40,10 +40,10 @@ class Player:
        
        
     Side effects:
-        Changes player_pos
+        Changes self.pos and prints to console
 
     Returns: 
-        player_pos: the new position of the player (dict)
+        self.pos: the new position of the player (Place object)
     """
     
         
@@ -74,16 +74,9 @@ class Player:
                     scroll_print(responses["movement"]["blocked"], 
                                  self.game.skip_scroll)
                     return self.pos
-                
-                
-                
-                
             
         listPlaces = self.game.places
     
-        
-        
-            
         for place in listPlaces:
             
             if len([name for name in place.name if name in choice]) > 0:
@@ -107,6 +100,24 @@ class Player:
         return self.pos
     
     def check_inBounds(self,xLoc, yLoc):
+        """
+        This function just helps with updatePlayerPosition to see if the user
+        can move to that spot
+    
+        Args:
+        choice: command entered by the user to move
+       
+       
+        Side effects:
+            Changes self.pos and prints to console
+
+        Returns: 
+            self.pos: the new position of the player (Place object)
+            True or False -> used to print an error message if false
+        
+        
+        """
+        
         
         for place in self.game.places:
             if place.location == [xLoc, yLoc]:
@@ -115,8 +126,41 @@ class Player:
         return self.pos,False
             
 class Item:
+    """
+    A class to hold the specific features of an item
     
-    def __init__(self, keyName ,name, aliases, portable, interactions, description, position):
+    Attributes:
+    keyName(string): key of the item
+    name(str): screen name of the item
+    aliases(list of str): all the usable names of the item
+    portable(bool): can the item be move
+    interactions(list of str): all the actions the item can take
+    description(str): Describes the item
+    position(list of int): an X coordinate and y coordinate to represent
+    the position of the item 
+    
+    """
+    
+    def __init__(self, keyName ,name, aliases, portable, interactions, \
+        description, position):
+        """
+        Initializes the attributes of the item class
+        
+        Args:
+        KeyName(string): key of the item
+        name(str): screen name of the item
+        aliases(list of str): all the usable names of the item
+        portable(bool): can the item be move
+        interactions(list of str): all the actions the item can take
+        description(str): Describes the item
+        position(list of int): an X coordinate and y coordinate to represent
+        the position of the item 
+        
+        Side Effects:
+        Changes all the attributes
+        
+        """
+        
         self.keyName = keyName
         self.name = name
         self.aliases = aliases
@@ -126,8 +170,35 @@ class Item:
         self.position = position
 
 class Game:
+    """
+    This class loads the items and place files and is used to hold all the 
+    features the user can take an action of
+    
+    Attributes:
+    items(list of Item object): has a list of all Item objects
+    places(list of Place object): has a list of all Place objects
+    currLoc([int,int]): X and Y coordinate the game starts on
+    boardSize(int): represents the map size
+    skip_scroll(bool): Option to keep text printing out over time
+
+    
+    
+    """
     
     def __init__(self, boardsize=4):
+        """
+        Initializes the attributes of Game class
+        
+        Args:
+        Boardsize(int + optional): Added to make stronger constraints to the map
+        
+        Side Effects:
+        Changes all attributes
+        Opens a file
+        
+        """
+        
+        
         self.items = []
         with open("items.json", "r", encoding="utf-8") as item_file:
             item = json.load(item_file)
@@ -150,7 +221,40 @@ class Game:
         self.skip_scroll = False
     
 class Places:
+    """
+    A class to hold the specific features of an Place
+    
+    Attributes:
+    keyName(string): key of the item
+    Location(list of int): an X coordinate and y coordinate to represent
+    the position of the place
+    name(list of str):  all the findable names of the place
+    description(str): Describes the place
+    on_enter_text(str): The text that pops up when you enter a location
+     
+    
+    """
+    
+    
     def __init__(self, keyName,location, name, description, on_enter_text):
+        """
+        Initializes the attributes of the Place class
+        
+        Args:
+        keyName(string): key of the item
+        Location(list of int): an X coordinate and y coordinate to represent
+        the position of the place
+        name(list of str):  all the findable names of the place
+        description(str): Describes the place
+        on_enter_text(str): The text that pops up when you enter a location 
+        
+        Side Effects:
+        Changes all the attributes
+        
+        """
+        
+        
+        
         self.keyName = keyName
         self.location = location
         self.name = name
@@ -160,6 +264,15 @@ class Places:
 
 
 def Regex(toIter, input):
+    """
+    Use regular expression to search if an action is in the input
+    
+    Args:
+    toIter(list of dict): represents all the actions available
+    input(str): the 
+    
+    
+    """
     
     allCommands = "("
     for action, names in toIter.items():
@@ -407,12 +520,14 @@ def win(player, game):
         return True
     else: 
         return False
+     
+        
               
 def run():
     game = Game()
     player = Player(game.places[1], game)
+    #gameboard = game.construct_gameboard(player)
     scroll_print("start game", game.skip_scroll)
-    start_time = time.time()
     current_room = None
         
     keep_running = True
@@ -421,7 +536,6 @@ def run():
     while(keep_running):
         
         if win(player, game):
-            print(f"You finished in {int(time.time() - start_time)} seconds!")
             break
         
         
