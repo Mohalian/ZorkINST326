@@ -15,16 +15,7 @@ class Player:
     Contains and handles player data
     
     Attributes:
-        pos: dictionary in form {"x": int, "y": int}, current coordinate 
-            position of the player
-        inventory: list of items the player is holding
-    """
-    def __init__(self, starting_pos, game):
-        """
-       Initializes attributes for instances of Player
-       
-        Args:
-            self.pos: Place class instance of where Player is
+        self.pos: Place class instance of where Player is
             self.inventory: list for Item class objects
             self.game: Instance of the Game class
             self.drank: (bool) true if player drank purple juice
@@ -32,6 +23,16 @@ class Player:
             self.paintinglifted: (bool) true if player lifted painting
             self.chestopen: (bool) true if player opened the chest
             self.trapdooropen: (bool) true if player opened trapdoor
+
+       
+    """
+    def __init__(self, starting_pos, game):
+        """
+       Initializes attributes for instances of Player
+       
+        Args:
+            starting_pos(Place): initialize the place of player
+            game(Game obj): instance of the game object also used to initialize
     
         Side effects:
             Instializes all attributes for a Player object
