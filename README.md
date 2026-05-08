@@ -27,16 +27,28 @@
   your project topic, and sources about Python programming that informed specific aspects of your code. For each source, explain how you used the 
   source. You do not need to cite any INST 326 course materials.
 
-**Reference**
+
+**References**
+
+Python re.escape() method. (n.d.). Tutorial Point. Retrieved May 8, 2026, from https://www.tutorialspoint.com/python/python_re_escape_method.htm
+
+**Used this source to figure out how the re.escape command works so I can use it to handle cases where the input has a space/special keys**
 
 Zork I. (n.d.). Retrieved May 8, 2026, from http://retinal.dehy.de/docs/doku.php?id=miscellaneous:games:zork_i
 
+**Research on the background of the game and the specific objectives and tasks that occur in the game**
+
 Zork I Map. (n.d.). Untitled. Retrieved May 8, 2026, from https://www.mocagh.org/infocom/zork-map-front.pdf
 
+**Used to base our own map layout to be similar to the original Zork game.**
 ZORK I: The Great Underground Empire. (n.d.). MIT. Retrieved May 8, 2026, from https://web.mit.edu/marleigh/www/portfolio/Files/zork/transcript.html
 
+**Shows the actions and what a live run-through of Zork would look like. We based the actions and movement on this transcript.**
+
 Zork I: The Great Underground Empire/Walkthrough. (n.d.). STRATEGYWIKI. Retrieved May 8, 2026, from https://strategywiki.org/wiki/Zork_I:_The_Great_Underground_Empire/Walkthrough
-  
+
+**We based our game progression and the necessities to win on this walkthrough.**
+
   - Attribution: in order to evaluate whether each member has made a substantial, original contribution to the project, please provide a table like 
   the one below, with a separate row for each method or function.
 
