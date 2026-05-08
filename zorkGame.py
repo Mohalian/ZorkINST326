@@ -8,8 +8,7 @@ with open("responses.json", "r", encoding="utf-8") as file:
     responses = json.load(file)
 with open("actions.json", "r", encoding="utf-8") as file:
     actionAll = json.load(file)
-with open("place.json", "r", encoding="utf-8") as file:
-    placesAll = json.load(file)
+
 
 
 
@@ -26,6 +25,10 @@ class Player:
         self.pos = starting_pos
         self.inventory = []
         self.game_data = game_data
+        self.drank = False
+        self.flashlight = False
+        self.paintinglifted = False
+        self.chestopen = False
         
 
     def updatePlayerPosition(self, choice):
@@ -76,20 +79,20 @@ class Player:
                 return self.pos
                 
         
+        listPlaces = self.game_data.places
+        
         if xLoc == self.pos["x"] and yLoc == self.pos["y"]:
             
-            for place, fullData in placesAll.items():
+            for place in listPlaces:
             
-                names = [alias for alias in fullData["name"] if alias in choice]
-            
-                if len(names) > 0:
+                if len([name for name in place.name if name in choice]) >0:
                 
-                    if max(abs(self.pos["x"]-fullData["location"][0]),\
-                    abs(self.pos["y"]-fullData["location"][1])) > 1:
+                    if max(abs(self.pos["x"]-place.location[0]),\
+                    abs(self.pos["y"]-place.location[1])) > 1:
                         break
                 
-                    self.pos["x"] = fullData["location"][0]
-                    self.pos["y"] = fullData["location"][1]
+                    self.pos["x"] = place.location[0]
+                    self.pos["y"] = place.location[1]
                     return self.pos    
                     
         print(responses["general"]["invalid_target"])
@@ -98,8 +101,8 @@ class Player:
     
     def check_inBounds(self,xLoc, yLoc):
         
-        for name, data in placesAll.items():
-            if data["location"] == [xLoc, yLoc]:
+        for place in self.game_data.places:
+            if place.location == [xLoc, yLoc]:
                 return True
         
         return False
@@ -159,6 +162,8 @@ class Player:
             player.inventory.remove(item_obj)
             room.items.append(item_obj)
             print(responses["items"]["dropped"])
+
+        
 class Item:
     
     def __init__(self, name, aliases, portable, interactions, description, position):
@@ -168,33 +173,31 @@ class Item:
         self.interactions = interactions
         self.description = description
         self.position = position
-        
-        
+
 class Game:
     
     def __init__(self, boardsize=4):
-        with open("items.json", "r", encoding="utf-8") as itemfile:
-            fItem = json.load(itemfile)
-        
         self.items = []
-        for name, lists in fItem.items():
-            self.items.append(Item(lists["name"],lists["aliases"],\
-                lists["portable"],lists["interactions"],lists["description"],\
-                lists["position"]))
+        with open("items.json", "r", encoding="utf-8") as item_file:
+            item = json.load(item_file)
+            for key, value in item.items():
+                self.items.append(Item(key, value["aliases"], value["portable"]\
+                , value["interactions"], value["description"], \
+                    value["position"]))
                 
-        with open("place.json", "r", encoding="utf-8") as placefile:
-            self.places = json.load(placefile)
-
-        with open("actions.json", "r", encoding="utf-8") as actionfile:
-            self.actions = json.load(actionfile)
-
-        with open("responses.json", "r", encoding="utf-8") as responsefile:
-            self.responses = json.load(responsefile)
+        self.places = []
+        with open("place.json", "r", encoding="utf-8") as places_file:
+            places = json.load(places_file)
+            for key, value in places.items():
+                self.places.append(Places(value["location"], value["name"], \
+                    value["description"], value["on-enter_text"]))
+                
+                
         
         self.boardsize = boardsize
-
+    """
     def construct_gameboard(self, player):
-        """
+       
         Takes a board size and a json dictionary of in-game objects and creates a 
         coordinate map of the objects that can be traversed by the player
         
@@ -207,7 +210,7 @@ class Game:
                 columns represent the x-axis and rows represent the y-axis flipped. 
                 Each cell is a list with every object it contains at that position, 
                 and can include the player
-        """
+        
         YBOUND = range(0,self.boardsize)
         XBOUND = range(0,self.boardsize)
         gameboard = pd.DataFrame(index=YBOUND,columns=XBOUND)
@@ -230,6 +233,13 @@ class Game:
         gameboard.loc[y,x].append(player)
         
         return gameboard            
+"""
+class Places:
+    def __init__(self, location, name, description, on_enter_text):
+        self.location = location
+        self.name = name
+        self.description = description
+        self.on_enter_text = on_enter_text
 
 
 def can_interact(target_actions, player_action, item=None):
@@ -360,7 +370,7 @@ def look(player_pos, gameboard, direction=None):
         else: 
             print("There is nothing there")
             
-def action(player, input, gameboard, game):
+def action(player, input, game):
     action_word = ""
     item_word = ""
     place_word = ""
@@ -379,11 +389,11 @@ def action(player, input, gameboard, game):
     if (action_word in actionAll["go"]):
         
         player.updatePlayerPosition(input)
-        print(game.responses["movement"]["moved"])
+        print(responses["movement"]["moved"])
         return
     
     
-    item_word = re.search(, input)
+    item_word = re.search(r"(purple\sdrink|trapdoor)", input)
     
     if item_word:
         words = item_word.group(0)
@@ -393,7 +403,7 @@ def action(player, input, gameboard, game):
             if action_word in actionAll["take"]:
                 x,y = game.items["purpledrink"]["position"]
 
-                gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
+                #gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
                 player.inventory.append(game.items["purpledrink"]["name"])
                 print("Took Purple drink.")
             elif action_word in actionAll["drink"]:
@@ -408,7 +418,7 @@ def action(player, input, gameboard, game):
 def run():
     game = Game()
     player = Player({"x": 0, "y": 0}, game)
-    gameboard = game.construct_gameboard(player)
+    #gameboard = game.construct_gameboard(player)
     print("start game")
         
     keep_running = True
@@ -417,21 +427,21 @@ def run():
         
         current_room = None
         
-        for name, data in game.places.items():
-            if data["location"] == [player.pos["x"], player.pos["y"]]:
-                current_room = name
-                print(f"[{name.upper()}]")
-                print(data["on-enter_text"])
+        for placeList in game.places:
+            if placeList.location == [player.pos["x"], player.pos["y"]]:
+                current_room = placeList.name[0]
+                
+                print(f"[{current_room.upper()}]")
+                print(placeList.on_enter_text)
         user_input = input("\nCommand> ").lower().strip()
         if user_input == "help" or user_input == "?":
             print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
         if user_input == "quit" or user_input == "q": #or win condition == True:
             keep_running = False
         else:
-            action(player,user_input,gameboard,Game())
+            action(player,user_input,Game())
 
 
 if __name__ == "__main__":
     run()
         
-
