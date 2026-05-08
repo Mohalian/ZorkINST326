@@ -556,6 +556,19 @@ def win(player, game):
         
               
 def run():
+    """
+    Actually runs the game and has the power to end it based on input, 
+    gets an input every turn, and gives help messages if the player asks for it. Also
+    makes sure it doesn't keep printing place description messages, only if player
+    enters room for the first time
+
+    Side effects:
+        Prints/Doesn't print messages based on if it's the first time entering room
+        Runs/ends the actual game (all the functions)
+        Creates game and player instance
+        Prints help message if asked
+
+    """
     game = Game()
     player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
