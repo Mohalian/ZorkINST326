@@ -194,6 +194,12 @@ class Game:
                 
         
         self.boardsize = boardsize
+    
+    def get_places(self):
+        return self.places
+    
+    def get_items(self):
+        return self.items
 
     def construct_gameboard(self, player):
         """
