@@ -394,13 +394,20 @@ def action(player, input, game):
         return
     
     
-    item_word = re.search(r"(purple\sdrink|trapdoor)", input)
+    get_item = "("
+    for item in game.items:
+        
+        for alias in item.alias:
+            get_item += f"{alias}|" 
     
+    get_item = f"{get_item[:-1]})"
+    item_word= re.search(get_item, input)
+      
     if item_word:
         words = item_word.group(0)
     
     if item_word: 
-        if words == "purple drink":
+        if words == "purple":
             if action_word in actionAll["take"]:
                 x,y = game.items["purpledrink"]["position"]
 
