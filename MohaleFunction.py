@@ -460,10 +460,15 @@ def action(player, input, game):
                         scroll_print(responses["items"]["sorcerers_stone_fail"],
                                      game.skip_scroll)
                         return
-                player.inventory.append(itemToUse)
-                scroll_print(responses["items"]["pickup_success"],
-                             game.skip_scroll)
-                return
+
+                if (itemToUse.position == player.pos.location):
+                    player.inventory.append(itemToUse)
+                    scroll_print(responses["items"]["pickup_success"],
+                                game.skip_scroll)
+                    return
+                else:
+                    scroll_print(responses["general"]["invalid_target"], game.skip_scroll)
+                    return
             
             elif action_word in actionAll["drink"]:
                 
