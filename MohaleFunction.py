@@ -461,7 +461,12 @@ def action(player, input, game):
                                      game.skip_scroll)
                         return
 
-                if (itemToUse.position == player.pos.location):
+                if itemToUse.position == player.pos.location:
+                    
+                    if itemToUse.keyName in ["diamondegg", "flashlight"] and \
+                        player.chestopen == False:
+                        return
+                        
                     player.inventory.append(itemToUse)
                     scroll_print(responses["items"]["pickup_success"],
                                 game.skip_scroll)
@@ -516,7 +521,8 @@ def action(player, input, game):
                     scroll_print(responses["items"]["chest_opened"],
                                  game.skip_scroll)
                     player.chestopen = True
-                   
+                    return
+                    
                     
                         
                 elif itemToUse.keyName == "painting":
@@ -532,6 +538,8 @@ def action(player, input, game):
                     player.paintinglifted = True
                     scroll_print(responses["items"]["painting_lifted"], 
                                  game.skip_scroll)
+                    return
+                
         else:
                
             scroll_print("You can't perform that action", game.skip_scroll)

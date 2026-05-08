@@ -5,7 +5,7 @@
     "portable": true,
     "interactions": ["look", "take", "use"],
     "description": "A dusty vintage flashlight",
-    "position": [2, 1]
+    "position": [2, 2]
   },
   "purpledrink": {
     "screen_name": "purple drink",
@@ -37,7 +37,7 @@
     "portable": true,
     "interactions": ["take", "drop"],
     "description": "an egg the size of a baseball made of diamond",
-    "position": [2, 1]
+    "position": [2, 2]
   },
  "chest": {
     "screen_name": "chest",
@@ -45,7 +45,7 @@
     "portable": false,
     "interactions": ["open"],
     "description": "A large chest",
-    "position": [2,1]
+    "position": [2,2]
   },
   "painting": {
     "screen_name": "painting",
