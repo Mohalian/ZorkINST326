@@ -191,38 +191,18 @@ class Places:
 
 
 
-def get_player_input(input, objects, actions):
-    """
-    Takes an input as a string and parses through to find an action and an
-    object that will be used later.
-
-    Args:
-        input: (str) Users input of an action and an object
-        objects: (list) List of acceptable objects as strings
-        actions: (list) List of acceptable actions as strings
-
-    Side effects:
-        prints "Invalid input" if user's input is not at least two words
-        prints "Invalid action" if first word is not in action list
-        prints "Couldn't find item" if none of the other words are in the
-        object list
-    Returns:
-        verb(str), object(str) tuple of selected action and object as strings
-    """
-    words = input.lower().strip().split(" ")
-    if len(words) < 2:
-        print("Invalid input")
-        return None, None
-    verb = words[0]
-    if not verb in actions:
-        print("Invalid action")
-    for i in range(1, len(words)):
-        if words[i] in objects:
-            return verb, words[i]
-    print("Couldn't find item")
-    return None, None
+def Regex(toIter, input):
+    
+    allCommands = "("
+    for action, names in toIter.items():
+        for alias in names:
+            allCommands += f"{alias}|"
+            
+    allCommands = f"{allCommands[:-1]})"
+    return re.search(allCommands, input)
 
 
+    print(responses["general"]["invalid_target"])
 def look(player_pos, gameboard, direction=None):
     """
     Shows what objects are at the player's current or nearby coordinate
@@ -265,21 +245,16 @@ def action(player, input, game):
     item_word = ""
     place_word = ""
     
-    allCommands = "("
-    for action, names in actionAll.items():
-        for alias in names:
-            allCommands += f"{alias}|" 
-    
-    allCommands = f"{allCommands[:-1]})"
-    action_match = re.search(allCommands, input)
+
+    action_match = Regex(actionAll, input)
     
     if action_match:
         action_word = action_match.group(0)
         
     else:
         print(responses["general"]["invalid_target"])
-        return
-        
+        return 
+    
     if (action_word in actionAll["go"]):
         
         player.pos = player.updatePlayerPosition(input)
