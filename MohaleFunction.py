@@ -178,14 +178,14 @@ class Game:
     
     def __init__(self, boardsize=4):
         self.items = []
-        with open("item_json", "r", encoding="utf-8") as item:
+        with open("items.json", "r", encoding="utf-8") as item:
             for key, value in item.items():
                 self.items.append(Item(key, value["aliases"], value["portable"]\
                 , value["interactions"], value["descriptions"], \
                     value["position"]))
                 
         self.places = []
-        with open("place_json", "r", encoding="utf-8") as places:
+        with open("place.json", "r", encoding="utf-8") as places:
             for key, value in places.items():
                 self.places.append(Places(value["location"], value["name"], \
                     value["description"], value["on_enter_text"]))
