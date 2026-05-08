@@ -77,4 +77,5 @@ Python Software Foundation. (2000). time — Time access and conversions — Pyt
 | Regex() | Thomas | regular expression |
 | win() | Thomas | list comprehension |
 | action() | Jai | N/A |
+| scrollPrint() | Charles | N/A |
 
