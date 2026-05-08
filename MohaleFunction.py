@@ -295,6 +295,9 @@ def look(player_pos, game, choice):
         game: game class
         direction: optional string, specified direction in command
         
+    Side effects:
+        prints messages using scroll_print function depending on choice
+        
     """
     xLoc = player_pos.location[0]
     yLoc = player_pos.location[1]
@@ -350,6 +353,22 @@ def look(player_pos, game, choice):
             
 def action(player, input, game):
     
+    """
+    Handles what actions to do for every input of the player, extracting the action and item word
+    from input and handling different actions with responses based on conditionals of the game.
+    
+    Args:
+        player: Player class instance
+        input: (str) Player's input
+        game: Game class instance
+        
+    Side effects:
+        Prints responses based on the action and condition of the action.
+        Adds from inventory and removes (purple drink) from player inventory.
+        Changes player attributes such as player.drank or player.trapdooropen
+        
+    
+    """
     
     action_word = ""
     item_word = ""
