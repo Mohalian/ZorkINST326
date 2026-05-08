@@ -7,6 +7,7 @@
 - Fill out below:
 
   - An explanation of the purpose of each file in your repository.
+  - 
     MohaleFunction.py: This holds the code for the game to be run
     responses.json: Used in MohaleFunction to automate responses to certain actions that the user takes
     actions.json: Used in MohaleFunction to represent all actions that can be taken by the user
