@@ -140,8 +140,9 @@ class Player:
         
 class Item:
     
-    def __init__(self, name, aliases, portable, interactions, description, position):
+    def __init__(self, name, screen_n, aliases, portable, interactions, description, position):
         self.name = name
+        self.screen_n = screen_n
         self.aliases = aliases
         self.portable = portable
         self.interactions = interactions
@@ -155,16 +156,18 @@ class Game:
         with open("items.json", "r", encoding="utf-8") as item_file:
             item = json.load(item_file)
             for key, value in item.items():
-                self.items.append(Item(key, value["aliases"], value["portable"]\
-                , value["interactions"], value["description"], \
-                    value["position"]))
+                self.items.append(Item(key, value["screen_name"] value["aliases"], value["portable"], value["interactions"], value["description"], value["position"]))
                 
         self.places = []
         with open("place.json", "r", encoding="utf-8") as places_file:
             places = json.load(places_file)
             for key, value in places.items():
+                item_obj_list = []
+                for i in self.items:
+                    if i.name in value["items"]:
+                        item_obj_list.append(i)
                 self.places.append(Places(value["location"], value["name"], \
-                    value["description"], value["on-enter_text"]))
+                    value["description"], value["on-enter_text"], item_obj_list))
                 
                 
         
@@ -209,11 +212,12 @@ class Game:
         return gameboard            
 """
 class Places:
-    def __init__(self, location, name, description, on_enter_text):
+    def __init__(self, location, name, description, on_enter_text, items):
         self.location = location
         self.name = name
         self.description = description
         self.on_enter_text = on_enter_text
+        self.items = items
 
 
 def can_interact(target_actions, player_action, item=None):
