@@ -10,7 +10,7 @@
     "location": [0, 0],
     "name": ["living room", "other room", "livingroom"],
     "description": "An empty, dirty, and trashed living room.",
-    "on-enter_text": "An empty dirty and trashed living room. Although there's not much to see here, this room will be important...",
+    "on-enter_text": "An empty dirty and trashed living room. Although there's not much to see here, to your right is the kitchen",
     "items": []
 },
 "undergroundentrance": {
@@ -25,7 +25,7 @@
     "location":[2, 1],
     "name": ["treehouse", "tree house", "house"],
     "description": "After climbing the ladder, it's wooden treehouse with a cabin like look to it. There's a large chest in front of you.",
-    "on-enter_text": "You climb a ladder and it's a large tree with a treehouse on top of it. There's a ladder that leads up to it.",
+    "on-enter_text": "You climb a ladder and it's a large tree with a treehouse on top of it. The treehouse is empty except for a chest in the middle.",
     "items": ["diamondegg, flashlight"]
 
 },
