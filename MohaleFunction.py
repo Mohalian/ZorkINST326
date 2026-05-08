@@ -316,6 +316,7 @@ def get_player_pos(player, gameboard):
 def win(player):
     inventory_item_name = [i.name for i in player.inventory]
     if "diamondegg" in inventory_item_name and "sorcerers_stone" in inventory_item_name:
+        print(responses["items"]["win"])
         return True
     else: False
 
@@ -393,7 +394,7 @@ def run():
         user_input = input("\nCommand> ").lower().strip()
         if user_input == "help" or user_input == "?":
             print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
-        if user_input == "quit" or user_input == "q": #or win condition == True:
+        if user_input == "quit" or user_input == "q" or win(player): #or win condition == True:
             keep_running = False
         else:
             action(player,user_input,Game())
