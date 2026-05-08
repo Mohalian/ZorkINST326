@@ -70,12 +70,11 @@ class Player:
                 
                 xLoc = directions[(cardinal,reg)][0]
                 yLoc = directions[(cardinal,reg)][1]
-                print("D")
                 
                 self.pos,changed = self.check_inBounds(xLoc, yLoc)
                 if changed == True:
                     
-                    print("DIR")
+                    
                     return self.pos
                 
         listPlaces = self.game_data.places
@@ -86,10 +85,10 @@ class Player:
             
             if len([name for name in place.name if name in choice]) >0:
                 
-                print("NAMES")
+              
                 if max(abs(self.pos.location[0]-place.location[0]),\
                 abs(self.pos.location[1]-place.location[1])) > 1:
-                    print("BROKEN")
+                    
                     break
                 
                 if place.keyName == "undergroundentrance" and self.trapdooropen == False:
@@ -355,12 +354,11 @@ def look(player_pos, gameboard, direction=None):
             print("There is nothing there")
             
 def action(player, input, game):
+    
+    
     action_word = ""
     item_word = ""
     place_word = ""
-    
-    if player.flashlight == True and player.pos.keyName == "churchbasement":
-        print(responses["items"]["basement_visible"])
     
     allCommands = "("
     for action, names in actionAll.items():
@@ -372,6 +370,10 @@ def action(player, input, game):
     
     if action_match:
         action_word = action_match.group(0)
+        
+    else:
+        print(responses["general"]["invalid_target"])
+        return
         
     if (action_word in actionAll["go"]):
         
@@ -386,6 +388,7 @@ def action(player, input, game):
         
         
         print(toPrint[:-2])
+        return
     
     get_item = "("
     for item in game.items:
@@ -398,7 +401,10 @@ def action(player, input, game):
       
     if item_word:
         words = item_word.group(0)
-    
+    else:
+        print(responses["general"]["invalid_target"])
+        return
+        
     if item_word: 
         
         itemToUse = None
@@ -411,8 +417,13 @@ def action(player, input, game):
         if itemToUse == None:
             print(responses["items"]["nonexistent_item"])        
         if action_word in itemToUse.interactions:
+            print(action_word)
             if action_word in actionAll["take"]:
                 
+                if itemToUse in player.inventory:
+                    print(responses["items"]["already_have"])
+                    return
+                    
                 if itemToUse.keyName == "sorcerers_stone" and \
                     player.drank == False:
                         print(responses["items"]["sorcerers_stone_fail"])
@@ -421,8 +432,14 @@ def action(player, input, game):
                 print(responses["items"]["pickup_success"])
             
             elif action_word in actionAll["drink"]:
-                player.inventory.remove(itemToUse)
-                player.drank = True
+                
+                if itemToUse in player.inventory:
+                    print("Delicious")
+                    player.inventory.remove(itemToUse)
+                    player.drank = True
+                
+                else:
+                    print(responses["items"]["item_not_here"])
             
             elif action_word in actionAll["use"]:
                 player.flashlight = True
@@ -430,9 +447,9 @@ def action(player, input, game):
                 
             elif (action_word in actionAll["open"] or \
                 action_word in actionAll["lift"]):
-                print("op lifters")
+                
                 if itemToUse.keyName == "trapdoor":
-                    print("TRAP")
+                    
                     player.trapdooropen = True
                     player.pos =player.updatePlayerPosition("entrance")
                 
@@ -443,6 +460,7 @@ def action(player, input, game):
                     
                     print(responses["items"]["chest_opened"])
                     player.chestopen = True
+                   
                     
                         
                 elif itemToUse.keyName == "painting":
@@ -454,6 +472,7 @@ def action(player, input, game):
                         return
                     player.paintinglifted = True
                     print(responses["items"]["painting_lifted"])
+    
                                    
            
 def win(player):
