@@ -313,6 +313,10 @@ def get_player_pos(player, gameboard):
                 return {"x":x,"y":y}
     return None
 
+def win(player):
+    inventory_item_name = [i.name for i in player.inventory]
+    for "diamondegg" in inventory_item_name & "sorcerers_stone" in inventory_item_name:
+
             
 def action(player, input, game):
     action_word = ""
