@@ -164,6 +164,16 @@ class Player:
             print(responses["items"]["dropped"])
 
         
+class Item:
+    
+    def __init__(self, name, aliases, portable, interactions, description, position):
+        self.name = name
+        self.aliases = aliases
+        self.portable = portable
+        self.interactions = interactions
+        self.description = description
+        self.position = position
+
 class Game:
     
     def __init__(self, boardsize=4):
@@ -174,7 +184,7 @@ class Game:
                 
         self.places = []
         with open("place_json", "r", encoding="utf-8") as places:
-            for key
+            for key, value in places.items():
         
         self.boardsize = boardsize
 
