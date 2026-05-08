@@ -402,7 +402,7 @@ def win(player):
         
               
 def run():
-    global SKIP_TEXT_SCROLL
+    global SKIP_SCROLL_TEXT
     game = Game()
     player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
@@ -444,11 +444,11 @@ def run():
             action(player,user_input,game)
         
 def scroll_print(to_print):
-    global SKIP_TEXT_SCROLL
+    global SKIP_SCROLL_TEXT
     text = str(to_print)
     for c in text:
         print(c, end='', flush = True)
-        if(not SKIP_TEXT_SCROLL):
+        if(not SKIP_SCROLL_TEXT):
             time.sleep(0.02)
     print()        
 
