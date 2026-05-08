@@ -57,8 +57,8 @@ class Player:
         directions = {
             ("east", "right"):[xLoc+1,yLoc],
             ("west", "left"):[xLoc-1,yLoc],
-            ("north", "forward"):[xLoc,yLoc-1],
-            ("south", "back"):[xLoc,yLoc+1] 
+            ("north", "forward"):[xLoc,yLoc+1],
+            ("south", "back"):[xLoc,yLoc-1] 
             
         }
         
@@ -149,45 +149,7 @@ class Game:
                 
         self.currLoc = [0,0]
         self.boardsize = boardsize
-    """
-    def construct_gameboard(self, player):
-       
-        Takes a board size and a json dictionary of in-game objects and creates a 
-        coordinate map of the objects that can be traversed by the player
-        
-        Args:
-            player: a player object
-            items: a list of item objects (from the game.items attribute)
-            places: a list of place objects (from the game.places attribute)
-        Returns:
-            gameboard: a pandas data frame representing the coordinate map, where
-                columns represent the x-axis and rows represent the y-axis flipped. 
-                Each cell is a list with every object it contains at that position, 
-                and can include the player
-        
-        YBOUND = range(0,self.boardsize)
-        XBOUND = range(0,self.boardsize)
-        gameboard = pd.DataFrame(index=YBOUND,columns=XBOUND)
-        for y in YBOUND:
-            for x in XBOUND:
-                gameboard.loc[y,x] = []
-        
-        for item in self.items:
-            print(self.items[item])
-            print(self.items[item]["position"])
-            x = self.items[item]["position"][0]
-            y = self.items[item]["position"][1]
-            gameboard.loc[y,x].append(item)
-        for place in self.places:
-            x = self.places[place]["location"][0]
-            y = self.places[place]["location"][1]
-            gameboard.loc[y,x].append(place)
-        x = player.pos["y"]
-        y = player.pos["x"]
-        gameboard.loc[y,x].append(player)
-        
-        return gameboard            
-"""
+    
 class Places:
     def __init__(self, keyName,location, name, description, on_enter_text):
         self.keyName = keyName
@@ -241,9 +203,11 @@ def look(player_pos, game_data, choice):
         ("south", "down"):(xLoc,yLoc-1) 
          }
     
-    for key in directions:
-        if direction in key:
-            xLoc, yLoc = directions[key]
+    if direction != None:
+        for key in directions:
+            if direction in key:
+                xLoc, yLoc = directions[key]
+    
     for item in game_data.items:
         if item.position == [xLoc,yLoc]:
             item_count += 1
@@ -367,7 +331,7 @@ def action(player, input, game):
                     return
                 
                 else:
-                    scroll_print(responses["items"]["item_not_here"])
+                    scroll_print("Need to take before you drink")
                     return
             
             elif action_word in actionAll["use"]:
@@ -430,7 +394,6 @@ def run():
     global SKIP_SCROLL_TEXT
     game = Game()
     player = Player(game.places[1], game)
-    #gameboard = game.construct_gameboard(player)
     scroll_print("start game")
     current_room = None
         
