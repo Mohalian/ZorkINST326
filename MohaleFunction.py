@@ -271,7 +271,8 @@ def Regex(toIter, input):
     toIter(list of dict): represents all the actions available
     input(str): the 
     
-    
+    Returns:
+        returns the match of the regular expression from the input
     """
     
     allCommands = "("
