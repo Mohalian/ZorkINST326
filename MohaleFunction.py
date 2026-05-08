@@ -108,7 +108,7 @@ class Player:
         
         return False
              
-    def inventory_update(self, player, room, item_word, pick_drop):
+    def inventory_update(self, item, pick_drop):
         """
         Appends item objects into player's inventory list and removes from room's
         items list (pickup)or removes from player inventory and appends to room's
@@ -127,42 +127,15 @@ class Player:
             prints error, dropped, or picked up messages
             
         """
-        with open("items.json", "r", encoding="utf-8") as f:
-            item = json.load(f)
-        item_word = item_word.lower()
-        item_name = None
-        item_obj = None
-        for key, value in item:
-            if item_word == key or item_word in value["aliases"]:
-                item_name = key
-                break
-        if not item_name:
-            print(responses["items"]["nonexistentitem"])
-            return
+    
         
         if pick_drop:
-            for item in room.items:
-                if item.name.lower() == item_name:
-                    item_obj= item
-                    break    
-            if not item_obj:
+            if item.location == self.location:
+                self.pos.items.remove(item)
+                self.inventory.append(item)
+                print(responses["items"]["pickup_success"])
+            else:
                 print(responses["items"]["item_not_here"])
-                return
-            room.items.remove(item_obj)
-            player.inventory.append(item_obj)
-            print(responses["items"]["pickup_success"])
-            
-        else:
-            for item in player.inventory:
-                if item.name == item_name:
-                    item_obj = item
-                    break
-            if not item_obj:
-                print(responses["items"]["dropped_fail"])
-                return
-            player.inventory.remove(item_obj)
-            room.items.append(item_obj)
-            print(responses["items"]["dropped"])
 
         
 class Item:
