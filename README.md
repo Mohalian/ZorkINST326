@@ -26,5 +26,5 @@
 | -------- | ------ | --------- |
 | Game.\_\_init\_\_ | Andrew | with statement |
 | look | Andrew | f-strings |
-| updatePlayerPosition | Jai | max() |
+| updatePlayerPosition | Jai | max(), sequence unpacking |
 | action | Jai | regex |
