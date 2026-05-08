@@ -7,7 +7,7 @@
     **items.json: Used in MohaleFunction to represent all items that are available in the game**  
     **places.json: Used in MohaleFunction to represent all the places the user can go in the game**  
 
-**Run it in a Python code runner(Visual Studio -> type python3 MohaleFunction.py) and make sure to import the MohaleFunction.py and all json files into the same folder along with the same names as seen in the repository. We do not use any command line arguments**
+**Run it in a Python code runner(Visual Studio -> (mac) type python3 MohaleFunction.py or python MohaleFunction.py (pc) and make sure to import the MohaleFunction.py and all json files into the same folder along with the same names as seen in the repository. We do not use any command line arguments**
   
   - Clear instructions on how to use your program and/or interpret the output of the program. Anything the user might encounter while using your 
   program that a random person on the street would not find self-explanatory needs to be explained in your instructions.
