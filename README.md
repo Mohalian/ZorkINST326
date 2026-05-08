@@ -27,10 +27,14 @@
   your project topic, and sources about Python programming that informed specific aspects of your code. For each source, explain how you used the 
   source. You do not need to cite any INST 326 course materials.
 
-References
+**Reference**
+
 Zork I. (n.d.). Retrieved May 8, 2026, from http://retinal.dehy.de/docs/doku.php?id=miscellaneous:games:zork_i
+
 Zork I Map. (n.d.). Untitled. Retrieved May 8, 2026, from https://www.mocagh.org/infocom/zork-map-front.pdf
+
 ZORK I: The Great Underground Empire. (n.d.). MIT. Retrieved May 8, 2026, from https://web.mit.edu/marleigh/www/portfolio/Files/zork/transcript.html
+
 Zork I: The Great Underground Empire/Walkthrough. (n.d.). STRATEGYWIKI. Retrieved May 8, 2026, from https://strategywiki.org/wiki/Zork_I:_The_Great_Underground_Empire/Walkthrough
   
   - Attribution: in order to evaluate whether each member has made a substantial, original contribution to the project, please provide a table like 
