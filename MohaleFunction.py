@@ -381,6 +381,8 @@ def action(player, input, gameboard, game):
                 gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
                 player.inventory.append(game.items["purpledrink"]["name"])
                 print("Took Purple drink.")
+            elif action_word in actionAll["drink"]:
+                x
         
         if words == "trapdoor":
             if action_word == "open":
