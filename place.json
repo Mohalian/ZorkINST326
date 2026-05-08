@@ -8,18 +8,15 @@
     "subplaces": {
         "frontofdoor": {
             "name": ["front of door"],
-            "description": "Right in front of the door",
-            "items": []
+            "description": "Right in front of the door"
         },
         "counter": {
             "name": ["counter"],
-            "description": "A smooth purple counter",
-            "items": ["purpledrink"]
+            "description": "A smooth purple counter"
         },
         "trapdoor_place": { 
             "name": ["trapdoor", "trap door"],
-            "description": "A strange purple drink on the counter",
-            "items": ["trapdoor"]
+            "description": "A strange purple drink on the counter"
     }
     }
 },
@@ -29,8 +26,7 @@
     "name": ["living room", "other room"],
     "description": "An empty, dirty, and trashed living room with a window facing the West wall of the house.",
     "on-enter_text": "An empty dirty and trashed living room with a window facing the West wall of the house. There's a key sitting on the floor. Although there's not much to see here, this room will be important...",
-    "subplaces": {},
-    "items": []
+    "subplaces": {}
 },
 "undergroundentrance": {
     "location": [1, 1],
@@ -38,8 +34,8 @@
     "name": ["entrance", "underground entrance", "underground", "under ground entrance"],
     "description": "An opening entails into the underground oasis",
     "on-enter_text": "An opening entails into the underground oasis. On the right, there's a tree with a ladder. On the left there's a small church.",
-    "subplaces": {},
-    "items": []
+    "subplaces": {}
+
 },
 "treehouse": {
     "location":[2, 1],
@@ -50,18 +46,15 @@
     "subplaces": {
         "bottomladder": {
             "name": ["bottom of ladder", "ladder"],
-            "description": "A ladder that leads up to a treehouse",
-            "items": ["treehouseladder"]
+            "description": "A ladder that leads up to a treehouse"
         },
         "topladder": {
             "name": ["ladder"],
-            "description": "ladder leading down to the floor of the underground",
-            "items": ["treehouseladder"]
+            "description": "ladder leading down to the floor of the underground"
         },
         "chest": {
             "name": ["chest", "large chest"],
-            "description": "A large chest",
-            "items": ["diamondegg", "flashlight"]
+            "description": "A large chest"
         }
     }
 },
@@ -71,8 +64,7 @@
     "name": ["smallcottage", "small cottage", "cottage"],
     "description": "A cozy cottage with brown moldy walls and vintage decor",
     "on-enter_text": "It's a cozy cottage with brown moldy walls and vintage decor. There's nothing else interesting about it.",
-    "subplaces": {},
-    "items": []
+    "subplaces": {}
 },
 "smallchurch": {
     "location": [0, 1],
@@ -83,13 +75,11 @@
     "subplaces": {
         "frontofentrance": {
              "name": ["entrance to smallchurch", "entrance", "opening"],
-            "description": "Opening in and out of the smallchurch",
-            "items": []
+            "description": "Opening in and out of the smallchurch"
         },
         "stairs": {
             "name": ["stair", "stairs", "staircase", "stair case"],
-            "description": "A staircase leading down to a dark room",
-            "items": ["staircase"]
+            "description": "A staircase leading down to a dark room"
         }
     }
 },
@@ -102,13 +92,11 @@
     "subplaces": {
         "stairs": {
             "name": ["stair", "stairs", "staircase", "stair case"],
-            "description": "A staircase leading back up in the church",
-            "items": []
+            "description": "A staircase leading back up in the church"
         },
         "painting": {
             "name": ["painting"],
-            "description": "A metal wall with a painting on it",
-            "items": ["sorcerers_stone", "painting"]
+            "description": "A metal wall with a painting on it"
         }
     }
 }
