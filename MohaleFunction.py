@@ -203,40 +203,61 @@ def Regex(toIter, input):
 
 
     print(responses["general"]["invalid_target"])
-def look(player_pos, gameboard, direction=None):
+def look(player_pos, game_data, choice):
     """
     Shows what objects are at the player's current or nearby coordinate
     
     Args:
         player_pos: player's current coordinate position in dictionary form
             {"x":int, "y":int}
-        gameboard: gameboard dataframe
+        game_data: game class
         direction: optional string, specified direction in command
         
     """
-    x = player_pos["x"]
-    y = player_pos["y"]
+    xLoc = player_pos.location[0]
+    yLoc = player_pos.location[1]
     
-    if direction == "north":
-        y -= 1
-    if direction == "south":
-        y += 1
-    if direction == "west":
-        x -= 1
-    if direction == "east":
-        x += 1
-    
-    if len(gameboard.loc[y,x]) > 1:
-        for object in gameboard.loc[y,x]:
-            if (isinstance(object, Player) == False) and direction == None:
-                print(f"There is a {object.name} here.")
-            elif (isinstance(object, Player) == False):
-                print(f"There is a {object.name} there.")
+    item_count = 0
+    choice = choice.split()
+    if len(choice) == 1:
+        direction = None
+    elif len(choice) == 2:
+        direction = choice[1]
     else:
+        print("Invalid Input")
+    
+    directions = {
+        ("east", "right"):(xLoc+1,yLoc),
+        ("west", "left"):(xLoc-1,yLoc),
+        ("north", "up"):(xLoc,yLoc+1),
+        ("south", "down"):(xLoc,yLoc-1) 
+         }
+    
+    for key in directions:
+        if direction in key:
+            xLoc, yLoc = directions[key]
+    for item in game_data.items:
+        if item.position == [xLoc,yLoc]:
+            item_count += 1
+            if direction == None:
+                if ((item.name == "sorcerer's stone") or 
+                (item.name == "flashlight") or 
+                (item.name == "diamond egg")):
+                    print(f"There is something else here...")
+                else:
+                    print(f"There is a {item.name} here.")
+            else:
+                if ((item.name == "sorcerer's stone") or 
+                (item.name == "flashlight") or 
+                (item.name == "diamond egg")):
+                    print(f"There is something else there...")
+                else:
+                    print(f"There is a {item.name} there.")
+    if item_count == 0:
         if direction == None:
-            print("There is nothing here")
-        else: 
-            print("There is nothing there")
+            print("There is nothing here.")
+        else:
+            print("There is nothing there.")
             
 def action(player, input, game):
     
@@ -260,6 +281,11 @@ def action(player, input, game):
         player.pos = player.updatePlayerPosition(input)
         print(responses["movement"]["moved"])
         return
+    
+    elif (action_word in actionAll["look"]):
+        look(player.pos, game, input)
+        return
+    
     elif action_word in actionAll["inventory"]:
         
         toPrint = ""
