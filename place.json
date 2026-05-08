@@ -4,7 +4,7 @@
     "startsubplace": "frontofdoor",
     "name": ["kitchen"],
     "description": "An old rusty and moldy kitchen.",
-    "on-enter_text": "Inside, there's an empty kitchen with a cup of purple juice on a table next to you. There's also an opening in front of you. Next to the kitchen is the living room"
+    "on-enter_text": "Inside, there's an empty kitchen with a cup of purple juice on a table next to you. There's also an closed trap door in front of you. Next to the kitchen is the living room"
 },
 "livingroom": {
     "location": [0, 0],
