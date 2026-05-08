@@ -130,7 +130,7 @@ class Player:
     
         
         if pick_drop:
-            if item.location == self.location:
+            if item.locationgit == self.location:
                 self.pos.items.remove(item)
                 self.inventory.append(item)
                 print(responses["items"]["pickup_success"])
@@ -156,7 +156,7 @@ class Game:
         with open("items.json", "r", encoding="utf-8") as item_file:
             item = json.load(item_file)
             for key, value in item.items():
-                self.items.append(Item(key, value["screen_name"] value["aliases"], value["portable"], value["interactions"], value["description"], value["position"]))
+                self.items.append(Item(key, value["screen_name"], value["aliases"], value["portable"], value["interactions"], value["description"], value["position"]))
                 
         self.places = []
         with open("place.json", "r", encoding="utf-8") as places_file:
