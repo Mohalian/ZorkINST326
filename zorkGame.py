@@ -29,6 +29,7 @@ class Player:
         self.flashlight = False
         self.paintinglifted = False
         self.chestopen = False
+        self.trapdooropen = False
         
 
     def updatePlayerPosition(self, choice):
@@ -51,8 +52,8 @@ class Player:
     """
     
         
-        xLoc = self.pos["x"]
-        yLoc = self.pos["y"]
+        xLoc = self.pos.location[0]
+        yLoc = self.pos.location[1]
         passed = False
         
         directions = {
@@ -70,30 +71,28 @@ class Player:
                 xLoc = directions[(cardinal,reg)][0]
                 yLoc = directions[(cardinal,reg)][1]
                 
-                if self.check_inBounds(xLoc, yLoc):
-                    self.pos["x"] = xLoc
-                    self.pos["y"] = yLoc
-                else:
-                    print(responses["movement"]["blocked"])
                 
-                return self.pos
+                self.pos = self.check_inBounds(xLoc, yLoc)
+                if self.pos.location[0] != xLoc or self.pos.location[1] != yLoc\
+                    or self.pos.keyName == "undergroundentrance":
+                    print("Trap door not open")
+                    return self.pos
                 
-        
         listPlaces = self.game_data.places
         
-        if xLoc == self.pos["x"] and yLoc == self.pos["y"]:
+        
             
-            for place in listPlaces:
+        for place in listPlaces:
             
-                if len([name for name in place.name if name in choice]) >0:
+            if len([name for name in place.name if name in choice]) >0:
                 
-                    if max(abs(self.pos["x"]-place.location[0]),\
-                    abs(self.pos["y"]-place.location[1])) > 1:
-                        break
+                if max(abs(self.pos.location[0]-place.location[0]),\
+                abs(self.pos.location[1]-place.location[1])) > 1:
+                    break
                 
-                    self.pos["x"] = place.location[0]
-                    self.pos["y"] = place.location[1]
-                    return self.pos    
+                if place.keyName == "undergroundentrance" and self.trapdooropen == False:
+                    print   
+                return place    
                     
         print(responses["general"]["invalid_target"])
     
@@ -103,11 +102,11 @@ class Player:
         
         for place in self.game_data.places:
             if place.location == [xLoc, yLoc]:
-                return True
+                return place
         
-        return False
+        return self.pos
              
-    def inventory_update(self, player, room, item_word, pick_drop):
+    def inventory_update(self, room,item_name, pick_drop):
         """
         Appends item objects into player's inventory list and removes from room's
         items list (pickup)or removes from player inventory and appends to room's
@@ -126,47 +125,26 @@ class Player:
             prints error, dropped, or picked up messages
             
         """
-        with open("items.json", "r", encoding="utf-8") as f:
-            item = json.load(f)
-        item_word = item_word.lower()
-        item_name = None
-        item_obj = None
-        for key, value in item:
-            if item_word == key or item_word in value["aliases"]:
-                item_name = key
-                break
-        if not item_name:
-            print(responses["items"]["nonexistentitem"])
-            return
         
         if pick_drop:
             for item in room.items:
-                if item.name.lower() == item_name:
+                if item.name.lower() in item_name.aliases:
                     item_obj= item
                     break    
             if not item_obj:
                 print(responses["items"]["item_not_here"])
                 return
             room.items.remove(item_obj)
-            player.inventory.append(item_obj)
+            self.inventory.append(item_obj)
             print(responses["items"]["pickup_success"])
             
-        else:
-            for item in player.inventory:
-                if item.name == item_name:
-                    item_obj = item
-                    break
-            if not item_obj:
-                print(responses["items"]["dropped_fail"])
-                return
-            player.inventory.remove(item_obj)
-            room.items.append(item_obj)
-            print(responses["items"]["dropped"])
+        
 
         
 class Item:
     
-    def __init__(self, name, aliases, portable, interactions, description, position):
+    def __init__(self, keyName ,name, aliases, portable, interactions, description, position):
+        self.keyName = keyName
         self.name = name
         self.aliases = aliases
         self.portable = portable
@@ -181,7 +159,8 @@ class Game:
         with open("items.json", "r", encoding="utf-8") as item_file:
             item = json.load(item_file)
             for key, value in item.items():
-                self.items.append(Item(key, value["aliases"], value["portable"]\
+                self.items.append(Item(key, value["screen_name"],\
+                    value["aliases"], value["portable"]\
                 , value["interactions"], value["description"], \
                     value["position"]))
                 
@@ -189,11 +168,11 @@ class Game:
         with open("place.json", "r", encoding="utf-8") as places_file:
             places = json.load(places_file)
             for key, value in places.items():
-                self.places.append(Places(value["location"], value["name"], \
+                self.places.append(Places(key,value["location"], value["name"], \
                     value["description"], value["on-enter_text"]))
                 
                 
-        
+        self.currLoc = [0,0]
         self.boardsize = boardsize
     """
     def construct_gameboard(self, player):
@@ -235,7 +214,8 @@ class Game:
         return gameboard            
 """
 class Places:
-    def __init__(self, location, name, description, on_enter_text):
+    def __init__(self, keyName,location, name, description, on_enter_text):
+        self.keyName = keyName
         self.location = location
         self.name = name
         self.description = description
@@ -391,33 +371,70 @@ def action(player, input, game):
         player.updatePlayerPosition(input)
         print(responses["movement"]["moved"])
         return
+    elif action_word in actionAll["inventory"]:
+        
+        toPrint = ""
+        for item in player.inventory:
+            toPrint += (f"{item.name}, ")
+        
+        print(toPrint[:-2])
     
+    get_item = "("
+    for item in game.items:
+        
+        for alias in item.aliases:
+            get_item += f"{alias}|" 
     
-    item_word = re.search(r"(purple\sdrink|trapdoor)", input)
-    
+    get_item = f"{get_item[:-1]})"
+    item_word= re.search(get_item, input)
+      
     if item_word:
         words = item_word.group(0)
     
     if item_word: 
-        if words == "purple drink":
-            if action_word in actionAll["take"]:
-                x,y = game.items["purpledrink"]["position"]
-
-                #gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
-                player.inventory.append(game.items["purpledrink"]["name"])
-                print("Took Purple drink.")
-            elif action_word in actionAll["drink"]:
-                x
         
-        if words == "trapdoor":
-            if action_word == "open":
-                player.updatePlayerPosition("underground")
-                print(game.responses["movement"]["moved"])
+        itemToUse = None
+        for item in game.items:
+        
+           if words in item.aliases:
+               itemToUse = item
+               break
+        
+        if itemToUse == None:
+            print(responses["items"]["nonexistent_item"])        
+        if action_word in itemToUse.interactions:
+            if action_word in actionAll["take"]:
+                
+                if itemToUse.keyName == "sorcerers_stone" and \
+                    player.drank == False:
+                        print(responses["items"]["sorcerers_stone_fail"])
+                player.inventory_update(player.pos,itemToUse, action_word)
             
+            elif action_word in actionAll["drink"]:
+                player.inventory.pop(itemToUse)
+                player.drank = True
             
+            elif (action_word in actionAll["open"] or \
+                action_word in actionAll["lift"]):
+                
+                if itemToUse.name[0] == "trap door":
+                    player.trapdooropen = True
+                    player.updatePlayerPosition("entrance")
+                    
+                elif itemToUse.name[0] == "painting":
+                    if player.paintinglifted:
+                        print(responses["items"]["painting_already_lifted"])
+                        return
+                    player.paintinglifted = True
+                    print(responses["items"]["painting_lifted"])
+                                   
+           
+            
+        
+              
 def run():
     game = Game()
-    player = Player({"x": 0, "y": 0}, game)
+    player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
     print("start game")
         
@@ -428,18 +445,20 @@ def run():
         current_room = None
         
         for placeList in game.places:
-            if placeList.location == [player.pos["x"], player.pos["y"]]:
+            if placeList.location == [player.pos.location[0], \
+                player.pos.location[1]]:
                 current_room = placeList.name[0]
                 
                 print(f"[{current_room.upper()}]")
                 print(placeList.on_enter_text)
         user_input = input("\nCommand> ").lower().strip()
+        
         if user_input == "help" or user_input == "?":
             print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
         if user_input == "quit" or user_input == "q": #or win condition == True:
             keep_running = False
         else:
-            action(player,user_input,Game())
+            action(player,user_input,game)
 
 
 if __name__ == "__main__":

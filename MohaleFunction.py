@@ -342,12 +342,18 @@ def action(player, input, game):
         player.updatePlayerPosition(input)
         print(responses["movement"]["moved"])
         return
-    
+    elif action_word in actionAll["inventory"]:
+        
+        toPrint = ""
+        for item in player.inventory:
+            toPrint += (f"{item.name}, ")
+        
+        print(toPrint[:-2])
     
     get_item = "("
     for item in game.items:
         
-        for alias in item.alias:
+        for alias in item.aliases:
             get_item += f"{alias}|" 
     
     get_item = f"{get_item[:-1]})"
@@ -357,25 +363,46 @@ def action(player, input, game):
         words = item_word.group(0)
     
     if item_word: 
-        if words == "purple":
-            if action_word in actionAll["take"]:
-                x,y = game.items["purpledrink"]["position"]
-
-                #gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
-                player.inventory.append(game.items["purpledrink"]["name"])
-                print("Took Purple drink.")
-            elif action_word in actionAll["drink"]:
-                x
         
-        if words == "trapdoor":
-            if action_word == "open":
-                player.updatePlayerPosition("underground")
-                print(game.responses["movement"]["moved"])
+        itemToUse = None
+        for item in game.items:
+        
+           if words in item.aliases:
+               itemToUse = item
+               break
+        
+        if itemToUse == None:
+            print(responses["items"]["nonexistent_item"])        
+        if action_word in itemToUse.interactions:
+            if action_word in actionAll["take"]:
+                
+                if itemToUse.keyName == "sorcerers_stone" and \
+                    player.drank == False:
+                        print(responses["items"]["sorcerers_stone_fail"])
+                player.inventory_update(player.pos,itemToUse, action_word)
             
+            elif action_word in actionAll["drink"]:
+                player.inventory.pop(itemToUse)
+                player.drank = True
+            
+            elif (action_word in actionAll["open"] or \
+                action_word in actionAll["lift"]):
+                
+                if itemToUse.name[0] == "trap door":
+                    player.trapdooropen = True
+                    player.updatePlayerPosition("entrance")
+                    
+                elif itemToUse.name[0] == "painting":
+                    if player.paintinglifted:
+                        print(responses["items"]["painting_already_lifted"])
+                        return
+                    player.paintinglifted = True
+                    print(responses["items"]["painting_lifted"])
+                 
             
 def run():
     game = Game()
-    player = Player({"x": 0, "y": 0}, game)
+    player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
     print("start game")
         
@@ -386,18 +413,20 @@ def run():
         current_room = None
         
         for placeList in game.places:
-            if placeList.location == [player.pos["x"], player.pos["y"]]:
+            if placeList.location == [player.pos.location[0], \
+                player.pos.location[1]]:
                 current_room = placeList.name[0]
                 
                 print(f"[{current_room.upper()}]")
                 print(placeList.on_enter_text)
         user_input = input("\nCommand> ").lower().strip()
+        
         if user_input == "help" or user_input == "?":
             print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
-        if user_input == "quit" or user_input == "q" or win(player): #or win condition == True:
+        if user_input == "quit" or user_input == "q": #or win condition == True:
             keep_running = False
         else:
-            action(player,user_input,Game())
+            action(player,user_input,game)
 
 
 if __name__ == "__main__":
