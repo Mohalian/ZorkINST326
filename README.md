@@ -22,3 +22,9 @@ like keys or a flashlight to be held/used to go between places (like the kitchen
   
   - Attribution: in order to evaluate whether each member has made a substantial, original contribution to the project, please provide a table like 
   the one below, with a separate row for each method or function.
+
+| Function/Method | Author | Technique |
+| -------- | ------ | --------- |
+| Game.construct_gameboard | Andrew | optional parameter |
+| Game.\_\_init\_\_ | Andrew | with statement |
+| look | Andrew |  |
