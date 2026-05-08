@@ -14,7 +14,7 @@
     "items": []
 },
 "undergroundentrance": {
-    "location": [1, 1],
+    "location": [1, 2],
     "name": ["entrance", "underground entrance", "underground", "under ground entrance"],
     "description": "An opening entails into the underground oasis",
     "on-enter_text": "An opening entails into the underground oasis. On the right, there's a tree with a ladder. On the left there's a small church.",
@@ -22,30 +22,24 @@
 
 },
 "treehouse": {
-    "location":[2, 1],
+    "location":[2, 2],
     "name": ["treehouse", "tree house", "house"],
     "description": "After climbing the ladder, it's wooden treehouse with a cabin like look to it. There's a large chest in front of you.",
     "on-enter_text": "You climb a ladder and it's a large tree with a treehouse on top of it. The treehouse is empty except for a chest in the middle.",
     "items": ["diamondegg", "flashlight"]
 
 },
-"smallcottage": {
-    "location":[1, 2],
-    "name": ["smallcottage", "small cottage", "cottage"],
-    "description": "A cozy cottage with brown moldy walls and vintage decor",
-    "on-enter_text": "It's a cozy cottage with brown moldy walls and vintage decor. There's nothing else interesting about it.",
-    "items": []
-},
+
 "smallchurch": {
-    "location": [0, 1],
+    "location": [0, 2],
    "name": ["smallchurch", "small church", "church,", "upstairs", "up stairs", "up staircase", "up stair case"],
     "description": "An old rundown church with more black mold on the walls and regular church stuff with a large staircase that goes down",
     "on-enter_text": "It's an old rundown church with more black mold on the walls and regular church stuff with a large staircase that goes down",
     "items": []
 },
 "churchbasement": {
-    "location": [0, 2],
-    "name": ["churchbasement", "church basement", "basement", "downstairs", "down stairs", "down staircase", "down stair case"],
+    "location": [0, 3],
+    "name": ["churchbasement", "church basement", "basement", "down", "downstairs", "down stairs", "down staircase", "down stair case"],
     "description": "Small dark room with metal walls and a painting in front you",
     "on-enter_text": "It's a small dark room with metal walls with a painting in front of you. Although you can't do anything of how dark it is. You need something to see.",
     "items": ["sorcerers_stone"]
