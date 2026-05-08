@@ -1,8 +1,9 @@
 import json
 import pandas as pd
 import re
+import time
 
-
+SKIP_SCROLL_TEXT = False
 
 with open("responses.json", "r", encoding="utf-8") as file:
     responses = json.load(file)
@@ -92,12 +93,12 @@ class Player:
                     break
                 
                 if place.keyName == "undergroundentrance" and self.trapdooropen == False:
-                    print("Trap door not open")
+                    scroll_print("Trap door not open")
                     return self.pos
                 
                 return place    
                     
-        print(responses["general"]["invalid_target"])
+        scroll_print(responses["general"]["invalid_target"])
     
         return self.pos
     
@@ -202,7 +203,7 @@ def Regex(toIter, input):
     return re.search(allCommands, input)
 
 
-    print(responses["general"]["invalid_target"])
+    scroll_print(responses["general"]["invalid_target"])
 def look(player_pos, game_data, choice):
     """
     Shows what objects are at the player's current or nearby coordinate
@@ -224,7 +225,7 @@ def look(player_pos, game_data, choice):
     elif len(choice) == 2:
         direction = choice[1]
     else:
-        print("Invalid Input")
+        scroll_print("Invalid Input")
     
     directions = {
         ("east", "right"):(xLoc+1,yLoc),
@@ -243,21 +244,21 @@ def look(player_pos, game_data, choice):
                 if ((item.name == "sorcerer's stone") or 
                 (item.name == "flashlight") or 
                 (item.name == "diamond egg")):
-                    print(f"There is something else here...")
+                    scroll_print(f"There is something else here...")
                 else:
-                    print(f"There is a {item.name[0]} here.")
+                    scroll_print(f"There is a {item.name[0]} here.")
             else:
                 if ((item.name == "sorcerer's stone") or 
                 (item.name == "flashlight") or 
                 (item.name == "diamond egg")):
-                    print(f"There is something else there...")
+                    scroll_print(f"There is something else there...")
                 else:
-                    print(f"There is a {item.name} there.")
+                    scroll_print(f"There is a {item.name} there.")
     if item_count == 0:
         if direction == None:
-            print("There is nothing here.")
+            scroll_print("There is nothing here.")
         else:
-            print("There is nothing there.")
+            scroll_print("There is nothing there.")
             
 def action(player, input, game):
     
@@ -273,7 +274,7 @@ def action(player, input, game):
         action_word = action_match.group(0)
         
     else:
-        print(responses["general"]["invalid_target"])
+        scroll_print(responses["general"]["invalid_target"])
         return 
     
     if (action_word in actionAll["go"]):
@@ -294,7 +295,7 @@ def action(player, input, game):
             toPrint += (f"{item.name}, ")
         
         
-        print(toPrint[:-2])
+        scroll_print(toPrint[:-2])
         return
     
     get_item = "("
@@ -309,7 +310,7 @@ def action(player, input, game):
     if item_word:
         words = item_word.group(0)
     else:
-        print(responses["general"]["invalid_target"])
+        scroll_print(responses["general"]["invalid_target"])
         return
         
     if item_word: 
@@ -322,38 +323,38 @@ def action(player, input, game):
                break
         
         if itemToUse == None:
-            print(responses["items"]["nonexistent_item"])        
+            scroll_print(responses["items"]["nonexistent_item"])        
         if action_word in itemToUse.interactions or action_word in actionAll.values:
             
             if action_word in actionAll["take"]:
                 
                 if itemToUse in player.inventory:
-                    print(responses["items"]["already_have"])
+                    scroll_print(responses["items"]["already_have"])
                     return
                     
                 if itemToUse.keyName == "sorcerers_stone" and \
                     player.drank == False:
-                        print(responses["items"]["sorcerers_stone_fail"])
+                        scroll_print(responses["items"]["sorcerers_stone_fail"])
                         return
                 player.inventory.append(itemToUse)
-                print(responses["items"]["pickup_success"])
+                scroll_print(responses["items"]["pickup_success"])
                 return
             
             elif action_word in actionAll["drink"]:
                 
                 if itemToUse in player.inventory:
-                    print("Delicious")
+                    scroll_print("Delicious")
                     player.inventory.remove(itemToUse)
                     player.drank = True
                     return
                 
                 else:
-                    print(responses["items"]["item_not_here"])
+                    scroll_print(responses["items"]["item_not_here"])
                     return
             
             elif action_word in actionAll["use"]:
                 player.flashlight = True
-                print(responses["items"]["flashlight_on"])
+                scroll_print(responses["items"]["flashlight_on"])
                 return
                 
             elif (action_word in actionAll["open"] or \
@@ -371,40 +372,41 @@ def action(player, input, game):
                 
                 elif itemToUse.keyName == "chest":
                     if player.chestopen == True:
-                        print(responses["items"]["chest_already_open"])
+                        scroll_print(responses["items"]["chest_already_open"])
                         return
                     
-                    print(responses["items"]["chest_opened"])
+                    scroll_print(responses["items"]["chest_opened"])
                     player.chestopen = True
                    
                     
                         
                 elif itemToUse.keyName == "painting":
                     if player.flashlight == False:
-                        print("Can't find it in the darkness")
+                        scroll_print("Can't find it in the darkness")
                         return
                     elif player.paintinglifted:
-                        print(responses["items"]["painting_already_lifted"])
+                        scroll_print(responses["items"]["painting_already_lifted"])
                         return
                     player.paintinglifted = True
-                    print(responses["items"]["painting_lifted"])
+                    scroll_print(responses["items"]["painting_lifted"])
     
                                    
            
 def win(player):
     inventory_item_name = [i.keyName for i in player.inventory]
     if "diamondegg" in inventory_item_name and "sorcerers_stone" in inventory_item_name:
-        print(responses["items"]["win"])
+        scroll_print(responses["items"]["win"])
         return True
     else: False
      
         
               
 def run():
+    global SKIP_TEXT_SCROLL
     game = Game()
     player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
-    print("start game")
+    scroll_print("start game")
     current_room = None
         
     keep_running = True
@@ -425,21 +427,30 @@ def run():
                 
                 if not(lastRoom == current_room):
                     
-                    print(f"[{current_room.upper()}]")
-                    print(placeList.on_enter_text)
+                    scroll_print(f"[{current_room.upper()}]")
+                    scroll_print(placeList.on_enter_text)
                     lastRoom = current_room
                     
         user_input = input("\nCommand> ").lower().strip()
         
         
         if user_input == "help" or user_input == "?":
-            print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
+            scroll_print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
         if user_input == "quit" or user_input == "q": #or win condition == True:
             keep_running = False
+        else if user_input == "skip":
+            SKIP_SCROLL_TEXT = True
         else:
             action(player,user_input,game)
         
-        
+def scroll_print(to_print):
+    global SKIP_TEXT_SCROLL
+    text = str(to_print)
+    for c in text:
+        print(c, end='', flush = True)
+        if(not SKIP_TEXT_SCROLL):
+            time.sleep(0.02)
+    print()        
 
 
 if __name__ == "__main__":
