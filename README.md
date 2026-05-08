@@ -27,3 +27,5 @@
 | Game.construct_gameboard | Andrew | optional parameter |
 | Game.\_\_init\_\_ | Andrew | with statement |
 | look | Andrew |  |
+| updatePlayerPosition | Jai | max() |
+| action | Jai | regex |
