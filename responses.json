@@ -29,10 +29,7 @@
     "cant_take_hidden_stone": "You need to lift the painting first.",
     "cant_take_chest_item": "You need to open the chest first.",
     "flashlight_on": "You turn on the flashlight.",
-    "flashlight_off": "You turn off the flashlight."
-  },
-  "dialogue": {
-    "first_entered": "You are at the {place}. {on_enter_text}",
-    "lookaround": "{description}"
+    "flashlight_off": "You turn off the flashlight.",
+    "basement_visible": "You can see now! The painting is of a pirate holding a small precious red stone sitting on a throne"
   }
   }

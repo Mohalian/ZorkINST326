@@ -4,12 +4,10 @@
   "take": ["take", "get", "grab", "pick"],
   "drop": ["drop", "leave", "discard", "place"],
   "inventory": ["inventory", "inv", "i"],
-  "examine": ["examine", "inspect", "x", "look at"],
   "use": ["use", "activate", "turn on", "switch on"],
   "open": ["open"],
   "close": ["close"],
   "talk": ["talk", "speak"],
   "lift": ["lift", "raise", "take off"],
-  "drink": ["drink", "chug"],
-  "climb": ["climb"]
+  "drink": ["drink", "chug"]
 }

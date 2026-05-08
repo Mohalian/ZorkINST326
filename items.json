@@ -1,6 +1,6 @@
 {
   "flashlight": {
-    "name": "flashlight",
+    "screen_name": "flashlight",
     "aliases": ["flashlight", "light"],
     "portable": true,
     "interactions": ["look", "take", "use", "drop"],
@@ -8,58 +8,50 @@
     "position": [2, 1]
   },
   "purpledrink": {
-    "name": "purpledrink",
+    "screen_name": "purple drink",
     "aliases": ["purpledrink", "purple juice", "purple", "strange drink", "strange purple drink"],
     "portable": true,
-    "interactions": ["take", "drop", "drink", "examine"],
+    "interactions": ["take", "drop", "drink"],
     "description": "Cup of strange purple drink",
     "position": [1, 0]
   },
-  "trapdoor": {
-    "name": "trapdoor",
+    "trapdoor": {
+    "screen_name": "trap door",
     "aliases": ["trapdoor", "trap door"],
-    "portable": false,
-    "interactions": ["open", "lift", "close", "examine"],
-    "description": "A trapdoor on the floor with a key hole",
+    "portable": true,
+    "interactions": ["open", "lift"],
+    "description": "Cup of strange purple drink",
     "position": [1, 0]
-  },
-  "treehouseladder": {
-    "name": "tree house ladder",
-    "aliases": ["ladder", "treehouseladder", "tree ladeer", "tree house ladder"],
-    "portable": false,
-    "interactions": ["examine", "climb"],
-    "description": "wooden ladder leading up to the treehouse",
-    "position": [2, 1]
-  },
+    },
   "sorcerers_stone": {
-    "name": "sorcerer's stone",
+    "screen_name": "sorcerer's stone",
     "aliases": ["stone", "sorcerers stone", "sorcerer's stone", "red stone"],
     "portable": true,
-    "interactions": ["take", "examine", "drop"],
+    "interactions": ["take", "drop"],
     "description": "a red stone the size of your palm. This is the legendary sorcerer's stone",
     "position": [0, 3]
   },
   "diamondegg": {
-    "name": "diamond egg",
+    "screen_name": "diamond egg",
     "aliases": ["diamond egg", "diamondegg", "egg"],
     "portable": true,
-    "interactions": ["take", "examine", "drop"],
+    "interactions": ["take", "drop"],
     "description": "an egg the size of a baseball made of diamond",
     "position": [2, 1]
   },
  "chest": {
-    "name": "chest",
+    "screen_name": "chest",
     "aliases": ["chest", "large chest"],
     "portable": false,
-    "interactions": ["open", "examine"],
+    "interactions": ["open"],
     "description": "A large chest",
     "position": [2,1]
   },
   "painting": {
-    "name": "painting",
+    "screen_name": "painting",
     "aliases": ["painting", "artwork", "paint"],
     "portable": false,
-    "interactions": ["open", "lift", "examine"],
+    "interactions": ["open", "lift"],
     "description": "A painting that has a clown with a devious smile", 
     "position": [0, 3]
   }
