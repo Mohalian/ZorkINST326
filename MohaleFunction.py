@@ -315,7 +315,9 @@ def get_player_pos(player, gameboard):
 
 def win(player):
     inventory_item_name = [i.name for i in player.inventory]
-    for "diamondegg" in inventory_item_name & "sorcerers_stone" in inventory_item_name:
+    if "diamondegg" in inventory_item_name and "sorcerers_stone" in inventory_item_name:
+        return True
+    else: False
 
             
 def action(player, input, game):
