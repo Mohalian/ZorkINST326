@@ -17,6 +17,8 @@
   - Clear instructions on how to run your program from the command line. You do not need to explain how to run the program on Windows and on MacOS; 
   just pick one. If your program takes command-line arguments, please document the command-line interface (which arguments are required? which are 
   optional, if any? what data types are you looking for? are there a specific format for data files? etc.)
+
+**Run it in a Python code runner(Visual Studio -> type python3 MohaleFunction.py) and make sure to import the MohaleFunction.py and all json files into the same folder along with the same names as seen in the repository. We do not use any command line arguments**
   
   - Clear instructions on how to use your program and/or interpret the output of the program. Anything the user might encounter while using your 
   program that a random person on the street would not find self-explanatory needs to be explained in your instructions.
