@@ -411,7 +411,6 @@ def win(player, game):
         
               
 def run():
-    global SKIP_SCROLL_TEXT
     game = Game()
     player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
