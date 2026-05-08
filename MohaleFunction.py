@@ -60,8 +60,8 @@ class Player:
         directions = {
             ("east", "right"):[xLoc+1,yLoc],
             ("west", "left"):[xLoc-1,yLoc],
-            ("north", "up"):[xLoc,yLoc+1],
-            ("south", "down"):[xLoc,yLoc-1] 
+            ("north", "forward"):[xLoc,yLoc-1],
+            ("south", "back"):[xLoc,yLoc+1] 
             
         }
         
@@ -75,10 +75,17 @@ class Player:
                 self.pos,changed = self.check_inBounds(xLoc, yLoc)
                 if changed == True:
                     
-                    
+                    return self.pos
+                else:
+                    scroll_print(responses["movement"]["blocked"])
                     return self.pos
                 
+                
+                
+                
+            
         listPlaces = self.game_data.places
+    
         
         
             
@@ -92,9 +99,7 @@ class Player:
                     
                     break
                 
-                if place.keyName == "undergroundentrance" and self.trapdooropen == False:
-                    scroll_print("Trap door not open")
-                    return self.pos
+                
                 
                 return place    
                     
@@ -197,7 +202,7 @@ def Regex(toIter, input):
     allCommands = "("
     for action, names in toIter.items():
         for alias in names:
-            allCommands += f"{alias}|"
+            allCommands += f"{re.escape(alias)}|"
             
     allCommands = f"{allCommands[:-1]})"
     return re.search(allCommands, input)
@@ -246,7 +251,7 @@ def look(player_pos, game_data, choice):
                 (item.name == "diamond egg")):
                     scroll_print(f"There is something else here...")
                 else:
-                    scroll_print(f"There is a {item.name[0]} here.")
+                    scroll_print(f"There is a {item.name} here.")
             else:
                 if ((item.name == "sorcerer's stone") or 
                 (item.name == "flashlight") or 
@@ -281,8 +286,9 @@ def action(player, input, game):
         
         player.pos = player.updatePlayerPosition(input)
         if player.pos.keyName == "churchbasement" and player.flashlight == True:
-            player.pos.on_enter_text += f"\n{responses["items"]["basement_visible"]}" 
-        return
+            scroll_print(player.pos.on_enter_text)
+            scroll_print(responses["items"]["basement_visible"])
+            return
     
     elif (action_word in actionAll["look"]):
         look(player.pos, game, input)
@@ -294,15 +300,17 @@ def action(player, input, game):
         for item in player.inventory:
             toPrint += (f"{item.name}, ")
         
-        
-        scroll_print(toPrint[:-2])
+        if len(player.inventory) == 0:
+            scroll_print("Nothing in the inventory")
+        else:
+            scroll_print(toPrint[:-2])
         return
     
     get_item = "("
     for item in game.items:
         
         for alias in item.aliases:
-            get_item += f"{alias}|" 
+            get_item += f"{re.escape(alias)}|" 
     
     get_item = f"{get_item[:-1]})"
     item_word= re.search(get_item, input)
@@ -323,8 +331,14 @@ def action(player, input, game):
                break
         
         if itemToUse == None:
-            scroll_print(responses["items"]["nonexistent_item"])        
-        if action_word in itemToUse.interactions or action_word in actionAll.values:
+            scroll_print(responses["items"]["nonexistent_item"])
+            
+        found = [key for key in itemToUse.interactions \
+            if action_word in actionAll[key]]
+    
+        
+                       
+        if len(found) > 0:
             
             if action_word in actionAll["take"]:
                 
@@ -355,6 +369,9 @@ def action(player, input, game):
             elif action_word in actionAll["use"]:
                 player.flashlight = True
                 scroll_print(responses["items"]["flashlight_on"])
+                
+                if(player.pos.keyName == "churchbasement"):
+                    scroll_print(responses["items"]["basement_visible"])
                 return
                 
             elif (action_word in actionAll["open"] or \
@@ -364,8 +381,9 @@ def action(player, input, game):
                     
                     player.trapdooropen = True
                     if player.pos.keyName == "kitchen":
-                        player.pos = player.updatePlayerPosition("entrance")
-                    elif player.pos.keyName == "entrance":
+                        player.pos = \
+                            player.updatePlayerPosition("undergroundentrance")
+                    elif player.pos.keyName == "undergroundentrance":
                         player.pos = player.updatePlayerPosition("kitchen")
                     
                     return    
@@ -389,7 +407,8 @@ def action(player, input, game):
                         return
                     player.paintinglifted = True
                     scroll_print(responses["items"]["painting_lifted"])
-    
+
+        scroll_print("You can't perform that action")
                                    
            
 def win(player):
@@ -397,12 +416,13 @@ def win(player):
     if "diamondegg" in inventory_item_name and "sorcerers_stone" in inventory_item_name:
         scroll_print(responses["items"]["win"])
         return True
-    else: False
+    else: 
+        return False
      
         
               
 def run():
-    global SKIP_TEXT_SCROLL
+    global SKIP_SCROLL_TEXT
     game = Game()
     player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
@@ -444,11 +464,11 @@ def run():
             action(player,user_input,game)
         
 def scroll_print(to_print):
-    global SKIP_TEXT_SCROLL
+    global SKIP_SCROLL_TEXT
     text = str(to_print)
     for c in text:
         print(c, end='', flush = True)
-        if(not SKIP_TEXT_SCROLL):
+        if(not SKIP_SCROLL_TEXT):
             time.sleep(0.02)
     print()        
 

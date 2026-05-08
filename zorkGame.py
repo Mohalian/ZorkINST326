@@ -59,8 +59,8 @@ class Player:
         directions = {
             ("east", "right"):[xLoc+1,yLoc],
             ("west", "left"):[xLoc-1,yLoc],
-            ("north", "up"):[xLoc,yLoc+1],
-            ("south", "down"):[xLoc,yLoc-1] 
+            ("north", "forward"):[xLoc,yLoc+1],
+            ("south", "back"):[xLoc,yLoc-1] 
             
         }
         
@@ -70,12 +70,11 @@ class Player:
                 
                 xLoc = directions[(cardinal,reg)][0]
                 yLoc = directions[(cardinal,reg)][1]
-                print("D")
                 
                 self.pos,changed = self.check_inBounds(xLoc, yLoc)
                 if changed == True:
                     
-                    print("DIR")
+                    
                     return self.pos
                 
         listPlaces = self.game_data.places
@@ -86,16 +85,16 @@ class Player:
             
             if len([name for name in place.name if name in choice]) >0:
                 
-                print("NAMES")
+              
                 if max(abs(self.pos.location[0]-place.location[0]),\
                 abs(self.pos.location[1]-place.location[1])) > 1:
-                    print("BROKEN")
+                    
                     break
                 
                 if place.keyName == "undergroundentrance" and self.trapdooropen == False:
                     print("Trap door not open")
                     return self.pos
-                print(place.keyName)   
+                
                 return place    
                     
         print(responses["general"]["invalid_target"])
@@ -109,42 +108,7 @@ class Player:
                 return place,True
         
         return self.pos,False
-             
-    def inventory_update(self, room,item_name, pick_drop):
-        """
-        Appends item objects into player's inventory list and removes from room's
-        items list (pickup)or removes from player inventory and appends to room's
-        item list (drop)
-        
-        Args:
-            player: Player class instance
-            room: Room class instance
-            item_word: (str) inputted item word
-            file: (filepath) filepath to item words dictionary
-            pick_drop: (boolean) True if picking up, False if dropping
             
-        Side effects:
-            removes/appends to player's inventory attribute list
-            removes/appends to room's items attribute list
-            prints error, dropped, or picked up messages
-            
-        """
-        
-        
-        for item in room:
-            if item.name.lower() in item_name.aliases:
-                item_obj= item
-                break    
-            if not item_obj:
-                print(responses["items"]["item_not_here"])
-                return
-            room.items.remove(item_obj)
-            self.inventory.append(item_obj)
-            print(responses["items"]["pickup_success"])
-            
-        
-
-        
 class Item:
     
     def __init__(self, keyName ,name, aliases, portable, interactions, description, position):
@@ -226,158 +190,103 @@ class Places:
         self.on_enter_text = on_enter_text
 
 
-def can_interact(target_actions, player_action, item=None):
-    """
-    Checks if a player's interaction with a target object is valid or not
+
+def Regex(toIter, input):
     
-    Args:
-        allowed_actions: tuple of tuples in form (action_taken, req_item=None)
-            where each item is a string, represents the actions allowed to be
-            taken on the target object, and the required item to do so
-        player_action: string of what the player is attempting to do
-        item: optional string of the item to be used with the action
-        
-    Side Effects:
-        Prints a message to console if an item is needed/used to perform an
-        action, or if the action cannot be completed
-        
-    Returns:
-        True if the player action is valid and can occur, False if it is not
-    
-    """
-    
-    for action in target_actions:
-        
-        if player_action == action[0]:
+    allCommands = "("
+    for action, names in toIter.items():
+        for alias in names:
+            allCommands += f"{alias}|"
             
-            if action[1] == item and item != None:
-                print(f"You used the {action[1]}.")
-                return True
-            
-            elif action[1] == None:
-                return True
-            
-            elif action[1] != item and item != None:
-                print(f"Wrong item, you need a {action[1]} to do that.")
-                return False
-            
-            elif action[1] != item:
-                print(f"You need a {action[1]} to do that.")
-                return False                
-            
-    print("You can't do that.")
-    return False       
-
-def get_player_input(input, objects, actions):
-    """
-    Takes an input as a string and parses through to find an action and an
-    object that will be used later.
-
-    Args:
-        input: (str) Users input of an action and an object
-        objects: (list) List of acceptable objects as strings
-        actions: (list) List of acceptable actions as strings
-
-    Side effects:
-        prints "Invalid input" if user's input is not at least two words
-        prints "Invalid action" if first word is not in action list
-        prints "Couldn't find item" if none of the other words are in the
-        object list
-    Returns:
-        verb(str), object(str) tuple of selected action and object as strings
-    """
-    words = input.lower().strip().split(" ")
-    if len(words) < 2:
-        print("Invalid input")
-        return None, None
-    verb = words[0]
-    if not verb in actions:
-        print("Invalid action")
-    for i in range(1, len(words)):
-        if words[i] in objects:
-            return verb, words[i]
-    print("Couldn't find item")
-    return None, None
+    allCommands = f"{allCommands[:-1]})"
+    return re.search(allCommands, input)
 
 
-def get_player_pos(player, gameboard):
-    """
-    Checks the players current position
-    
-    Args:
-        player: class object representing the player on the gameboard
-        gameboard: dataframe as a coordinate grid
-        
-    Returns:
-        The players current coordinate position as a tuple, if it is not found
-        on the gameboard then it returns None
-    """
-    boardSize = len(gameboard.columns)
-    for y in range(0,boardSize):
-        for x in range(0, boardSize):
-            if player in gameboard.loc[y,x]:
-                return {"x":x,"y":y}
-    return None
-
-def look(player_pos, gameboard, direction=None):
+    print(responses["general"]["invalid_target"])
+def look(player_pos, game_data, choice):
     """
     Shows what objects are at the player's current or nearby coordinate
     
     Args:
         player_pos: player's current coordinate position in dictionary form
             {"x":int, "y":int}
-        gameboard: gameboard dataframe
+        game_data: game class
         direction: optional string, specified direction in command
         
     """
-    x = player_pos["x"]
-    y = player_pos["y"]
+    xLoc = player_pos.location[0]
+    yLoc = player_pos.location[1]
     
-    if direction == "north":
-        y -= 1
-    if direction == "south":
-        y += 1
-    if direction == "west":
-        x -= 1
-    if direction == "east":
-        x += 1
-    
-    if len(gameboard.loc[y,x]) > 1:
-        for object in gameboard.loc[y,x]:
-            if (isinstance(object, Player) == False) and direction == None:
-                print(f"There is a {object.name} here.")
-            elif (isinstance(object, Player) == False):
-                print(f"There is a {object.name} there.")
+    item_count = 0
+    choice = choice.split()
+    if len(choice) == 1:
+        direction = None
+    elif len(choice) == 2:
+        direction = choice[1]
     else:
+        print("Invalid Input")
+    
+    directions = {
+        ("east", "right"):(xLoc+1,yLoc),
+        ("west", "left"):(xLoc-1,yLoc),
+        ("north", "up"):(xLoc,yLoc+1),
+        ("south", "down"):(xLoc,yLoc-1) 
+         }
+    
+    for key in directions:
+        if direction in key:
+            xLoc, yLoc = directions[key]
+    for item in game_data.items:
+        if item.position == [xLoc,yLoc]:
+            item_count += 1
+            if direction == None:
+                if ((item.name == "sorcerer's stone") or 
+                (item.name == "flashlight") or 
+                (item.name == "diamond egg")):
+                    print(f"There is something else here...")
+                else:
+                    print(f"There is a {item.name[0]} here.")
+            else:
+                if ((item.name == "sorcerer's stone") or 
+                (item.name == "flashlight") or 
+                (item.name == "diamond egg")):
+                    print(f"There is something else there...")
+                else:
+                    print(f"There is a {item.name} there.")
+    if item_count == 0:
         if direction == None:
-            print("There is nothing here")
-        else: 
-            print("There is nothing there")
+            print("There is nothing here.")
+        else:
+            print("There is nothing there.")
             
 def action(player, input, game):
+    
+    
     action_word = ""
     item_word = ""
     place_word = ""
     
-    if player.flashlight == True and player.pos.keyName == "churchbasement":
-        print(responses["items"]["basement_visible"])
-    
-    allCommands = "("
-    for action, names in actionAll.items():
-        for alias in names:
-            allCommands += f"{alias}|" 
-    
-    allCommands = f"{allCommands[:-1]})"
-    action_match = re.search(allCommands, input)
+
+    action_match = Regex(actionAll, input)
     
     if action_match:
         action_word = action_match.group(0)
         
+    else:
+        print(responses["general"]["invalid_target"])
+        return 
+    
     if (action_word in actionAll["go"]):
         
         player.pos = player.updatePlayerPosition(input)
-        print(responses["movement"]["moved"])
+        if player.pos.keyName == "churchbasement" and player.flashlight == True:
+            player.pos.on_enter_text += f"\n{responses["items"]["basement_visible"]}" 
         return
+    
+    elif (action_word in actionAll["look"]):
+        look(player.pos, game, input)
+        return
+    
     elif action_word in actionAll["inventory"]:
         
         toPrint = ""
@@ -386,6 +295,7 @@ def action(player, input, game):
         
         
         print(toPrint[:-2])
+        return
     
     get_item = "("
     for item in game.items:
@@ -398,7 +308,10 @@ def action(player, input, game):
       
     if item_word:
         words = item_word.group(0)
-    
+    else:
+        print(responses["general"]["invalid_target"])
+        return
+        
     if item_word: 
         
         itemToUse = None
@@ -411,30 +324,50 @@ def action(player, input, game):
         if itemToUse == None:
             print(responses["items"]["nonexistent_item"])        
         if action_word in itemToUse.interactions:
+            
             if action_word in actionAll["take"]:
                 
+                if itemToUse in player.inventory:
+                    print(responses["items"]["already_have"])
+                    return
+                    
                 if itemToUse.keyName == "sorcerers_stone" and \
                     player.drank == False:
                         print(responses["items"]["sorcerers_stone_fail"])
                         return
                 player.inventory.append(itemToUse)
                 print(responses["items"]["pickup_success"])
+                return
             
             elif action_word in actionAll["drink"]:
-                player.inventory.remove(itemToUse)
-                player.drank = True
+                
+                if itemToUse in player.inventory:
+                    print("Delicious")
+                    player.inventory.remove(itemToUse)
+                    player.drank = True
+                    return
+                
+                else:
+                    print(responses["items"]["item_not_here"])
+                    return
             
             elif action_word in actionAll["use"]:
                 player.flashlight = True
                 print(responses["items"]["flashlight_on"])
+                return
                 
             elif (action_word in actionAll["open"] or \
                 action_word in actionAll["lift"]):
-                print("op lifters")
+                
                 if itemToUse.keyName == "trapdoor":
-                    print("TRAP")
+                    
                     player.trapdooropen = True
-                    player.pos =player.updatePlayerPosition("entrance")
+                    if player.pos.keyName == "kitchen":
+                        player.pos = player.updatePlayerPosition("entrance")
+                    elif player.pos.keyName == "entrance":
+                        player.pos = player.updatePlayerPosition("kitchen")
+                    
+                    return    
                 
                 elif itemToUse.keyName == "chest":
                     if player.chestopen == True:
@@ -443,6 +376,7 @@ def action(player, input, game):
                     
                     print(responses["items"]["chest_opened"])
                     player.chestopen = True
+                   
                     
                         
                 elif itemToUse.keyName == "painting":
@@ -454,6 +388,7 @@ def action(player, input, game):
                         return
                     player.paintinglifted = True
                     print(responses["items"]["painting_lifted"])
+    
                                    
            
 def win(player):

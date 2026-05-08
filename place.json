@@ -26,7 +26,7 @@
     "name": ["treehouse", "tree house", "house"],
     "description": "After climbing the ladder, it's wooden treehouse with a cabin like look to it. There's a large chest in front of you.",
     "on-enter_text": "You climb a ladder and it's a large tree with a treehouse on top of it. The treehouse is empty except for a chest in the middle.",
-    "items": ["diamondegg, flashlight"]
+    "items": ["diamondegg", "flashlight"]
 
 },
 "smallcottage": {
