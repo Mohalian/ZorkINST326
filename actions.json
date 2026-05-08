@@ -2,7 +2,7 @@
   "go": ["go", "walk", "move", "run"],
   "take": ["take", "get", "grab", "pick"],
   "drop": ["drop", "leave", "discard", "place"],
-  "inventory": ["inventory", "inv", "i"],
+  "inventory": ["inventory", "inv"],
   "use": ["use", "activate", "turn on", "switch on"],
   "open": ["open"],
   "close": ["close"],
