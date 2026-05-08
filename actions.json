@@ -8,5 +8,6 @@
   "close": ["close"],
   "talk": ["talk", "speak"],
   "lift": ["lift", "raise", "take off"],
-  "drink": ["drink", "chug"]
+  "drink": ["drink", "chug"],
+  "look": ["look", "examine"]
 }
