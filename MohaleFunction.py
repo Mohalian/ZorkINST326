@@ -85,7 +85,7 @@ class Player:
             
             for place in listPlaces:
             
-                if place.name in choice:
+                if len([name for name in place.name if name in choice]) >0:
                 
                     if max(abs(self.pos["x"]-place.location[0]),\
                     abs(self.pos["y"]-place.location[1])) > 1:
@@ -178,24 +178,26 @@ class Game:
     
     def __init__(self, boardsize=4):
         self.items = []
-        with open("items.json", "r", encoding="utf-8") as item:
+        with open("items.json", "r", encoding="utf-8") as item_file:
+            item = json.load(item_file)
             for key, value in item.items():
                 self.items.append(Item(key, value["aliases"], value["portable"]\
-                , value["interactions"], value["descriptions"], \
+                , value["interactions"], value["description"], \
                     value["position"]))
                 
         self.places = []
-        with open("place.json", "r", encoding="utf-8") as places:
+        with open("place.json", "r", encoding="utf-8") as places_file:
+            places = json.load(places_file)
             for key, value in places.items():
                 self.places.append(Places(value["location"], value["name"], \
-                    value["description"], value["on_enter_text"]))
+                    value["description"], value["on-enter_text"]))
                 
                 
         
         self.boardsize = boardsize
-    
+    """
     def construct_gameboard(self, player):
-        """
+       
         Takes a board size and a json dictionary of in-game objects and creates a 
         coordinate map of the objects that can be traversed by the player
         
@@ -208,7 +210,7 @@ class Game:
                 columns represent the x-axis and rows represent the y-axis flipped. 
                 Each cell is a list with every object it contains at that position, 
                 and can include the player
-        """
+        
         YBOUND = range(0,self.boardsize)
         XBOUND = range(0,self.boardsize)
         gameboard = pd.DataFrame(index=YBOUND,columns=XBOUND)
@@ -231,7 +233,7 @@ class Game:
         gameboard.loc[y,x].append(player)
         
         return gameboard            
-
+"""
 class Places:
     def __init__(self, location, name, description, on_enter_text):
         self.location = location
@@ -368,7 +370,7 @@ def look(player_pos, gameboard, direction=None):
         else: 
             print("There is nothing there")
             
-def action(player, input, gameboard, game):
+def action(player, input, game):
     action_word = ""
     item_word = ""
     place_word = ""
@@ -387,7 +389,7 @@ def action(player, input, gameboard, game):
     if (action_word in actionAll["go"]):
         
         player.updatePlayerPosition(input)
-        print(game.responses["movement"]["moved"])
+        print(responses["movement"]["moved"])
         return
     
     
@@ -401,7 +403,7 @@ def action(player, input, gameboard, game):
             if action_word in actionAll["take"]:
                 x,y = game.items["purpledrink"]["position"]
 
-                gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
+                #gameboard.loc[y,x].remove(game.items["purpledrink"]["name"])
                 player.inventory.append(game.items["purpledrink"]["name"])
                 print("Took Purple drink.")
             elif action_word in actionAll["drink"]:
@@ -416,7 +418,7 @@ def action(player, input, gameboard, game):
 def run():
     game = Game()
     player = Player({"x": 0, "y": 0}, game)
-    gameboard = game.construct_gameboard(player)
+    #gameboard = game.construct_gameboard(player)
     print("start game")
         
     keep_running = True
@@ -425,18 +427,19 @@ def run():
         
         current_room = None
         
-        for name, data in game.places.items():
-            if data["location"] == [player.pos["x"], player.pos["y"]]:
-                current_room = name
-                print(f"[{name.upper()}]")
-                print(data["on-enter_text"])
+        for placeList in game.places:
+            if placeList.location == [player.pos["x"], player.pos["y"]]:
+                current_room = placeList.name[0]
+                
+                print(f"[{current_room.upper()}]")
+                print(placeList.on_enter_text)
         user_input = input("\nCommand> ").lower().strip()
         if user_input == "help" or user_input == "?":
             print("Possible actions include: look, go, take, drop, inventory, examine, use, open, close, talk, lift, drink, and climb")
         if user_input == "quit" or user_input == "q": #or win condition == True:
             keep_running = False
         else:
-            action(player,user_input,gameboard,Game())
+            action(player,user_input,Game())
 
 
 if __name__ == "__main__":
