@@ -79,21 +79,20 @@ class Player:
                 return self.pos
                 
         
+        listPlaces = self.game_data.places
         
         if xLoc == self.pos["x"] and yLoc == self.pos["y"]:
             
-            for place, fullData in placesAll.items():
+            for place in listPlaces:
             
-                names = [alias for alias in fullData["name"] if alias in choice]
-            
-                if len(names) > 0:
+                if place.name in choice:
                 
-                    if max(abs(self.pos["x"]-fullData["location"][0]),\
-                    abs(self.pos["y"]-fullData["location"][1])) > 1:
+                    if max(abs(self.pos["x"]-place.location[0]),\
+                    abs(self.pos["y"]-place.location[1])) > 1:
                         break
                 
-                    self.pos["x"] = fullData["location"][0]
-                    self.pos["y"] = fullData["location"][1]
+                    self.pos["x"] = place.location[0]
+                    self.pos["y"] = place.location[1]
                     return self.pos    
                     
         print(responses["general"]["invalid_target"])
@@ -102,8 +101,8 @@ class Player:
     
     def check_inBounds(self,xLoc, yLoc):
         
-        for name, data in placesAll.items():
-            if data["location"] == [xLoc, yLoc]:
+        for place in self.game_data.places:
+            if place.location == [xLoc, yLoc]:
                 return True
         
         return False
@@ -179,14 +178,14 @@ class Game:
     
     def __init__(self, boardsize=4):
         self.items = []
-        with open("item_json", "r", encoding="utf-8") as item:
+        with open("items.json", "r", encoding="utf-8") as item:
             for key, value in item.items():
                 self.items.append(Item(key, value["aliases"], value["portable"]\
                 , value["interactions"], value["descriptions"], \
                     value["position"]))
                 
         self.places = []
-        with open("place_json", "r", encoding="utf-8") as places:
+        with open("place.json", "r", encoding="utf-8") as places:
             for key, value in places.items():
                 self.places.append(Places(value["location"], value["name"], \
                     value["description"], value["on_enter_text"]))
@@ -195,12 +194,6 @@ class Game:
         
         self.boardsize = boardsize
     
-    def get_places(self):
-        return self.places
-    
-    def get_items(self):
-        return self.items
-
     def construct_gameboard(self, player):
         """
         Takes a board size and a json dictionary of in-game objects and creates a 
