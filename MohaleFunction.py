@@ -416,8 +416,8 @@ def action(player, input, game):
         
         if itemToUse == None:
             print(responses["items"]["nonexistent_item"])        
-        if action_word in itemToUse.interactions:
-            print(action_word)
+        if action_word in itemToUse.interactions or action_word in actionAll.values:
+            
             if action_word in actionAll["take"]:
                 
                 if itemToUse in player.inventory:
