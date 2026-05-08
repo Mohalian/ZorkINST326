@@ -245,7 +245,7 @@ def look(player_pos, game_data, choice):
                 (item.name == "diamond egg")):
                     print(f"There is something else here...")
                 else:
-                    print(f"There is a {item.name} here.")
+                    print(f"There is a {item.name[0]} here.")
             else:
                 if ((item.name == "sorcerer's stone") or 
                 (item.name == "flashlight") or 
@@ -279,7 +279,8 @@ def action(player, input, game):
     if (action_word in actionAll["go"]):
         
         player.pos = player.updatePlayerPosition(input)
-        print(responses["movement"]["moved"])
+        if player.pos.keyName == "churchbasement" and player.flashlight == True:
+            player.pos.on_enter_text += f"\n{responses["items"]["basement_visible"]}" 
         return
     
     elif (action_word in actionAll["look"]):
@@ -336,6 +337,7 @@ def action(player, input, game):
                         return
                 player.inventory.append(itemToUse)
                 print(responses["items"]["pickup_success"])
+                return
             
             elif action_word in actionAll["drink"]:
                 
@@ -343,13 +345,16 @@ def action(player, input, game):
                     print("Delicious")
                     player.inventory.remove(itemToUse)
                     player.drank = True
+                    return
                 
                 else:
                     print(responses["items"]["item_not_here"])
+                    return
             
             elif action_word in actionAll["use"]:
                 player.flashlight = True
                 print(responses["items"]["flashlight_on"])
+                return
                 
             elif (action_word in actionAll["open"] or \
                 action_word in actionAll["lift"]):
@@ -361,7 +366,8 @@ def action(player, input, game):
                         player.pos = player.updatePlayerPosition("entrance")
                     elif player.pos.keyName == "entrance":
                         player.pos = player.updatePlayerPosition("kitchen")
-                        
+                    
+                    return    
                 
                 elif itemToUse.keyName == "chest":
                     if player.chestopen == True:
