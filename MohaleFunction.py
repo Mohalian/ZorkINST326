@@ -39,11 +39,8 @@ class Player:
     valid movement command
     
      Args:
-       choice: command entered by the user, has to have the specific command
-       move + a direction(string)
-       player_pos: Contains the x and y loc of the player(dict, keys either "x"
-       or "y")
-       boardSize: the size of the playable map(int)
+       choice: command entered by the user to move
+       
        
     Side effects:
         Changes player_pos
@@ -53,9 +50,9 @@ class Player:
     """
     
         
-        xLoc = self.pos.location[0]
-        yLoc = self.pos.location[1]
-        passed = False
+        xLoc, yLoc = self.pos.location
+      
+       
         
         directions = {
             ("east", "right"):[xLoc+1,yLoc],
@@ -91,17 +88,21 @@ class Player:
             
         for place in listPlaces:
             
-            if len([name for name in place.name if name in choice]) >0:
+            if len([name for name in place.name if name in choice]) > 0:
                 
               
                 if max(abs(self.pos.location[0]-place.location[0]),\
-                abs(self.pos.location[1]-place.location[1])) > 1:
+                abs(self.pos.location[1]-place.location[1])) > 1 and \
+                    (place.keyName not in ["undergroundentrance", "kitchen"] \
+                    and self.pos.keyName not in ["undergroundentrance", "kitchen"]):
                     
                     break
                 
-                
-                
                 return place    
+                
+                
+                
+            
                     
         scroll_print(responses["general"]["invalid_target"])
     
@@ -208,7 +209,8 @@ def Regex(toIter, input):
     return re.search(allCommands, input)
 
 
-    scroll_print(responses["general"]["invalid_target"])
+    
+    
 def look(player_pos, game_data, choice):
     """
     Shows what objects are at the player's current or nearby coordinate
@@ -289,6 +291,8 @@ def action(player, input, game):
             scroll_print(player.pos.on_enter_text)
             scroll_print(responses["items"]["basement_visible"])
             return
+        
+        return
     
     elif (action_word in actionAll["look"]):
         look(player.pos, game, input)
@@ -407,8 +411,9 @@ def action(player, input, game):
                         return
                     player.paintinglifted = True
                     scroll_print(responses["items"]["painting_lifted"])
-
-        scroll_print("You can't perform that action")
+        else:
+               
+            scroll_print("You can't perform that action")
                                    
            
 def win(player):
