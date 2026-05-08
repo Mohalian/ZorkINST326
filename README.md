@@ -24,8 +24,7 @@
 
 | Function/Method | Author | Technique |
 | -------- | ------ | --------- |
-| Game.construct_gameboard | Andrew | optional parameter |
-| Game.\_\_init\_\_ | Andrew | with statement |
-| look | Andrew |  |
+| Game.\_\_init\_\_ | Andrew | optional parameter |
+| look | Andrew | f-strings |
 | updatePlayerPosition | Jai | max() |
 | action | Jai | regex |
