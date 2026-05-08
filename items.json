@@ -53,7 +53,6 @@
     "portable": false,
     "interactions": ["open", "examine"],
     "description": "A large chest",
-    "opened": false,
     "position": [2,1]
   },
   "painting": {
@@ -61,8 +60,7 @@
     "aliases": ["painting", "artwork", "paint"],
     "portable": false,
     "interactions": ["open", "lift", "examine"],
-    "description": "A painting that has a clown with a devious smile",
-    "opened": false,
+    "description": "A painting that has a clown with a devious smile", 
     "position": [0, 3]
   }
 }
