@@ -1,6 +1,5 @@
 ### TO DO:  
-- Add optional conditions for player movement to prevent going out of bound(DONE) (check if a room object is at that coordinate) and to allow for things
-like keys or a flashlight to be held/used to go between places (like the kitchen and the underground)
+- Add optional conditions to allow for things like keys or a flashlight to be held/used to go between places (like the kitchen and the underground) (IMPORTANT!)
 - Allow for aliases to be used to refer to actions/items (should be relatively simple to add to existing functions)
 - Add a drop item function
 - Create a win condition <---Main emphasis here
