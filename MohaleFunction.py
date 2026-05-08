@@ -108,42 +108,7 @@ class Player:
                 return place,True
         
         return self.pos,False
-             
-    def inventory_update(self, room,item_name, pick_drop):
-        """
-        Appends item objects into player's inventory list and removes from room's
-        items list (pickup)or removes from player inventory and appends to room's
-        item list (drop)
-        
-        Args:
-            player: Player class instance
-            room: Room class instance
-            item_word: (str) inputted item word
-            file: (filepath) filepath to item words dictionary
-            pick_drop: (boolean) True if picking up, False if dropping
             
-        Side effects:
-            removes/appends to player's inventory attribute list
-            removes/appends to room's items attribute list
-            prints error, dropped, or picked up messages
-            
-        """
-        
-        
-        for item in room:
-            if item.name.lower() in item_name.aliases:
-                item_obj= item
-                break    
-            if not item_obj:
-                print(responses["items"]["item_not_here"])
-                return
-            room.items.remove(item_obj)
-            self.inventory.append(item_obj)
-            print(responses["items"]["pickup_success"])
-            
-        
-
-        
 class Item:
     
     def __init__(self, keyName ,name, aliases, portable, interactions, description, position):
@@ -225,47 +190,6 @@ class Places:
         self.on_enter_text = on_enter_text
 
 
-def can_interact(target_actions, player_action, item=None):
-    """
-    Checks if a player's interaction with a target object is valid or not
-    
-    Args:
-        allowed_actions: tuple of tuples in form (action_taken, req_item=None)
-            where each item is a string, represents the actions allowed to be
-            taken on the target object, and the required item to do so
-        player_action: string of what the player is attempting to do
-        item: optional string of the item to be used with the action
-        
-    Side Effects:
-        Prints a message to console if an item is needed/used to perform an
-        action, or if the action cannot be completed
-        
-    Returns:
-        True if the player action is valid and can occur, False if it is not
-    
-    """
-    
-    for action in target_actions:
-        
-        if player_action == action[0]:
-            
-            if action[1] == item and item != None:
-                print(f"You used the {action[1]}.")
-                return True
-            
-            elif action[1] == None:
-                return True
-            
-            elif action[1] != item and item != None:
-                print(f"Wrong item, you need a {action[1]} to do that.")
-                return False
-            
-            elif action[1] != item:
-                print(f"You need a {action[1]} to do that.")
-                return False                
-            
-    print("You can't do that.")
-    return False       
 
 def get_player_input(input, objects, actions):
     """
@@ -298,25 +222,6 @@ def get_player_input(input, objects, actions):
     print("Couldn't find item")
     return None, None
 
-
-def get_player_pos(player, gameboard):
-    """
-    Checks the players current position
-    
-    Args:
-        player: class object representing the player on the gameboard
-        gameboard: dataframe as a coordinate grid
-        
-    Returns:
-        The players current coordinate position as a tuple, if it is not found
-        on the gameboard then it returns None
-    """
-    boardSize = len(gameboard.columns)
-    for y in range(0,boardSize):
-        for x in range(0, boardSize):
-            if player in gameboard.loc[y,x]:
-                return {"x":x,"y":y}
-    return None
 
 def look(player_pos, gameboard, direction=None):
     """
@@ -451,7 +356,11 @@ def action(player, input, game):
                 if itemToUse.keyName == "trapdoor":
                     
                     player.trapdooropen = True
-                    player.pos =player.updatePlayerPosition("entrance")
+                    if player.pos.keyName == "kitchen":
+                        player.pos = player.updatePlayerPosition("entrance")
+                    elif player.pos.keyName == "entrance":
+                        player.pos = player.updatePlayerPosition("kitchen")
+                        
                 
                 elif itemToUse.keyName == "chest":
                     if player.chestopen == True:
