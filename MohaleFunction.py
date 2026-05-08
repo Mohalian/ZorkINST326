@@ -94,7 +94,7 @@ class Player:
                 if place.keyName == "undergroundentrance" and self.trapdooropen == False:
                     print("Trap door not open")
                     return self.pos
-                print(place.keyName)   
+                
                 return place    
                     
         print(responses["general"]["invalid_target"])
