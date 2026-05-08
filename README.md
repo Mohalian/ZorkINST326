@@ -12,26 +12,30 @@
   - Clear instructions on how to use your program and/or interpret the output of the program. Anything the user might encounter while using your 
   program that a random person on the street would not find self-explanatory needs to be explained in your instructions.
 
-**Objective of the game**
+**Objective of the game:**
 The main goal of the game is to explore the map, taking and using items in the quest to collect two main items. To win the game, you need to take the diamond egg and the sorcerer's stone
 
-**Movement**
+**Movement:**
 The player can move by using either the name of a nearby location or a cardinal direction(north, west,etc)/(left,right, forward, back)
 
 The specific movement commands are "go", "walk", "move", "run". There is a special case location (kitchen and underground entrance) that can only be moved back and forth using the "open trapdoor" command
 
-**Items**
+**Items:**
 You can use the look command to see any items in the room or a hint of a potentially hidden one. There are many ways you can interact with an item, such as "take", "get", "grab", "pick" for any item that can be picked, "open" or "lift" for a specific item that can be opened, "use" or "turn on" for items such as the flashlight which can be used, or even "drink" an item. 
 
 You can check what items you have taken by using the "inventory", "inv" commands
 
-**Help or end game**
+**Help or end game:**
 You can end the game by typing "q" or "quit" and you can get a hint by typing in "?" or "help" which will list some helpful actions you can take
 
-**Sample**
+**Sample:**
+
 Move right --> moves to the room on the right if possible
+
 turn on flashlight --> Turns on flashlight
+
 open chest --> opens chest
+
 walk to living room --> moves player to living room if possible
 
 **Annotated Bibliography**
