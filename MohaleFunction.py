@@ -407,14 +407,12 @@ def win(player, game):
         return True
     else: 
         return False
-     
-        
               
 def run():
     game = Game()
     player = Player(game.places[1], game)
-    #gameboard = game.construct_gameboard(player)
     scroll_print("start game", game.skip_scroll)
+    start_time = time.time()
     current_room = None
         
     keep_running = True
@@ -423,6 +421,7 @@ def run():
     while(keep_running):
         
         if win(player, game):
+            print(f"You finished in {int(time.time() - start_time)} seconds!")
             break
         
         
