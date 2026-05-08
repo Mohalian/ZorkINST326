@@ -47,4 +47,5 @@ Zork I: The Great Underground Empire/Walkthrough. (n.d.). STRATEGYWIKI. Retrieve
 | updatePlayerPosition() | Jai | max(), sequence unpacking |
 | Regex() | Thomas | regular expression |
 | win() | Thomas | list comprehension |
+| action() | Jai | N/A |
 
