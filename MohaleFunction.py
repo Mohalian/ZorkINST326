@@ -7,7 +7,7 @@ import time
 with open("responses.json", "r", encoding="utf-8") as file:
     responses = json.load(file)
 with open("actions.json", "r", encoding="utf-8") as file:
-    actionAll = json.load(file)
+    ACTIONALL = json.load(file)
 
 
 class Player:
@@ -396,7 +396,7 @@ def action(player, input, game):
     place_word = ""
     
 
-    action_match = Regex(actionAll, input)
+    action_match = Regex(ACTIONALL, input)
     
     if action_match:
         action_word = action_match.group(0)
@@ -406,7 +406,7 @@ def action(player, input, game):
                      game.skip_scroll)
         return 
     
-    if (action_word in actionAll["go"]):
+    if (action_word in ACTIONALL["go"]):
         
         player.pos = player.updatePlayerPosition(input)
         if player.pos.keyName == "churchbasement" and player.flashlight == True:
@@ -418,11 +418,11 @@ def action(player, input, game):
         
         return
     
-    elif (action_word in actionAll["look"]):
+    elif (action_word in ACTIONALL["look"]):
         look(player.pos, game, input)
         return
     
-    elif action_word in actionAll["inventory"]:
+    elif action_word in ACTIONALL["inventory"]:
         
         toPrint = ""
         for item in player.inventory:
@@ -463,13 +463,13 @@ def action(player, input, game):
                          game.skip_scroll)
             
         found = [key for key in itemToUse.interactions \
-            if action_word in actionAll[key]]
+            if action_word in ACTIONALL[key]]
     
         
                        
         if len(found) > 0:
             
-            if action_word in actionAll["take"]:
+            if action_word in ACTIONALL["take"]:
                 
                 if itemToUse in player.inventory:
                     scroll_print(responses["items"]["already_have"], 
@@ -496,7 +496,7 @@ def action(player, input, game):
                     scroll_print(responses["general"]["invalid_target"], game.skip_scroll)
                     return
             
-            elif action_word in actionAll["drink"]:
+            elif action_word in ACTIONALL["drink"]:
                 
                 if itemToUse in player.inventory:
                     scroll_print("Delicious", game.skip_scroll)
@@ -509,7 +509,7 @@ def action(player, input, game):
                                  game.skip_scroll)
                     return
             
-            elif action_word in actionAll["use"]:
+            elif action_word in ACTIONALL["use"]:
                 player.flashlight = True
                 scroll_print(responses["items"]["flashlight_on"],
                              game.skip_scroll)
@@ -519,8 +519,8 @@ def action(player, input, game):
                                  game.skip_scroll)
                 return
                 
-            elif (action_word in actionAll["open"] or \
-                action_word in actionAll["lift"]):
+            elif (action_word in ACTIONALL["open"] or \
+                action_word in ACTIONALL["lift"]):
                 
                 if itemToUse.keyName == "trapdoor":
                     
