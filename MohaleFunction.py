@@ -587,7 +587,11 @@ def run():
     game = Game()
     player = Player(game.places[1], game)
     #gameboard = game.construct_gameboard(player)
-    scroll_print("start game", game.skip_scroll)
+    scroll_print(
+        "======================================\
+        WELCOME TO THE MAGICAL UNDERGROUND TOWN\
+        =======================================\
+        Everything is dark, until you open your eyes...", game.skip_scroll)
     current_room = None
         
     keep_running = True
