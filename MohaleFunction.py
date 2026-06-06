@@ -456,8 +456,7 @@ def action(player, input, game):
             scroll_print(RESPONSES["items"]["nonexistent_item"], 
                          game.skip_scroll)
             
-        found = [key for key in itemToUse.interactions \
-            if action_word in ACTIONALL[key]]
+        found = [key for key in itemToUse.interactions if action_word in ACTIONALL[key]]
     
         
                        
@@ -620,7 +619,7 @@ def run():
         
         
         if user_input == "help" or user_input == "?":
-            scroll_print("""Possible actions include: look, go, take, drop, 
+            scroll_print("""Possible actions include: look, go, take, 
                          inventory, examine, use, open, close, talk, lift, 
                          drink, and climb""", game.skip_scroll)
         if user_input == "quit" or user_input == "q": #or win condition == True:
