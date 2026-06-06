@@ -5,7 +5,7 @@ import time
 
 
 with open("responses.json", "r", encoding="utf-8") as file:
-    responses = json.load(file)
+    RESPONSES = json.load(file)
 with open("actions.json", "r", encoding="utf-8") as file:
     ACTIONALL = json.load(file)
 
@@ -91,7 +91,7 @@ class Player:
                     
                     return self.pos
                 else:
-                    scroll_print(responses["movement"]["blocked"], 
+                    scroll_print(RESPONSES["movement"]["blocked"], 
                                  self.game.skip_scroll)
                     return self.pos
             
@@ -115,7 +115,7 @@ class Player:
                 
             
                     
-        scroll_print(responses["general"]["invalid_target"], self.game.skip_scroll)
+        scroll_print(RESPONSES["general"]["invalid_target"], self.game.skip_scroll)
     
         return self.pos
     
@@ -402,7 +402,7 @@ def action(player, input, game):
         action_word = action_match.group(0)
         
     else:
-        scroll_print(responses["general"]["invalid_target"],
+        scroll_print(RESPONSES["general"]["invalid_target"],
                      game.skip_scroll)
         return 
     
@@ -412,7 +412,7 @@ def action(player, input, game):
         if player.pos.keyName == "churchbasement" and player.flashlight == True:
             scroll_print(player.pos.on_enter_text,
                          game.skip_scroll)
-            scroll_print(responses["items"]["basement_visible"],
+            scroll_print(RESPONSES["items"]["basement_visible"],
                          game.skip_scroll)
             return
         
@@ -446,7 +446,7 @@ def action(player, input, game):
     if item_word:
         words = item_word.group(0)
     else:
-        scroll_print(responses["general"]["invalid_target"], game.skip_scroll)
+        scroll_print(RESPONSES["general"]["invalid_target"], game.skip_scroll)
         return
         
     if item_word: 
@@ -459,7 +459,7 @@ def action(player, input, game):
                break
         
         if itemToUse == None:
-            scroll_print(responses["items"]["nonexistent_item"], 
+            scroll_print(RESPONSES["items"]["nonexistent_item"], 
                          game.skip_scroll)
             
         found = [key for key in itemToUse.interactions \
@@ -472,13 +472,13 @@ def action(player, input, game):
             if action_word in ACTIONALL["take"]:
                 
                 if itemToUse in player.inventory:
-                    scroll_print(responses["items"]["already_have"], 
+                    scroll_print(RESPONSES["items"]["already_have"], 
                                  game.skip_scroll)
                     return
                     
                 if itemToUse.keyName == "sorcerers_stone" and \
                     player.drank == False:
-                        scroll_print(responses["items"]["sorcerers_stone_fail"],
+                        scroll_print(RESPONSES["items"]["sorcerers_stone_fail"],
                                      game.skip_scroll)
                         return
 
@@ -489,11 +489,11 @@ def action(player, input, game):
                         return
                         
                     player.inventory.append(itemToUse)
-                    scroll_print(responses["items"]["pickup_success"],
+                    scroll_print(RESPONSES["items"]["pickup_success"],
                                 game.skip_scroll)
                     return
                 else:
-                    scroll_print(responses["general"]["invalid_target"], game.skip_scroll)
+                    scroll_print(RESPONSES["general"]["invalid_target"], game.skip_scroll)
                     return
             
             elif action_word in ACTIONALL["drink"]:
@@ -511,11 +511,11 @@ def action(player, input, game):
             
             elif action_word in ACTIONALL["use"]:
                 player.flashlight = True
-                scroll_print(responses["items"]["flashlight_on"],
+                scroll_print(RESPONSES["items"]["flashlight_on"],
                              game.skip_scroll)
                 
                 if(player.pos.keyName == "churchbasement"):
-                    scroll_print(responses["items"]["basement_visible"],
+                    scroll_print(RESPONSES["items"]["basement_visible"],
                                  game.skip_scroll)
                 return
                 
@@ -535,11 +535,11 @@ def action(player, input, game):
                 
                 elif itemToUse.keyName == "chest":
                     if player.chestopen == True:
-                        scroll_print(responses["items"]["chest_already_open"],
+                        scroll_print(RESPONSES["items"]["chest_already_open"],
                                      game.skip_scroll)
                         return
                     
-                    scroll_print(responses["items"]["chest_opened"],
+                    scroll_print(RESPONSES["items"]["chest_opened"],
                                  game.skip_scroll)
                     player.chestopen = True
                     return
@@ -552,12 +552,12 @@ def action(player, input, game):
                                      game.skip_scroll)
                         return
                     elif player.paintinglifted:
-                        scroll_print(responses["items"]
+                        scroll_print(RESPONSES["items"]
                                      ["painting_already_lifted"], 
                                      game.skip_scroll)
                         return
                     player.paintinglifted = True
-                    scroll_print(responses["items"]["painting_lifted"], 
+                    scroll_print(RESPONSES["items"]["painting_lifted"], 
                                  game.skip_scroll)
                     return
                 
@@ -569,7 +569,7 @@ def action(player, input, game):
 def win(player, game):
     inventory_item_name = [i.keyName for i in player.inventory]
     if "diamondegg" in inventory_item_name and "sorcerers_stone" in inventory_item_name:
-        scroll_print(responses["items"]["win"], game.skip_scroll)
+        scroll_print(RESPONSES["items"]["win"], game.skip_scroll)
         return True
     else: 
         return False
