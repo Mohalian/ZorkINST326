@@ -4,12 +4,6 @@ import re
 import time
 
 
-with open("responses.json", "r", encoding="utf-8") as file:
-    RESPONSES = json.load(file)
-with open("actions.json", "r", encoding="utf-8") as file:
-    ACTIONALL = json.load(file)
-
-
 class Player:
     """
     Contains and handles player data
@@ -655,5 +649,9 @@ def scroll_print(to_print, skip_scroll):
 
 
 if __name__ == "__main__":
+    with open("responses.json", "r", encoding="utf-8") as file:
+        RESPONSES = json.load(file)
+    with open("actions.json", "r", encoding="utf-8") as file:
+        ACTIONALL = json.load(file)
     run()
         
