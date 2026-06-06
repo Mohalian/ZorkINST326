@@ -35,7 +35,7 @@
     "screen_name": "diamond egg",
     "aliases": ["diamond egg", "diamondegg", "egg"],
     "portable": true,
-    "interactions": ["take", "drop"],
+    "interactions": ["take"],
     "description": "an egg the size of a baseball made of diamond",
     "position": [2, 2]
   },
