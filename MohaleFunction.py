@@ -459,7 +459,7 @@ def action(player, input, game):
         found = [key for key in itemToUse.interactions if action_word in ACTIONALL[key]]
     
         
-                       
+                
         if len(found) > 0:
             
             if action_word in ACTIONALL["take"]:
@@ -503,14 +503,17 @@ def action(player, input, game):
                     return
             
             elif action_word in ACTIONALL["use"]:
-                player.flashlight = True
-                scroll_print(RESPONSES["items"]["flashlight_on"],
-                             game.skip_scroll)
-                
-                if(player.pos.keyName == "churchbasement"):
-                    scroll_print(RESPONSES["items"]["basement_visible"],
-                                 game.skip_scroll)
-                return
+                if "flashlight" in [item.name for item in player.inventory]:
+                    player.flashlight = True
+                    scroll_print(RESPONSES["items"]["flashlight_on"],
+                                game.skip_scroll)
+                    if (player.pos.keyName == "churchbasement"):
+                        scroll_print(RESPONSES["items"]["basement_visible"],
+                        game.skip_scroll)
+                        
+                else: 
+                    scroll_print(RESPONSES["items"]["item_not_here"], game.skip_scroll)
+                    return
                 
             elif (action_word in ACTIONALL["open"] or \
                 action_word in ACTIONALL["lift"]):
