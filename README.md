@@ -1,31 +1,48 @@
-<tr>
-<td><strong>MohaleFunction.py</strong></td>
-<td>This holds the code for the game to be run</td>
-</tr>
 
-<tr>
-<td><strong>responses.json</strong></td>
-<td>Used in MohaleFunction to automate responses to certain actions that the user takes</td>
-</tr>
+<h1><i>🎮 The Underground Town</i>: A Fantasy Text-Based Adventure Game</h1>
+<p>This Underground Town was inspired from the 80's retro game, Zork, with its fantasy themes and interactive typed commands to commit actions in the game. Players are able to move around in a custom coordinate system with interconnected places, discover different itesm, and solve problems to win the game.
+<br><br>
+This project showcases object-oriented programming along with several other python techniques and methods. This game was built to not only recreate a puzzle-solving complex text-based adventure game, but to also to showcase object-oriented programming, along with several other python techniques and methods.</p>
 
-<tr>
-<td><strong>actions.json</strong></td>
-<td>Used in MohaleFunction to represent all actions that can be taken by the user</td>
-</tr>
+<h2>📁 Repository Structure</h2>
+<ul>
+<li><strong>MohaleFunction.py</strong></li>
+  <ul>
+    <li>This holds the code for the game to be run</li>
+  </ul>
+</li>
 
-<tr>
-<td><strong>items.json</strong></td>
-<td>Used in MohaleFunction to represent all items that are available in the game</td>
-</tr>
+<li><strong>exercise.py</strong></li>
+  <ul>
+    <li>This file was used in order for the all group members to ensure that their github was working correctly.</li>
+  </ul>
+</li>
 
-<tr>
-<td><strong>places.json</strong></td>
-<td>Used in MohaleFunction to represent all the places the user can go in the game</td>
-</tr>
+<li><strong>responses.json</strong></li>
+  <ul>
+    <li>Used in MohaleFunction and is a nested dictionary to automate responses to certain actions that the user takes</li>
+  </ul>
+</li>
 
-</table>
+<li><strong>actions.json</strong></li>
+  <ul>
+    <li>Used in MohaleFunction and is a nested dictionary that has options of all actions that can be taken by the player</td></li>
+  </ul>
+</li>
 
-<hr>
+<li><strong>items.json</strong></li>
+  <ul>
+    <li>Used in MohaleFunction to generate all items and attributes in the items class; generates different item objects within the game.</td></li>
+  </ul>
+</li>
+
+<li><strong>places.json</strong></li>
+  <ul>
+    <li>Used in MohaleFunction to generate all places and attributes in the places class; generates different place objects within the game.</td></li>
+  </ul>
+</li>
+</ul>
+
 
 <h2>👥 Python Techniques and Methods</h2>
 <ul>
