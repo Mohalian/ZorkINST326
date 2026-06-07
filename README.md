@@ -3,6 +3,7 @@
 <p>This Underground Town was inspired from the 80's retro game, Zork, with its fantasy themes and interactive typed commands to commit actions in the game. Players are able to move around in a custom coordinate system with interconnected places, discover different itesm, and solve problems to win the game.
 <br><br>
 This project showcases object-oriented programming along with several other python techniques and methods. This game was built to not only recreate a puzzle-solving complex text-based adventure game, but to also to showcase object-oriented programming, along with several other python techniques and methods.</p>
+<br>
 
 <h2>📁 Repository Structure</h2>
 <ul>
@@ -43,6 +44,7 @@ This project showcases object-oriented programming along with several other pyth
 </li>
 </ul>
 
+<br>
 
 <h2>👥 Python Techniques and Methods</h2>
 <ul>
@@ -120,6 +122,7 @@ This project showcases object-oriented programming along with several other pyth
   </li>
 </ul>
 
+<br>
 
 <h2>🚀 Running the Game</h2>
 
@@ -151,6 +154,8 @@ sorcerer's stone.</strong>
 
 <hr>
 
+<br>
+
 <h2>🧭 Movement</h2>
 
 <ul>
@@ -177,6 +182,8 @@ that can only be moved back and forth using the
 </p>
 
 <hr>
+
+<br>
 
 <h2>🎒 Items</h2>
 
@@ -228,6 +235,8 @@ inv
 
 <hr>
 
+<br>
+
 <h2>❓ Help & Ending the Game</h2>
 
 <ul>
@@ -244,6 +253,7 @@ Move right
 turn on flashlight
 open chest
 walk to living room
+lift painting
 </pre>
 
 <hr>
