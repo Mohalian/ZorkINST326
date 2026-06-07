@@ -57,31 +57,31 @@ This project showcases object-oriented programming along with several other pyth
    <li>
     File Handliing
     <ul>
-      <li><pre>with open()</pre></li>
+      <li><code>with open()</code></li>
     </ul>
   </li>
    <li>
     JSON Parsing
     <ul>
-      <li><pre>json.load()</pre></li>
+      <li><code>json.load()</code></li>
     </ul>
   </li>
    <li>
     File Handliing
     <ul>
-      <li><pre>with open()</pre></li>
+      <li><code>with open()</code></li>
     </ul>
   </li>
    <li>
     Regular Expressions
     <ul>
-      <li><pre>re.search(), re.escape()</pre></li>
+      <li><code>re.search(), re.escape()</code></li>
     </ul>
   </li>
   <li>
     File Handliing
     <ul>
-      <li><pre>with open()</pre></li>
+      <li><code>with open()</code></li>
     </ul>
   </li>
    <li>
@@ -93,19 +93,13 @@ This project showcases object-oriented programming along with several other pyth
   <li>
     File Handliing
     <ul>
-      <li><pre>with open()</pre></li>
-    </ul>
-  </li>
-   <li>
-    List Comprehensions
-    <ul>
-      <li>In updatePlayerPosition(), action(), and win() functions</li>
+      <li><code>with open()</code></li>
     </ul>
   </li>
   <li>
     File Handliing
     <ul>
-      <li><pre>with open()</pre></li>
+      <li><code>with open()</code></li>
     </ul>
   </li>
    <li>
@@ -120,24 +114,33 @@ This project showcases object-oriented programming along with several other pyth
       <li>Responses, places, items, and actions all stored in JSON files</li>
     </ul>
   </li>
+  <li>
+    Sequence Unpacking
+    <ul>
+      <li><code>xLoc, yLoc = self.pos.location</code></li>
+    </ul>
+  </li>
+  <li>
+    Timing and Delay Effects
+    <ul>
+      <li>In <code>scroll_print()</code> function</li>
+    </ul>
+  </li>
 </ul>
 
 <br>
 
 <h2>🚀 Running the Game</h2>
-
-<blockquote>
-
-Run it in a Python code runner (Visual Studio → (Mac) type
-<code>python3 MohaleFunction.py</code> or
-<code>python MohaleFunction.py</code> (PC) and make sure to import the
-MohaleFunction.py and all JSON files into the same folder along with the
-same names as seen in the repository.
-
+<ol>
+  <li>Download the MohaleFunction.py and all JSON files into the same folder along with the same names as seen in the repository.</li>
+  <li>Have a Python code runner ready to use</li>
+  <li>Open folder in Python code runner</li>
+  <li>(Visual Studio → (Mac) type <code>python3 MohaleFunction.py</code> or <code>python MohaleFunction.py</code> (PC)</li> 
+  <li>If there's no terminal, just run the MohaleFunction.py code</li>
+</ol>
 We do not use any command line arguments.
 
-</blockquote>
-
+<br>
 <hr>
 
 <h2>🏆 Objective of the Game</h2>
@@ -203,23 +206,28 @@ Many item interactions are available:
 </tr>
 
 <tr>
+<td>Move</td>
+<td>Go, walk</td>
+</tr>
+
+<tr>
 <td>Pick Up</td>
-<td>take, get, grab, pick</td>
+<td>take, get, grab, pick up</td>
 </tr>
 
 <tr>
 <td>Open</td>
-<td>open, lift</td>
+<td>open, lift, raise</td>
 </tr>
 
 <tr>
 <td>Use</td>
-<td>use, turn on</td>
+<td>use, turn on, activate, switch on</td>
 </tr>
 
 <tr>
-<td>Consume</td>
-<td>drink</td>
+<td>Drink</td>
+<td>drink, chug</td>
 </tr>
 
 </table>
@@ -233,9 +241,8 @@ inventory
 inv
 </pre>
 
-<hr>
-
 <br>
+<hr>
 
 <h2>❓ Help & Ending the Game</h2>
 
@@ -243,6 +250,8 @@ inv
 <li><strong>q</strong> or <strong>quit</strong> → End the game</li>
 <li><strong>?</strong> or <strong>help</strong> → Display available commands</li>
 </ul>
+
+<br>
 
 <hr>
 
@@ -256,8 +265,9 @@ walk to living room
 lift painting
 </pre>
 
-<hr>
 
+<hr>
+<br>
 
 <h2>📚 Annotated Bibliography</h2>
 
