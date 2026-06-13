@@ -1,5 +1,9 @@
 
-<h1><i>🎮 The Underground Town</i>: A Fantasy Text-Based Adventure Game</h1>
+<h1 align="center"><i>🎮 The Underground Town</i></h1>
+<p align="center"><b>A Fantasy Text-Based Adventure Game</b></p>
+<p align="center">Developed with Python</p>
+<br>
+
 <p>This Underground Town was inspired from the 80's retro game, Zork, with its fantasy themes and interactive typed commands to commit actions in the game. Players are able to move around in a custom coordinate system with interconnected places, discover different itesm, and solve problems to win the game.
 <br><br>
 This project showcases object-oriented programming along with several other python techniques and methods. This game was built to not only recreate a puzzle-solving complex text-based adventure game, but to also to showcase object-oriented programming, along with several other python techniques and methods.</p>
